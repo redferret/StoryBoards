@@ -1,7 +1,7 @@
 
 let mix = require('laravel-mix');
 
-let AppName = 'StoreBoards';
+let AppName = 'StoryBoards';
 let AppRoot = 'htdocs';
 
 /*
