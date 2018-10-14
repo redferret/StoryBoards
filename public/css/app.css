@@ -1,0 +1,30 @@
+body {
+  background-color: transparent;
+}
+
+.padding-top-bottom-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.centered {
+  margin: auto;
+  width: 75%;
+}
+
+.story-title {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.page {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 2px;
+  border: 1px solid #7c7c7c;
+  -webkit-box-shadow: 1px 2px black;
+          box-shadow: 1px 2px black;
+}
+
