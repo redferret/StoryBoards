@@ -1,7 +1,7 @@
 
 let mix = require('laravel-mix');
 
-let AppName = 'Laravel-React-Example';
+let AppName = 'StoreBoards';
 let AppRoot = 'htdocs';
 
 /*
