@@ -53,7 +53,7 @@ export default class AppNavbar extends React.Component {
       <Navbar inverse>
         <Navbar.Header>
           <Navbar.Brand>
-            <span>Laravel-React-Template</span>
+            <span>Story Boards</span>
           </Navbar.Brand>
         </Navbar.Header>
         {this.renderCheckForGuest()}

@@ -3,7 +3,6 @@
 
 export const MAIN_ID                                    = 'main-id';
 
-export const GET_EXAMPLE_MESSAGE                        = 'example-message';
 export const LOG_IN                                     = 'log-in';
 export const LOG_OUT                                    = 'log-out';
 export const REGISTER                                   = 'register';
