@@ -17,6 +17,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/getExampleMessage/{id}', function($id) {
-  return array('message'=>'Success! Message '.$id.' received!');
-});
+Route::delete('/pages/{id}/delete', 'PageController@destroy');
+Route::get('/pages/{id}', 'PageController@get');
+Route::post('/pages/create', 'PageController@store');
+Route::put('/pages/{id}/update', 'PageController@update');
+
+Route::delete('/stories/{id}/delete', 'StoryController@destroy');
+Route::get('/stories/{id}', 'StoryController@get');
+Route::post('/stories/create', 'StoryController@store');
+Route::put('/stories/{id}/update', 'StoryController@update');
