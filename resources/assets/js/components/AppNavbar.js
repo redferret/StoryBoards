@@ -50,7 +50,7 @@ export default class AppNavbar extends React.Component {
 
   render() {
     return (
-      <Navbar inverse>
+      <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
             <span>Story Boards</span>
