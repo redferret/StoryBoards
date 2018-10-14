@@ -23,6 +23,6 @@ Route::post('/pages/create', 'PageController@store');
 Route::put('/pages/{id}/update', 'PageController@update');
 
 Route::delete('/stories/{id}/delete', 'StoryController@destroy');
-Route::get('/stories/{id}', 'StoryController@get');
+Route::get('/stories', 'StoryController@getAll');
 Route::post('/stories/create', 'StoryController@store');
 Route::put('/stories/{id}/update', 'StoryController@update');
