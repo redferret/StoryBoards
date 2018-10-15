@@ -6,3 +6,4 @@ require('./auth/ResetPassword.js');
 require('./auth/SendEmailResetLink.js');
 
 require('./getStories.js');
+require('./UploadImage.js');

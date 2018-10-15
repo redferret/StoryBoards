@@ -26,6 +26,18 @@ Router.registerRoute(Constants.RESET_PASSWORD_REQUEST, args => {
 });
 
 /**
+ * Image Asset routes
+ */
+
+ Router.registerRoute(Constants.IMAGE_ASSET, args => {
+   return `/pages/image/${args.photo_name}`;
+ });
+
+ Router.registerRoute(Constants.UPLOAD_IMAGE, () => {
+   return `/pages/image/store`;
+ });
+
+/**
  * All Application Routes
  */
 Router.registerRoute(Constants.DELETE_STORY, args => {

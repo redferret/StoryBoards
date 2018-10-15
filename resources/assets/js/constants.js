@@ -18,6 +18,8 @@ export const SEND_PASSWORD_RESET_FORM                   = 'send-password-reset-f
 export const MAIN_ID                                    = 'main-id';
 export const SHELF_ID                                   = 'shelf-id';
 export const STORY_ID                                   = 'story-id';
+export const BOOK_ID                                    = 'book-id';
+export const PAGE_ID                                    = 'page-id';
 
 export const DELETE_PAGE                                = 'delete-page';
 export const GET_PAGES                                  = 'get-pages';
@@ -28,3 +30,6 @@ export const DELETE_STORY                               = 'delete-story';
 export const GET_STORIES                                = 'get-stories';
 export const CREATE_STORY                               = 'create-story';
 export const UPDATE_STORY                               = 'update-story';
+
+export const IMAGE_ASSET                                = 'image-asset';
+export const UPLOAD_IMAGE                               = 'upload-image';

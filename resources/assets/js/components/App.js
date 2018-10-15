@@ -42,7 +42,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className='centered padding-top-bottom-20'>
+      <div className='shelf centered padding-top-bottom-20'>
         <Shelf stories={this.state.stories} />
       </div>
     );
