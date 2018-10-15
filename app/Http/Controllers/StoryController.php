@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Story;
+use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
 class StoryController extends Controller {
@@ -26,7 +27,7 @@ class StoryController extends Controller {
     $stories = Auth::user()->stories;
 
     foreach ($stories as $story) {
-      $story->pages;
+      $pages = $story->pages;
     }
     return $stories;
   }
