@@ -20,6 +20,7 @@ export const SHELF_ID                                   = 'shelf-id';
 export const STORY_ID                                   = 'story-id';
 export const BOOK_ID                                    = 'book-id';
 export const PAGE_ID                                    = 'page-id';
+export const MODAL_ID                                   = 'modal-id';
 
 export const DELETE_PAGE                                = 'delete-page';
 export const GET_PAGES                                  = 'get-pages';

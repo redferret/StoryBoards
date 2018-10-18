@@ -1,5 +1,6 @@
 import AppDispatcher from '../dispatcher.js';
 import BookStore from '../stores/BookStore.js';
+import EditTextModal from './EditTextModal.js';
 import FlipPage from 'react-flip-page';
 import PageStore from '../stores/PageStore.js';
 import React from 'react';
@@ -24,13 +25,8 @@ export default class Page extends React.Component {
     super(props, context);
     this.getListenerId = this.getListenerId.bind(this);
     this.photoUploadHandler = this.photoUploadHandler.bind(this);
-    this.toggleEditPageText = this.toggleEditPageText.bind(this);
     this.removePageImage = this.removePageImage.bind(this);
     this.renderImage = this.renderImage.bind(this);
-
-    this.state = {
-      editTextMode: false
-    }
   }
 
   _onChange() {
@@ -48,22 +44,19 @@ export default class Page extends React.Component {
     PageStore.removeListener(this.getListenerId(), this._onChange.bind(this));
   }
 
-  toggleEditPageText() {
-    this.setState({
-      editTextMode: !this.state.editTextMode
-    })
-  }
-
   removePageImage() {
-    AppDispatcher.dispatch({
-      action: REMOVE_IMAGE,
-      photo_name: this.props.photo_name,
-      page_id: this.props.id,
-      emitOn: [{
-        store: BookStore,
-        componentIds: [MAIN_ID]
-      }]
-    });
+    let remove = confirm('Are you sure you want to remove this image?');
+    if (remove) {
+      AppDispatcher.dispatch({
+        action: REMOVE_IMAGE,
+        photo_name: this.props.photo_name,
+        page_id: this.props.id,
+        emitOn: [{
+          store: BookStore,
+          componentIds: [MAIN_ID]
+        }]
+      });
+    }
   }
 
   photoUploadHandler(event) {
@@ -102,7 +95,8 @@ export default class Page extends React.Component {
   render() {
     return (
       <div>
-        <div>{`${this.props.index + 1}`}</div>
+        <EditTextModal />
+        <div>{`${this.props.page_number}`}</div>
         <div className='page-image'>
           {this.renderImage()}
         </div>
@@ -110,7 +104,7 @@ export default class Page extends React.Component {
           {this.props.text}
         </p>
         <div className='edit-page-text-div'>
-          <a onClick={this.toggleEditPageText}>Edit Page Text</a>
+          <a onClick={() => {}}>Edit Page Text</a>
         </div>
       </div>
     );

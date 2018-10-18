@@ -16,7 +16,6 @@ import {
 
 import {
   Button,
-  ButtonGroup,
   Panel,
 } from 'react-bootstrap';
 
@@ -60,8 +59,7 @@ export default class Book extends React.Component {
                 ref={(ref) => {this.bookRef = ref}}
                 orientation='horizontal'
                 width={740} height={800}
-                animationDuration={300}
-                showSwipeHint={true}>
+                animationDuration={300}>
                 {this.props.pages.map((page, index) =>
                   <Page key={uid(page)} bookRef={this.bookRef} {...page} index={index} />
                 )}
@@ -73,6 +71,9 @@ export default class Book extends React.Component {
               </a>
             </div>
           </div>
+          <br/>
+          <Button bsStyle='info'>Add Page to Book</Button>{' '}
+          <Button bsStyle='danger'>Delete Current Page</Button>
         </Panel.Body>
       </Panel>
     );

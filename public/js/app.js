@@ -515,6 +515,7 @@ var SHELF_ID = exports.SHELF_ID = 'shelf-id';
 var STORY_ID = exports.STORY_ID = 'story-id';
 var BOOK_ID = exports.BOOK_ID = 'book-id';
 var PAGE_ID = exports.PAGE_ID = 'page-id';
+var MODAL_ID = exports.MODAL_ID = 'modal-id';
 
 var DELETE_PAGE = exports.DELETE_PAGE = 'delete-page';
 var GET_PAGES = exports.GET_PAGES = 'get-pages';
@@ -67267,8 +67268,7 @@ var Book = function (_React$Component) {
                   },
                   orientation: 'horizontal',
                   width: 740, height: 800,
-                  animationDuration: 300,
-                  showSwipeHint: true },
+                  animationDuration: 300 },
                 this.props.pages.map(function (page, index) {
                   return _react2.default.createElement(_Page2.default, _extends({ key: (0, _reactUid.uid)(page), bookRef: _this2.bookRef }, page, { index: index }));
                 })
@@ -67285,6 +67285,18 @@ var Book = function (_React$Component) {
                 'Next Page'
               )
             )
+          ),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'info' },
+            'Add Page to Book'
+          ),
+          ' ',
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'danger' },
+            'Delete Current Page'
           )
         )
       );
@@ -67316,6 +67328,10 @@ var _dispatcher2 = _interopRequireDefault(_dispatcher);
 var _BookStore = __webpack_require__(22);
 
 var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _EditTextModal = __webpack_require__(352);
+
+var _EditTextModal2 = _interopRequireDefault(_EditTextModal);
 
 var _reactFlipPage = __webpack_require__(62);
 
@@ -67355,13 +67371,8 @@ var Page = function (_React$Component) {
 
     _this.getListenerId = _this.getListenerId.bind(_this);
     _this.photoUploadHandler = _this.photoUploadHandler.bind(_this);
-    _this.toggleEditPageText = _this.toggleEditPageText.bind(_this);
     _this.removePageImage = _this.removePageImage.bind(_this);
     _this.renderImage = _this.renderImage.bind(_this);
-
-    _this.state = {
-      editTextMode: false
-    };
     return _this;
   }
 
@@ -67384,24 +67395,20 @@ var Page = function (_React$Component) {
       _PageStore2.default.removeListener(this.getListenerId(), this._onChange.bind(this));
     }
   }, {
-    key: 'toggleEditPageText',
-    value: function toggleEditPageText() {
-      this.setState({
-        editTextMode: !this.state.editTextMode
-      });
-    }
-  }, {
     key: 'removePageImage',
     value: function removePageImage() {
-      _dispatcher2.default.dispatch({
-        action: _constants.REMOVE_IMAGE,
-        photo_name: this.props.photo_name,
-        page_id: this.props.id,
-        emitOn: [{
-          store: _BookStore2.default,
-          componentIds: [_constants.MAIN_ID]
-        }]
-      });
+      var remove = confirm('Are you sure you want to remove this image?');
+      if (remove) {
+        _dispatcher2.default.dispatch({
+          action: _constants.REMOVE_IMAGE,
+          photo_name: this.props.photo_name,
+          page_id: this.props.id,
+          emitOn: [{
+            store: _BookStore2.default,
+            componentIds: [_constants.MAIN_ID]
+          }]
+        });
+      }
     }
   }, {
     key: 'photoUploadHandler',
@@ -67454,10 +67461,11 @@ var Page = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(_EditTextModal2.default, null),
         _react2.default.createElement(
           'div',
           null,
-          '' + (this.props.index + 1)
+          '' + this.props.page_number
         ),
         _react2.default.createElement(
           'div',
@@ -67474,7 +67482,7 @@ var Page = function (_React$Component) {
           { className: 'edit-page-text-div' },
           _react2.default.createElement(
             'a',
-            { onClick: this.toggleEditPageText },
+            { onClick: function onClick() {} },
             'Edit Page Text'
           )
         )
@@ -79387,6 +79395,105 @@ exports.default = ResetPasswordForm;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(24);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EditTextModal = function (_React$Component) {
+  _inherits(EditTextModal, _React$Component);
+
+  function EditTextModal(props, context) {
+    _classCallCheck(this, EditTextModal);
+
+    var _this = _possibleConstructorReturn(this, (EditTextModal.__proto__ || Object.getPrototypeOf(EditTextModal)).call(this, props, context));
+
+    _this.handleShow = _this.handleShow.bind(_this);
+    _this.handleClose = _this.handleClose.bind(_this);
+
+    _this.state = {
+      show: false
+    };
+    return _this;
+  }
+
+  _createClass(EditTextModal, [{
+    key: 'handleClose',
+    value: function handleClose() {
+      this.setState({ show: false });
+    }
+  }, {
+    key: 'handleShow',
+    value: function handleShow() {
+      this.setState({ show: true });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactBootstrap.Modal,
+        { show: this.state.show, onHide: this.handleClose },
+        _react2.default.createElement(
+          _reactBootstrap.Modal.Header,
+          { closeButton: true },
+          _react2.default.createElement(
+            _reactBootstrap.Modal.Title,
+            null,
+            'Edit Page Text'
+          )
+        ),
+        _react2.default.createElement(_reactBootstrap.Modal.Body, null),
+        _react2.default.createElement(
+          _reactBootstrap.Modal.Footer,
+          null,
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'success', onClick: this.handleClose },
+            'Apply Text Changes'
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { onClick: this.handleClose },
+            'Close'
+          )
+        )
+      );
+    }
+  }]);
+
+  return EditTextModal;
+}(_react2.default.Component);
+
+exports.default = EditTextModal;
 
 /***/ })
 /******/ ]);
