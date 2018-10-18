@@ -25,17 +25,18 @@ class BasicSeeder extends Seeder {
       $user->stories()->save($story1);
 
       $story1->pages()->save(Page::create([
-        'text' => 'This is a page, here you will describe in greate detail you\'re story with an image to aid the reader.',
-        'photo_name' => 'test_image_1'
+        'text' => 'This is a page, here you will describe in great detail you\'re story with an image to aid the reader.',
+        'page_number' => 1
       ]));
 
       $story1->pages()->save(Page::create([
         'text' => 'This is a another page, more interesting things will be happening.',
-        'photo_name' => 'test_image_2'
+        'page_number' => 2
       ]));
 
       $story1->pages()->save(Page::create([
-        'text' => 'It\'s also possible that a page doesn\'t contain any images'
+        'text' => 'It\'s also possible that a page doesn\'t contain any images',
+        'page_number' => 3
       ]));
     }
 }

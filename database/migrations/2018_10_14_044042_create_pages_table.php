@@ -15,6 +15,7 @@ class CreatePagesTable extends Migration {
       $table->increments('id');
       $table->text('text');
       $table->string('photo_name')->nullable();
+      $table->integer('page_number')->unsigned();
       $table->integer('story_id')->unsigned()->nullable();
       $table->foreign('story_id')->references('id')->on('stories')->onDelete('cascade');
       $table->timestamps();
