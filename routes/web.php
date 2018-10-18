@@ -21,10 +21,14 @@ Route::delete('/pages/{id}/delete', 'PageController@destroy');
 Route::get('/pages/{id}', 'PageController@get');
 Route::post('/pages/create', 'PageController@store');
 Route::put('/pages/{id}/update', 'PageController@update');
-Route::post('/pages/image/store', 'ImagesController@store');
-Route::get('/pages/image/{name}', 'ImagesController@get');
+
+Route::delete('/pages/{id}/image/remove', 'ImagesController@remove');
+Route::post('/pages/{id}/image/change', 'ImagesController@change');
+Route::post('/pages/{id}/image/store', 'ImagesController@store');
+Route::get('/image/{name}', 'ImagesController@get');
 
 Route::delete('/stories/{id}/delete', 'StoryController@destroy');
 Route::get('/stories', 'StoryController@getAll');
+Route::get('/stories/{id}', 'StoryController@get');
 Route::post('/stories/create', 'StoryController@store');
 Route::put('/stories/{id}/update', 'StoryController@update');

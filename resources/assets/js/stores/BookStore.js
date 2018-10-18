@@ -4,8 +4,16 @@ class BookStore extends EventEmitter {
   constructor() {
     super();
     this._stories = [];
+    this.setMaxListeners(50);
+  }
 
-    this.setMaxListeners(1000);
+  setStory(story) {
+    let id = story.id;
+    let index = this._stories.findIndex(story => {
+      return story.id == id;
+    });
+    this._stories[index] = story;
+    console.log('BookStory setStory:', story);
   }
 
   setStories(stories) {
@@ -17,18 +25,13 @@ class BookStore extends EventEmitter {
   }
 
   getStory(id) {
-    return this._stories.find(story => {
+    let story = this._stories.find(story => {
       return story.id == id;
     });
+    console.log('BookStory getStory:', story);
+    return story;
   }
 
-  setNewImageName(name) {
-    this.newImageName = name;
-  }
-
-  getUploadedPhotoName() {
-    return this.newImageName;
-  }
 }
 
 export default new BookStore();

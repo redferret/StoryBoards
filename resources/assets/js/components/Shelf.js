@@ -24,24 +24,11 @@ export default class Shelf extends React.Component {
     }
   }
 
-  _onChange() {
-    this.flipBooks = {};
-  }
-
-  componentDidMount() {
-    BookStore.on(SHELF_ID, this._onChange.bind(this));
-  }
-
-  componentWillUnmount() {
-    BookStore.removeListener(SHELF_ID, this._onChange.bind(this));
-  }
-
   handleShelfPanelSelect(bookActiveKey) {
     this.setState({ bookActiveKey });
   }
 
   render() {
-
     return (
       <PanelGroup
         accordion

@@ -32,6 +32,15 @@ class StoryController extends Controller {
     return $stories;
   }
 
+  public function get($id) {
+    $story = Auth::user()->stories()->find($id);
+    if ($story != null) {
+      $story->pages;
+      return $story;
+    }
+    return response()->json(['errors'=>['message'=>'Story not found']], 404);
+  }
+
   /**
    * Store a newly created resource in storage.
    *

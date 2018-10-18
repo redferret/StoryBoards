@@ -5,5 +5,8 @@ require('./auth/Register.js');
 require('./auth/ResetPassword.js');
 require('./auth/SendEmailResetLink.js');
 
-require('./getStories.js');
+require('./GetStories.js');
+require('./GetStory.js');
 require('./UploadImage.js');
+require('./ChangeImage.js');
+require('./RemoveImage.js');

@@ -1,85 +1,116 @@
 import AppDispatcher from '../dispatcher.js';
 import BookStore from '../stores/BookStore.js';
 import FlipPage from 'react-flip-page';
-import Router from '../router.js';
+import PageStore from '../stores/PageStore.js';
 import React from 'react';
+import Router from '../router.js';
 
 import {uid} from 'react-uid';
 
 import {
-  PAGE_ID,
+  BOOK_ID,
+  CHANGE_IMAGE,
+  GET_STORIES,
+  GET_STORY,
   IMAGE_ASSET,
+  MAIN_ID,
+  PAGE_ID,
+  REMOVE_IMAGE,
   UPLOAD_IMAGE,
 } from '../constants.js';
 
 export default class Page extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.fileChangedHandler = this.fileChangedHandler.bind(this);
-    this.enableEditPageText = this.enableEditPageText.bind(this);
-
-    this.mounted = false;
+    this.getListenerId = this.getListenerId.bind(this);
+    this.photoUploadHandler = this.photoUploadHandler.bind(this);
+    this.toggleEditPageText = this.toggleEditPageText.bind(this);
+    this.removePageImage = this.removePageImage.bind(this);
+    this.renderImage = this.renderImage.bind(this);
 
     this.state = {
-      photo_name: null
+      editTextMode: false
     }
   }
 
   _onChange() {
-    if (this.mounted) {
-      this.setState({
-        photo_name: BookStore.getUploadedPhotoName()
-      });
-    }
+  }
+
+  getListenerId() {
+    return `${PAGE_ID}_${this.props.id}`;
   }
 
   componentDidMount() {
-    this.mounted = true;
-    BookStore.on(`${PAGE_ID}_${this.props.id}`, this._onChange.bind(this));
+    PageStore.on(this.getListenerId(), this._onChange.bind(this));
   }
 
   componentWillUnmount() {
-    this.mounted = false;
-    BookStore.removeListener(`${PAGE_ID}_${this.props.id}`, this._onChange.bind(this));
+    PageStore.removeListener(this.getListenerId(), this._onChange.bind(this));
   }
 
-  enableEditPageText() {
-
+  toggleEditPageText() {
+    this.setState({
+      editTextMode: !this.state.editTextMode
+    })
   }
 
+  removePageImage() {
+    AppDispatcher.dispatch({
+      action: REMOVE_IMAGE,
+      photo_name: this.props.photo_name,
+      page_id: this.props.id,
+      emitOn: [{
+        store: BookStore,
+        componentIds: [MAIN_ID]
+      }]
+    });
+  }
 
-  fileChangedHandler(event) {
+  photoUploadHandler(event) {
     AppDispatcher.dispatch({
       action: UPLOAD_IMAGE,
       page_photo: event.target.files[0],
       page_id: this.props.id,
       emitOn: [{
         store: BookStore,
-        componentIds: [`${PAGE_ID}_${this.props.id}`]
+        componentIds: [MAIN_ID]
       }]
     });
   }
 
-  render() {
+  renderImage() {
     let photo_name = this.props.photo_name;
+    if( photo_name != null) {
+      return (
+        <div>
+          <div className='upload-btn-wrapper'>
+            <a onClick={this.removePageImage}>Remove Image</a>
+          </div>
+          <img width='100%' src={Router.route(IMAGE_ASSET, { photo_name })} />
+        </div>
+      );
+    } else {
+      return (
+        <div className='upload-btn-wrapper'>
+          <button className='upload-btn'>Upload a photo</button>
+          <input type='file' name='page_photo' onChange={this.photoUploadHandler} />
+        </div>
+      );
+    }
+  }
+
+  render() {
     return (
       <div>
-        <div>{(this.props.index == 0? 'Cover' : `${this.props.index}`)}</div>
+        <div>{`${this.props.index + 1}`}</div>
         <div className='page-image'>
-          {photo_name != null?
-            <img width='100%' src={Router.route(IMAGE_ASSET, { photo_name })} />
-            :
-            <div className='upload-btn-wrapper'>
-              <button className='upload-btn'>Upload a photo</button>
-              <input type='file' name='page_photo' onChange={this.fileChangedHandler} />
-            </div>
-          }
+          {this.renderImage()}
         </div>
         <p>
           {this.props.text}
         </p>
         <div className='edit-page-text-div'>
-          <a onClick={this.enableEditPageText}>Edit Page Text</a>
+          <a onClick={this.toggleEditPageText}>Edit Page Text</a>
         </div>
       </div>
     );

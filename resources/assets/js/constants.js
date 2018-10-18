@@ -28,8 +28,11 @@ export const UPDATE_PAGE                                = 'update-page';
 
 export const DELETE_STORY                               = 'delete-story';
 export const GET_STORIES                                = 'get-stories';
+export const GET_STORY                                  = 'get-story';
 export const CREATE_STORY                               = 'create-story';
 export const UPDATE_STORY                               = 'update-story';
 
+export const REMOVE_IMAGE                               = 'remove-image';
 export const IMAGE_ASSET                                = 'image-asset';
 export const UPLOAD_IMAGE                               = 'upload-image';
+export const CHANGE_IMAGE                               = 'change-image';
