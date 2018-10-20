@@ -32,7 +32,8 @@
     "react-bootstrap": "^0.32.4",
     "react-color": "^2.14.1",
     "react-flip-page": "^1.2.0",
-    "react-uid": "^2.1.0"
+    "react-uid": "^2.1.0",
+    "sanitize-html": "^1.19.1"
   },
   "jest": {
     "roots": [
