@@ -24,20 +24,16 @@ class ImagesController extends Controller {
 
       $photoName = $request->input('photo_name');
 
-      if (file_exists(storage_path('app/public/'. $photoName))) {
+      if (file_exists(storage_path('app/public/'. $photoName)) && $photoName != '') {
         unlink(storage_path('app/public/'.$photoName));
         $page = Page::find($id);
         if ($page != null) {
           $page->photo_name = null;
           $page->save();
-        } else {
-          return response()->json(['errors'=>['message'=>'Page was null', 'page_id'=>$id]], 500);
         }
-      } else {
-        return response()->json(['errors'=>['message'=>"Couldn't delete image, image not found", 'photo_name'=>$photoName]], 404);
       }
 
-      return response()->json(['message'=>'Image Removed'], 200);
+      return response()->json(['message'=>'Request Complete'], 200);
     } else {
       return response()->json(['errors'=>['message'=>'Photo name is needed']], 400);
     }
