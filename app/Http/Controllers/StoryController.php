@@ -25,17 +25,13 @@ class StoryController extends Controller {
    */
   public function getAll() {
     $stories = Auth::user()->stories;
-
-    foreach ($stories as $story) {
-      $pages = $story->pages;
-    }
     return $stories;
   }
 
   public function get($id) {
     $story = Auth::user()->stories()->find($id);
     if ($story != null) {
-      $story->pages;
+      $story->pages = $story->pages()->orderBy('page_number')->get();
       return $story;
     }
     return response()->json(['errors'=>['message'=>'Story not found']], 404);
