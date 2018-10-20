@@ -1,40 +1,89 @@
-
+import AppDispatcher from '../dispatcher.js';
+import BookStore from '../stores/BookStore.js';
+import ModalStore from '../stores/ModalStore.js';
 import React from 'react';
 
+var sanitizeHtml = require('sanitize-html');
 import { Button, Modal } from 'react-bootstrap';
-import { MODAL_ID } from '../constants.js';
+import { MAIN_ID, MODAL_ID, UPDATE_PAGE } from '../constants.js';
 
 export default class EditTextModal extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleSavePageText = this.handleSavePageText.bind(this);
+
+    this._isMounted = false;
 
     this.state = {
-      show: false
+      show: false,
+      text: ''
     };
   }
 
-  handleClose() {
-    this.setState({ show: false });
+  _onChange() {
+    if (this._isMounted) {
+      this.setState({
+        show: ModalStore.shouldShow(),
+        text: ModalStore.getCurrentPageText()
+      })
+    }
   }
 
-  handleShow() {
-    this.setState({ show: true });
+  componentDidMount() {
+    this._isMounted = true;
+    ModalStore.on(MODAL_ID, this._onChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    ModalStore.removeListener(MODAL_ID, this._onChange.bind(this));
+  }
+
+  handleClose() {
+    ModalStore.triggerModal(false);
+  }
+
+  handleSavePageText() {
+    AppDispatcher.dispatch({
+      action: UPDATE_PAGE,
+      page_id: ModalStore.getPageId(),
+      text: sanitizeHtml(this.state.text),
+      emitOn: [{
+        store: BookStore,
+        componentIds: [MAIN_ID]
+      }]
+    });
   }
 
   render() {
     return (
       <Modal show={this.state.show} onHide={this.handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Edit Page Text</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
+          <div>
+            Allowed HTML tags:
+            <ul>
+              <li>
+                h3, h4, h5, h6, blockquote, p, a, ul, ol,
+                nl, li, b, i, strong, em, strike, code, hr, br, div,
+                table, thead, caption, tbody, tr, th, td, pre, iframe
+              </li>
+            </ul>
+          </div>
+          <textarea cols={75} rows={20}
+            value={this.state.text} ref={(ref) => {this.textAreaRef = ref}}
+            onChange={(event) => {
+              this.ignoreBlur = false;
+              this.setState({
+                text: event.target.value
+              });
+            }}/>
         </Modal.Body>
         <Modal.Footer>
-          <Button bsStyle='success' onClick={this.handleClose}>Apply Text Changes</Button>
+          <Button bsStyle='success' onClick={this.handleSavePageText}>Apply Text Changes</Button>
           <Button onClick={this.handleClose}>Close</Button>
         </Modal.Footer>
       </Modal>

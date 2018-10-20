@@ -10,7 +10,10 @@ import {uid} from 'react-uid';
 
 import {
   BOOK_ID,
+  CREATE_PAGE,
+  GET_STORY,
   IMAGE_ASSET,
+  MAIN_ID,
   UPLOAD_IMAGE,
 } from '../constants.js';
 
@@ -19,28 +22,84 @@ import {
   Panel,
 } from 'react-bootstrap';
 
+export function componentId(key) {
+  return `LOAD_${BOOK_ID}_${key}`;
+}
+
 export default class Book extends React.Component {
 
   constructor(props, context) {
     super(props, context);
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
+    this.handleNewPage = this.handleNewPage.bind(this);
+
+    this.state = {
+      pages: []
+    }
+  }
+
+  _loadBook() {
+    if (this.state.pages.length == 0) {
+      AppDispatcher.dispatch({
+        action: GET_STORY,
+        story_id: this.props.id,
+        emitOn: [{
+          store: BookStore,
+          componentIds: [componentId(this.props.id)]
+        }]
+      });
+    }
+  }
+
+  _bookLoaded() {
+    let story = BookStore.getStory();
+    if (story) {
+      let pages = story.pages;
+      this.setState({ pages }, () => {
+        let pageIndex = PageStore.getPageIndexOfStory(this.props.id);
+
+        if (pageIndex && pageIndex != 0) {
+          this.bookRef.gotoPage(pageIndex);
+        }
+      });
+    }
   }
 
   componentDidMount() {
-    let pageIndex = PageStore.getPageIndexOfStory(this.props.id);
+    BookStore.on(componentId(this.props.bookKey), this._loadBook.bind(this));
+    BookStore.on(componentId(this.props.id), this._bookLoaded.bind(this));
+  }
 
-    if (pageIndex && pageIndex != 0) {
-      this.bookRef.gotoPage(pageIndex);
-    }
+  componentWillUnmount() {
+    BookStore.removeListener(componentId(this.props.bookKey), this._loadBook.bind(this));
+    BookStore.removeListener(componentId(this.props.id), this._bookLoaded.bind(this));
   }
 
   updateCurrentPage(pageIndex) {
     PageStore.setCurrentlyViewedStoryAndPage(this.props.id, pageIndex);
   }
 
+  handleNewPage() {
+    // + 2 because, +1 to correct for the index and +1 for the new page.
+    let page_number = PageStore.getPageIndexOfStory(this.props.id) + 2;
+    if (isNaN(page_number)) {
+      page_number = 1;
+    }
+    AppDispatcher.dispatch({
+      action: CREATE_PAGE,
+      story_id: this.props.id,
+      page_number,
+      emitOn: [{
+        store: BookStore,
+        componentIds: [MAIN_ID]
+      }]
+    });
+    PageStore.setCurrentlyViewedStoryAndPage(this.props.id, page_number - 1);
+  }
+
   render() {
     return (
-      <Panel eventKey={this.props.id}>
+      <Panel eventKey={this.props.bookKey}>
         <Panel.Heading>
           <Panel.Title toggle>
             {this.props.title}
@@ -60,7 +119,7 @@ export default class Book extends React.Component {
                 orientation='horizontal'
                 width={740} height={800}
                 animationDuration={300}>
-                {this.props.pages.map((page, index) =>
+                {this.state.pages.map((page, index) =>
                   <Page key={uid(page)} bookRef={this.bookRef} {...page} index={index} />
                 )}
               </FlipPage>
@@ -72,8 +131,7 @@ export default class Book extends React.Component {
             </div>
           </div>
           <br/>
-          <Button bsStyle='info'>Add Page to Book</Button>{' '}
-          <Button bsStyle='danger'>Delete Current Page</Button>
+          <Button bsStyle='info' onClick={this.handleNewPage}>Add Page to Book</Button>
         </Panel.Body>
       </Panel>
     );

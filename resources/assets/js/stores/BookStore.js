@@ -8,12 +8,7 @@ class BookStore extends EventEmitter {
   }
 
   setStory(story) {
-    let id = story.id;
-    let index = this._stories.findIndex(story => {
-      return story.id == id;
-    });
-    this._stories[index] = story;
-    console.log('BookStory setStory:', story);
+    this._singleStory = story;
   }
 
   setStories(stories) {
@@ -25,11 +20,7 @@ class BookStore extends EventEmitter {
   }
 
   getStory(id) {
-    let story = this._stories.find(story => {
-      return story.id == id;
-    });
-    console.log('BookStory getStory:', story);
-    return story;
+    return this._singleStory;
   }
 
 }

@@ -1,9 +1,10 @@
 import AppDispatcher from '../dispatcher.js';
 import BookStore from '../stores/BookStore.js';
+import EditTextModal from './EditTextModal.js';
 import React from 'react';
 import Shelf from './Shelf.js';
 
-import { Label } from 'react-bootstrap';
+import { Button, Label } from 'react-bootstrap';
 
 import {
   MAIN_ID,
@@ -42,8 +43,14 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className='shelf centered padding-top-bottom-20'>
-        <Shelf stories={this.state.stories} />
+      <div className='shelf'>
+        <EditTextModal />
+        <div className='shelf-div'>
+          <Shelf stories={this.state.stories} />
+        </div>
+        <div className='add-story-button'>
+          <Button bsStyle='info'>Add a New Story</Button>
+        </div>
       </div>
     );
   }

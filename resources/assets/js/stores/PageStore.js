@@ -3,16 +3,16 @@ import EventEmitter from 'events';
 class PageStore extends EventEmitter {
   constructor() {
     super();
-    this.setMaxListeners(500);
-    this.storyMapIds = new Map();
+    this.setMaxListeners(10000);
+    this.storyMapPageIndexes = new Map();
   }
 
   setCurrentlyViewedStoryAndPage(storyId, pageIndex) {
-    this.storyMapIds.set(storyId, pageIndex);
+    this.storyMapPageIndexes.set(storyId, pageIndex);
   }
 
   getPageIndexOfStory(storyId) {
-    return this.storyMapIds.get(storyId);
+    return this.storyMapPageIndexes.get(storyId);
   }
 
   setNewImageName(name) {

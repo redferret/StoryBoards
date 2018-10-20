@@ -46,7 +46,7 @@ Router.registerRoute(Constants.CHANGE_IMAGE, args => {
  * All Application Routes
  */
 Router.registerRoute(Constants.DELETE_STORY, args => {
-  return `/stories/${args.id}/delete`;
+  return `/stories/${args.story_id}/delete`;
 });
 Router.registerRoute(Constants.GET_STORIES, () => {
   return '/stories';
@@ -58,11 +58,11 @@ Router.registerRoute(Constants.CREATE_STORY, () => {
   return '/stories/create';
 });
 Router.registerRoute(Constants.UPDATE_STORY, args => {
-  return `/stories/${args.id}/update`;
+  return `/stories/${args.story_id}/update`;
 });
 
 Router.registerRoute(Constants.DELETE_PAGE, args => {
-  return `/pages/${args.id}/delete`;
+  return `/pages/${args.page_id}/delete`;
 });
 Router.registerRoute(Constants.GET_PAGES, () => {
   return '/pages';
@@ -71,5 +71,5 @@ Router.registerRoute(Constants.CREATE_PAGE, () => {
   return '/pages/create';
 });
 Router.registerRoute(Constants.UPDATE_PAGE, args => {
-  return `/pages/${args.id}/update`;
+  return `/pages/${args.page_id}/update`;
 });

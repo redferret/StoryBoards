@@ -1,8 +1,9 @@
 import AppDispatcher from '../dispatcher.js';
 import BookStore from '../stores/BookStore.js';
-import Book from './Book.js';
+import Book, { componentId } from './Book.js';
 import FlipPage from 'react-flip-page';
 import React from 'react';
+import ShelfStore from '../stores/ShelfStore.js';
 
 import {uid} from 'react-uid';
 
@@ -20,12 +21,14 @@ export default class Shelf extends React.Component {
     this.handleShelfPanelSelect = this.handleShelfPanelSelect.bind(this);
 
     this.state = {
-      shelfActiveKey: -1
+      bookActiveKey: -1
     }
   }
 
   handleShelfPanelSelect(bookActiveKey) {
     this.setState({ bookActiveKey });
+    ShelfStore.setCurrentActiveKey(bookActiveKey);
+    BookStore.emit(componentId(bookActiveKey));
   }
 
   render() {
@@ -33,10 +36,13 @@ export default class Shelf extends React.Component {
       <PanelGroup
         accordion
         id='factory-panel-group'
-        activeKey={this.state.bookActiveKey}
+        activeKey={ShelfStore.getCurrentActiveKey()}
         onSelect={this.handleShelfPanelSelect}
       >
-      {this.props.stories.map(book => <Book key={uid(book)} {...book} />)}
+      {this.props.stories.map(book => {
+        let bookKey = uid(book);
+        return <Book key={bookKey} bookKey={bookKey} {...book} />
+      })}
       </PanelGroup>
     );
   }

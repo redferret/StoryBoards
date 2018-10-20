@@ -1,7 +1,7 @@
 import AppDispatcher from '../dispatcher.js';
 import BookStore from '../stores/BookStore.js';
-import EditTextModal from './EditTextModal.js';
 import FlipPage from 'react-flip-page';
+import ModalStore from '../stores/ModalStore.js';
 import PageStore from '../stores/PageStore.js';
 import React from 'react';
 import Router from '../router.js';
@@ -9,16 +9,17 @@ import Router from '../router.js';
 import {uid} from 'react-uid';
 
 import {
-  BOOK_ID,
-  CHANGE_IMAGE,
-  GET_STORIES,
-  GET_STORY,
+  DELETE_PAGE,
   IMAGE_ASSET,
   MAIN_ID,
   PAGE_ID,
   REMOVE_IMAGE,
   UPLOAD_IMAGE,
 } from '../constants.js';
+
+import {
+  Button,
+} from 'react-bootstrap';
 
 export default class Page extends React.Component {
   constructor(props, context) {
@@ -27,6 +28,8 @@ export default class Page extends React.Component {
     this.photoUploadHandler = this.photoUploadHandler.bind(this);
     this.removePageImage = this.removePageImage.bind(this);
     this.renderImage = this.renderImage.bind(this);
+    this.handleTriggerModal = this.handleTriggerModal.bind(this);
+    this.handleDeletePage = this.handleDeletePage.bind(this);
   }
 
   _onChange() {
@@ -42,6 +45,12 @@ export default class Page extends React.Component {
 
   componentWillUnmount() {
     PageStore.removeListener(this.getListenerId(), this._onChange.bind(this));
+  }
+
+  handleTriggerModal() {
+    ModalStore.setTheCurrentPageText(this.props.text);
+    ModalStore.setPageId(this.props.id);
+    ModalStore.triggerModal(true);
   }
 
   removePageImage() {
@@ -71,6 +80,22 @@ export default class Page extends React.Component {
     });
   }
 
+  handleDeletePage() {
+    let remove = confirm('Are you sure you want to delete this page?');
+    if (remove) {
+      AppDispatcher.dispatch({
+        action: DELETE_PAGE,
+        story_id: this.props.id,
+        page_id: this.props.id,
+        photo_name: this.props.photo_name,
+        emitOn: [{
+          store: BookStore,
+          componentIds: [MAIN_ID]
+        }]
+      });
+    }
+  }
+
   renderImage() {
     let photo_name = this.props.photo_name;
     if( photo_name != null) {
@@ -95,16 +120,16 @@ export default class Page extends React.Component {
   render() {
     return (
       <div>
-        <EditTextModal />
         <div>{`${this.props.page_number}`}</div>
         <div className='page-image'>
           {this.renderImage()}
         </div>
-        <p>
-          {this.props.text}
-        </p>
+        <div dangerouslySetInnerHTML=
+          {{__html: this.props.text}}>
+        </div>
         <div className='edit-page-text-div'>
-          <a onClick={() => {}}>Edit Page Text</a>
+          <a onClick={this.handleTriggerModal}>Edit Page Text</a>{' '}
+          <a className='danger' onClick={this.handleDeletePage}>Delete Page</a>
         </div>
       </div>
     );
