@@ -37,10 +37,18 @@ class PageController extends Controller {
     $story = Story::find($request->input('story_id'));
     if ($story != null) {
       $newPage = Page::create($request->all());
-      $story->pages($newPage);
+      $pages = $story->pages;
+
+      foreach ($pages as $page) {
+        if ($page->page_number >= $request->input('page_number')) {
+          $page->page_number++;
+          $page->save();
+        }
+      }
+      $story->pages()->save($newPage);
       return $newPage;
     } else {
-      return array('errors' => array('message'=>'Story Not Found'));
+      return response()->json(['errors'=>['message'=>'Unable to add a new Page, Story Not Found', 'story_id'=>$request->input('story_id')]], 404);
     }
 
   }
@@ -54,11 +62,15 @@ class PageController extends Controller {
   public function update(Request $request, $id) {
     $page = Page::find($id);
     if ($page != null) {
-      $page->fill($request->all());
+      if ($request->input('text') == '') {
+        $page->fill(['text'=>' ']);
+      } else {
+        $page->fill($request->all());
+      }
       $page->save();
       return $page;
     } else {
-      return array('errors' => array('message'=>'Page Not Found'));
+      return response()->json(['errors'=>['message'=>'Unable to updage Page, Page Not Found', 'page_id'=>$id]], 404);
     }
   }
 
@@ -69,7 +81,23 @@ class PageController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function destroy($id) {
-    Page::find($id)->delete();
-    return array('message'=>'success');
+    $toRemove = Page::find($id);
+    $story = $toRemove->story;
+    if ($story != null) {
+      $toRemove = $story->pages()->find($id);
+      if ($toRemove != null) {
+        $pages = $story->pages;
+        foreach ($pages as $page) {
+          if ($page->page_number >= $toRemove->page_number) {
+            $page->page_number--;
+            $page->save();
+          }
+        }
+        $toRemove->delete();
+        return response()->json(['message'=>'Removed Page'], 200);
+      }
+    } else {
+      return response()->json(['errors'=>['message'=>'Unable to remove Page, Story Not Found']], 404);
+    }
   }
 }
