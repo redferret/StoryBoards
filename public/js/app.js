@@ -1077,7 +1077,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _events = __webpack_require__(28);
+var _events = __webpack_require__(27);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -2061,89 +2061,6 @@ if (typeof Object.create === 'function') {
 
 /***/ }),
 /* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _events = __webpack_require__(28);
-
-var _events2 = _interopRequireDefault(_events);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var AuthStore = function (_EventEmitter) {
-  _inherits(AuthStore, _EventEmitter);
-
-  function AuthStore() {
-    _classCallCheck(this, AuthStore);
-
-    var _this = _possibleConstructorReturn(this, (AuthStore.__proto__ || Object.getPrototypeOf(AuthStore)).call(this));
-
-    _this._message = '';
-    _this._errors = null;
-    _this._status = null;
-    return _this;
-  }
-
-  _createClass(AuthStore, [{
-    key: 'reset',
-    value: function reset() {
-      this._message = '';
-      this._errors = null;
-      this._status = null;
-    }
-  }, {
-    key: 'setStatus',
-    value: function setStatus(status) {
-      this._status = status;
-    }
-  }, {
-    key: 'getStatus',
-    value: function getStatus() {
-      return this._status;
-    }
-  }, {
-    key: 'setMessage',
-    value: function setMessage(message) {
-      this._message = message;
-    }
-  }, {
-    key: 'getMessage',
-    value: function getMessage() {
-      return this._message;
-    }
-  }, {
-    key: 'setErrors',
-    value: function setErrors(errors) {
-      this._errors = errors;
-    }
-  }, {
-    key: 'getErrors',
-    value: function getErrors() {
-      return this._errors;
-    }
-  }]);
-
-  return AuthStore;
-}(_events2.default);
-
-exports.default = new AuthStore();
-
-/***/ }),
-/* 28 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -2449,6 +2366,89 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _events = __webpack_require__(27);
+
+var _events2 = _interopRequireDefault(_events);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AuthStore = function (_EventEmitter) {
+  _inherits(AuthStore, _EventEmitter);
+
+  function AuthStore() {
+    _classCallCheck(this, AuthStore);
+
+    var _this = _possibleConstructorReturn(this, (AuthStore.__proto__ || Object.getPrototypeOf(AuthStore)).call(this));
+
+    _this._message = '';
+    _this._errors = null;
+    _this._status = null;
+    return _this;
+  }
+
+  _createClass(AuthStore, [{
+    key: 'reset',
+    value: function reset() {
+      this._message = '';
+      this._errors = null;
+      this._status = null;
+    }
+  }, {
+    key: 'setStatus',
+    value: function setStatus(status) {
+      this._status = status;
+    }
+  }, {
+    key: 'getStatus',
+    value: function getStatus() {
+      return this._status;
+    }
+  }, {
+    key: 'setMessage',
+    value: function setMessage(message) {
+      this._message = message;
+    }
+  }, {
+    key: 'getMessage',
+    value: function getMessage() {
+      return this._message;
+    }
+  }, {
+    key: 'setErrors',
+    value: function setErrors(errors) {
+      this._errors = errors;
+    }
+  }, {
+    key: 'getErrors',
+    value: function getErrors() {
+      return this._errors;
+    }
+  }]);
+
+  return AuthStore;
+}(_events2.default);
+
+exports.default = new AuthStore();
 
 /***/ }),
 /* 29 */
@@ -25409,7 +25409,7 @@ var _dispatcher = __webpack_require__(22);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _events = __webpack_require__(28);
+var _events = __webpack_require__(27);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -29492,7 +29492,7 @@ function Parser(cbs, options){
 	if(this._cbs.onparserinit) this._cbs.onparserinit(this);
 }
 
-__webpack_require__(26)(Parser, __webpack_require__(28).EventEmitter);
+__webpack_require__(26)(Parser, __webpack_require__(27).EventEmitter);
 
 Parser.prototype._updatePosition = function(initialOffset){
 	if(this.endIndex === null){
@@ -30801,7 +30801,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
-var EE = __webpack_require__(28).EventEmitter;
+var EE = __webpack_require__(27).EventEmitter;
 
 var EElistenerCount = function (emitter, type) {
   return emitter.listeners(type).length;
@@ -31796,7 +31796,7 @@ module.exports = Array.isArray || function (arr) {
 /* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(28).EventEmitter;
+module.exports = __webpack_require__(27).EventEmitter;
 
 
 /***/ }),
@@ -34786,7 +34786,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _events = __webpack_require__(28);
+var _events = __webpack_require__(27);
 
 var _events2 = _interopRequireDefault(_events);
 
@@ -34867,7 +34867,7 @@ var generateUID = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(194);
-module.exports = __webpack_require__(466);
+module.exports = __webpack_require__(467);
 
 
 /***/ }),
@@ -77814,7 +77814,7 @@ var _AppActions = __webpack_require__(14);
 
 var _AppActions2 = _interopRequireDefault(_AppActions);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -77881,7 +77881,7 @@ var _AppActions = __webpack_require__(14);
 
 var _AppActions2 = _interopRequireDefault(_AppActions);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -77919,7 +77919,7 @@ var _AppActions = __webpack_require__(14);
 
 var _AppActions2 = _interopRequireDefault(_AppActions);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -77958,7 +77958,7 @@ var _AppActions = __webpack_require__(14);
 
 var _AppActions2 = _interopRequireDefault(_AppActions);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -78448,23 +78448,23 @@ var _App = __webpack_require__(238);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _AppNavbar = __webpack_require__(461);
+var _AppNavbar = __webpack_require__(462);
 
 var _AppNavbar2 = _interopRequireDefault(_AppNavbar);
 
-var _LoginForm = __webpack_require__(462);
+var _LoginForm = __webpack_require__(463);
 
 var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
-var _RegisterForm = __webpack_require__(463);
+var _RegisterForm = __webpack_require__(464);
 
 var _RegisterForm2 = _interopRequireDefault(_RegisterForm);
 
-var _RequestResetLink = __webpack_require__(464);
+var _RequestResetLink = __webpack_require__(465);
 
 var _RequestResetLink2 = _interopRequireDefault(_RequestResetLink);
 
-var _ResetPasswordForm = __webpack_require__(465);
+var _ResetPasswordForm = __webpack_require__(466);
 
 var _ResetPasswordForm2 = _interopRequireDefault(_ResetPasswordForm);
 
@@ -91139,7 +91139,7 @@ Object.keys(EVENTS).forEach(function(name){
 
 module.exports = Stream;
 
-var EE = __webpack_require__(28).EventEmitter;
+var EE = __webpack_require__(27).EventEmitter;
 var inherits = __webpack_require__(26);
 
 inherits(Stream, EE);
@@ -102691,15 +102691,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ShelfStore = __webpack_require__(471);
-
-var _ShelfStore2 = _interopRequireDefault(_ShelfStore);
-
 var _reactUid = __webpack_require__(108);
 
 var _reactBootstrap = __webpack_require__(23);
-
-var _constants = __webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -102720,6 +102714,7 @@ var Shelf = function (_React$Component) {
     _this.handleShelfPanelSelect = _this.handleShelfPanelSelect.bind(_this);
 
     _this.state = {
+      renderToggle: true,
       bookActiveKey: -1
     };
     return _this;
@@ -102728,9 +102723,16 @@ var Shelf = function (_React$Component) {
   _createClass(Shelf, [{
     key: 'handleShelfPanelSelect',
     value: function handleShelfPanelSelect(bookActiveKey) {
-      this.setState({ bookActiveKey: bookActiveKey });
-      _ShelfStore2.default.setCurrentActiveKey(bookActiveKey);
+      this.setState({
+        bookActiveKey: bookActiveKey,
+        renderToggle: !this.state.renderToggle
+      });
       _BookStore2.default.emit((0, _Book.componentId)(bookActiveKey));
+    }
+  }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      return nextState.renderToggle != this.state.renderToggle || this.state.bookActiveKey == -1;
     }
   }, {
     key: 'render',
@@ -102740,7 +102742,7 @@ var Shelf = function (_React$Component) {
         {
           accordion: true,
           id: 'factory-panel-group',
-          activeKey: _ShelfStore2.default.getCurrentActiveKey(),
+          activeKey: this.state.bookActiveKey,
           onSelect: this.handleShelfPanelSelect
         },
         this.props.stories.map(function (book) {
@@ -102801,6 +102803,10 @@ var _router = __webpack_require__(9);
 
 var _router2 = _interopRequireDefault(_router);
 
+var _ShelfStore = __webpack_require__(461);
+
+var _ShelfStore2 = _interopRequireDefault(_ShelfStore);
+
 var _reactUid = __webpack_require__(108);
 
 var _constants = __webpack_require__(8);
@@ -102839,32 +102845,34 @@ var Book = function (_React$Component) {
   _createClass(Book, [{
     key: '_loadBook',
     value: function _loadBook() {
-      if (this.state.pages.length == 0) {
-        _dispatcher2.default.dispatch({
-          action: _constants.GET_STORY,
-          story_id: this.props.id,
-          emitOn: [{
-            store: _BookStore2.default,
-            componentIds: [componentId(this.props.id)]
-          }]
-        });
-      }
+      _dispatcher2.default.dispatch({
+        action: _constants.GET_STORY,
+        story_id: this.props.id,
+        emitOn: [{
+          store: _BookStore2.default,
+          componentIds: [componentId(this.props.id)]
+        }]
+      });
     }
   }, {
     key: '_bookLoaded',
     value: function _bookLoaded() {
-      var _this2 = this;
-
       var story = _BookStore2.default.getStory();
       if (story) {
         var pages = story.pages;
-        this.setState({ pages: pages }, function () {
-          var pageIndex = _PageStore2.default.getPageIndexOfStory(_this2.props.id);
-
-          if (pageIndex && pageIndex != 0) {
-            _this2.bookRef.gotoPage(pageIndex);
-          }
-        });
+        this.setState({ pages: pages });
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var pageIndex = _PageStore2.default.getPageIndexOfStory(this.props.id);
+      if (pageIndex && pageIndex != 0) {
+        try {
+          this.bookRef.gotoPage(pageIndex);
+        } catch (error) {
+          console.error('expected pageIndex = ' + pageIndex, error);
+        }
       }
     }
   }, {
@@ -102892,21 +102900,21 @@ var Book = function (_React$Component) {
       if (isNaN(page_number)) {
         page_number = 1;
       }
+      _PageStore2.default.setCurrentlyViewedStoryAndPage(this.props.id, page_number - 1);
       _dispatcher2.default.dispatch({
         action: _constants.CREATE_PAGE,
         story_id: this.props.id,
         page_number: page_number,
         emitOn: [{
           store: _BookStore2.default,
-          componentIds: [_constants.MAIN_ID]
+          componentIds: [componentId(this.props.bookKey)]
         }]
       });
-      _PageStore2.default.setCurrentlyViewedStoryAndPage(this.props.id, page_number - 1);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _react2.default.createElement(
         _reactBootstrap.Panel,
@@ -102932,7 +102940,7 @@ var Book = function (_React$Component) {
               _react2.default.createElement(
                 'a',
                 { onClick: function onClick() {
-                    _this3.bookRef.gotoPreviousPage();
+                    _this2.bookRef.gotoPreviousPage();
                   } },
                 'Previous Page'
               )
@@ -102945,13 +102953,13 @@ var Book = function (_React$Component) {
                 {
                   onPageChange: this.updateCurrentPage,
                   ref: function ref(_ref) {
-                    _this3.bookRef = _ref;
+                    _this2.bookRef = _ref;
                   },
                   orientation: 'horizontal',
                   width: 740, height: 800,
                   animationDuration: 300 },
                 this.state.pages.map(function (page, index) {
-                  return _react2.default.createElement(_Page2.default, _extends({ key: (0, _reactUid.uid)(page), bookRef: _this3.bookRef }, page, { index: index }));
+                  return _react2.default.createElement(_Page2.default, _extends({ key: (0, _reactUid.uid)(page), bookRef: _this2.bookRef }, page, { index: index, bookKey: _this2.props.bookKey }));
                 })
               )
             ),
@@ -102961,7 +102969,7 @@ var Book = function (_React$Component) {
               _react2.default.createElement(
                 'a',
                 { onClick: function onClick() {
-                    _this3.bookRef.gotoNextPage();
+                    _this2.bookRef.gotoNextPage();
                   } },
                 'Next Page'
               )
@@ -103024,6 +103032,8 @@ var _router = __webpack_require__(9);
 
 var _router2 = _interopRequireDefault(_router);
 
+var _Book = __webpack_require__(458);
+
 var _reactUid = __webpack_require__(108);
 
 var _constants = __webpack_require__(8);
@@ -103056,24 +103066,6 @@ var Page = function (_React$Component) {
   }
 
   _createClass(Page, [{
-    key: '_onChange',
-    value: function _onChange() {}
-  }, {
-    key: 'getListenerId',
-    value: function getListenerId() {
-      return _constants.PAGE_ID + '_' + this.props.id;
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      _PageStore2.default.on(this.getListenerId(), this._onChange.bind(this));
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _PageStore2.default.removeListener(this.getListenerId(), this._onChange.bind(this));
-    }
-  }, {
     key: 'handleTriggerModal',
     value: function handleTriggerModal() {
       _ModalStore2.default.setTheCurrentPageText(this.props.text);
@@ -103091,7 +103083,7 @@ var Page = function (_React$Component) {
           page_id: this.props.id,
           emitOn: [{
             store: _BookStore2.default,
-            componentIds: [_constants.MAIN_ID]
+            componentIds: [(0, _Book.componentId)(this.props.bookKey)]
           }]
         });
       }
@@ -103105,7 +103097,7 @@ var Page = function (_React$Component) {
         page_id: this.props.id,
         emitOn: [{
           store: _BookStore2.default,
-          componentIds: [_constants.MAIN_ID]
+          componentIds: [(0, _Book.componentId)(this.props.bookKey)]
         }]
       });
     }
@@ -103114,6 +103106,11 @@ var Page = function (_React$Component) {
     value: function handleDeletePage() {
       var remove = confirm('Are you sure you want to delete this page?');
       if (remove) {
+        var page_number = _PageStore2.default.getPageIndexOfStory(this.props.story_id) - 1;
+        if (isNaN(page_number)) {
+          page_number = 1;
+        }
+        _PageStore2.default.setCurrentlyViewedStoryAndPage(this.props.story_id, page_number);
         _dispatcher2.default.dispatch({
           action: _constants.DELETE_PAGE,
           story_id: this.props.id,
@@ -103121,7 +103118,7 @@ var Page = function (_React$Component) {
           photo_name: this.props.photo_name,
           emitOn: [{
             store: _BookStore2.default,
-            componentIds: [_constants.MAIN_ID]
+            componentIds: [(0, _Book.componentId)(this.props.bookKey)]
           }]
         });
       }
@@ -103293,6 +103290,57 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _events = __webpack_require__(27);
+
+var _events2 = _interopRequireDefault(_events);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ShelfStore = function (_EventEmitter) {
+  _inherits(ShelfStore, _EventEmitter);
+
+  function ShelfStore() {
+    _classCallCheck(this, ShelfStore);
+
+    return _possibleConstructorReturn(this, (ShelfStore.__proto__ || Object.getPrototypeOf(ShelfStore)).call(this));
+  }
+
+  _createClass(ShelfStore, [{
+    key: 'setCurrentActiveKey',
+    value: function setCurrentActiveKey(key) {
+      this._activeKey = key;
+    }
+  }, {
+    key: 'getCurrentActiveKey',
+    value: function getCurrentActiveKey() {
+      return this._activeKey;
+    }
+  }]);
+
+  return ShelfStore;
+}(_events2.default);
+
+exports.default = new ShelfStore();
+
+/***/ }),
+/* 462 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _dispatcher = __webpack_require__(22);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
@@ -103394,7 +103442,7 @@ var AppNavbar = function (_React$Component) {
 exports.default = AppNavbar;
 
 /***/ }),
-/* 462 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103410,7 +103458,7 @@ var _dispatcher = __webpack_require__(22);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -103572,7 +103620,7 @@ var LoginForm = function (_React$Component) {
 exports.default = LoginForm;
 
 /***/ }),
-/* 463 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103588,7 +103636,7 @@ var _dispatcher = __webpack_require__(22);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -103744,7 +103792,7 @@ var RegisterForm = function (_React$Component) {
 exports.default = RegisterForm;
 
 /***/ }),
-/* 464 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103760,7 +103808,7 @@ var _dispatcher = __webpack_require__(22);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -103915,7 +103963,7 @@ var RequestResetLink = function (_React$Component) {
 exports.default = RequestResetLink;
 
 /***/ }),
-/* 465 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103931,7 +103979,7 @@ var _dispatcher = __webpack_require__(22);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _AuthStore = __webpack_require__(27);
+var _AuthStore = __webpack_require__(28);
 
 var _AuthStore2 = _interopRequireDefault(_AuthStore);
 
@@ -104105,65 +104153,10 @@ var ResetPasswordForm = function (_React$Component) {
 exports.default = ResetPasswordForm;
 
 /***/ }),
-/* 466 */
+/* 467 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 467 */,
-/* 468 */,
-/* 469 */,
-/* 470 */,
-/* 471 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _events = __webpack_require__(28);
-
-var _events2 = _interopRequireDefault(_events);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ShelfStore = function (_EventEmitter) {
-  _inherits(ShelfStore, _EventEmitter);
-
-  function ShelfStore() {
-    _classCallCheck(this, ShelfStore);
-
-    return _possibleConstructorReturn(this, (ShelfStore.__proto__ || Object.getPrototypeOf(ShelfStore)).call(this));
-  }
-
-  _createClass(ShelfStore, [{
-    key: 'setCurrentActiveKey',
-    value: function setCurrentActiveKey(key) {
-      this._activeKey = key;
-    }
-  }, {
-    key: 'getCurrentActiveKey',
-    value: function getCurrentActiveKey() {
-      return this._activeKey;
-    }
-  }]);
-
-  return ShelfStore;
-}(_events2.default);
-
-exports.default = new ShelfStore();
 
 /***/ })
 /******/ ]);

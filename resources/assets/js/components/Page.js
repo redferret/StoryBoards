@@ -6,6 +6,8 @@ import PageStore from '../stores/PageStore.js';
 import React from 'react';
 import Router from '../router.js';
 
+import { componentId } from './Book.js';
+
 import {uid} from 'react-uid';
 
 import {
@@ -32,21 +34,6 @@ export default class Page extends React.Component {
     this.handleDeletePage = this.handleDeletePage.bind(this);
   }
 
-  _onChange() {
-  }
-
-  getListenerId() {
-    return `${PAGE_ID}_${this.props.id}`;
-  }
-
-  componentDidMount() {
-    PageStore.on(this.getListenerId(), this._onChange.bind(this));
-  }
-
-  componentWillUnmount() {
-    PageStore.removeListener(this.getListenerId(), this._onChange.bind(this));
-  }
-
   handleTriggerModal() {
     ModalStore.setTheCurrentPageText(this.props.text);
     ModalStore.setPageId(this.props.id);
@@ -62,7 +49,7 @@ export default class Page extends React.Component {
         page_id: this.props.id,
         emitOn: [{
           store: BookStore,
-          componentIds: [MAIN_ID]
+          componentIds: [componentId(this.props.bookKey)]
         }]
       });
     }
@@ -75,7 +62,7 @@ export default class Page extends React.Component {
       page_id: this.props.id,
       emitOn: [{
         store: BookStore,
-        componentIds: [MAIN_ID]
+        componentIds: [componentId(this.props.bookKey)]
       }]
     });
   }
@@ -83,6 +70,11 @@ export default class Page extends React.Component {
   handleDeletePage() {
     let remove = confirm('Are you sure you want to delete this page?');
     if (remove) {
+      let page_number = PageStore.getPageIndexOfStory(this.props.story_id) - 1;
+      if (isNaN(page_number)) {
+        page_number = 1;
+      }
+      PageStore.setCurrentlyViewedStoryAndPage(this.props.story_id, page_number);
       AppDispatcher.dispatch({
         action: DELETE_PAGE,
         story_id: this.props.id,
@@ -90,7 +82,7 @@ export default class Page extends React.Component {
         photo_name: this.props.photo_name,
         emitOn: [{
           store: BookStore,
-          componentIds: [MAIN_ID]
+          componentIds: [componentId(this.props.bookKey)]
         }]
       });
     }

@@ -5,6 +5,7 @@ import Page from './Page.js';
 import PageStore from '../stores/PageStore.js';
 import React from 'react';
 import Router from '../router.js';
+import ShelfStore from '../stores/ShelfStore.js';
 
 import {uid} from 'react-uid';
 
@@ -39,29 +40,32 @@ export default class Book extends React.Component {
   }
 
   _loadBook() {
-    if (this.state.pages.length == 0) {
-      AppDispatcher.dispatch({
-        action: GET_STORY,
-        story_id: this.props.id,
-        emitOn: [{
-          store: BookStore,
-          componentIds: [componentId(this.props.id)]
-        }]
-      });
-    }
+    AppDispatcher.dispatch({
+      action: GET_STORY,
+      story_id: this.props.id,
+      emitOn: [{
+        store: BookStore,
+        componentIds: [componentId(this.props.id)]
+      }]
+    });
   }
 
   _bookLoaded() {
     let story = BookStore.getStory();
     if (story) {
       let pages = story.pages;
-      this.setState({ pages }, () => {
-        let pageIndex = PageStore.getPageIndexOfStory(this.props.id);
+      this.setState({ pages });
+    }
+  }
 
-        if (pageIndex && pageIndex != 0) {
-          this.bookRef.gotoPage(pageIndex);
-        }
-      });
+  componentDidUpdate() {
+    let pageIndex = PageStore.getPageIndexOfStory(this.props.id);
+    if (pageIndex && pageIndex != 0) {
+      try {
+        this.bookRef.gotoPage(pageIndex);
+      } catch (error) {
+        console.error(`expected pageIndex = ${pageIndex}`, error);
+      }
     }
   }
 
@@ -85,16 +89,16 @@ export default class Book extends React.Component {
     if (isNaN(page_number)) {
       page_number = 1;
     }
+    PageStore.setCurrentlyViewedStoryAndPage(this.props.id, page_number - 1);
     AppDispatcher.dispatch({
       action: CREATE_PAGE,
       story_id: this.props.id,
       page_number,
       emitOn: [{
         store: BookStore,
-        componentIds: [MAIN_ID]
+        componentIds: [componentId(this.props.bookKey)]
       }]
     });
-    PageStore.setCurrentlyViewedStoryAndPage(this.props.id, page_number - 1);
   }
 
   render() {
@@ -120,7 +124,7 @@ export default class Book extends React.Component {
                 width={740} height={800}
                 animationDuration={300}>
                 {this.state.pages.map((page, index) =>
-                  <Page key={uid(page)} bookRef={this.bookRef} {...page} index={index} />
+                  <Page key={uid(page)} bookRef={this.bookRef} {...page} index={index} bookKey={this.props.bookKey}/>
                 )}
               </FlipPage>
             </div>

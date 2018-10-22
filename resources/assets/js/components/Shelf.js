@@ -3,7 +3,6 @@ import BookStore from '../stores/BookStore.js';
 import Book, { componentId } from './Book.js';
 import FlipPage from 'react-flip-page';
 import React from 'react';
-import ShelfStore from '../stores/ShelfStore.js';
 
 import {uid} from 'react-uid';
 
@@ -11,24 +10,27 @@ import {
   PanelGroup,
 } from 'react-bootstrap';
 
-import {
-  SHELF_ID,
-} from '../constants.js';
-
 export default class Shelf extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.handleShelfPanelSelect = this.handleShelfPanelSelect.bind(this);
 
     this.state = {
+      renderToggle: true,
       bookActiveKey: -1
     }
   }
 
   handleShelfPanelSelect(bookActiveKey) {
-    this.setState({ bookActiveKey });
-    ShelfStore.setCurrentActiveKey(bookActiveKey);
+    this.setState({
+      bookActiveKey,
+      renderToggle: !this.state.renderToggle
+    });
     BookStore.emit(componentId(bookActiveKey));
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextState.renderToggle != this.state.renderToggle) || (this.state.bookActiveKey == -1);
   }
 
   render() {
@@ -36,7 +38,7 @@ export default class Shelf extends React.Component {
       <PanelGroup
         accordion
         id='factory-panel-group'
-        activeKey={ShelfStore.getCurrentActiveKey()}
+        activeKey={this.state.bookActiveKey}
         onSelect={this.handleShelfPanelSelect}
       >
       {this.props.stories.map(book => {
