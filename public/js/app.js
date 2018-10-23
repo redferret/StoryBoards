@@ -79510,24 +79510,20 @@ var Page = function (_React$Component) {
   }, {
     key: 'handleDeletePage',
     value: function handleDeletePage() {
-      var page_number = _PageStore2.default.getPageIndexOfStory(this.props.story_id) - 1;
-      if (page_number < 0) {
-        alert('A story must have at least one page');
-      } else {
-        var remove = confirm('Are you sure you want to delete this page?');
-        if (remove) {
-          _PageStore2.default.setCurrentlyViewedPage(this.props.story_id, page_number);
-          _dispatcher2.default.dispatch({
-            action: _constants.DELETE_PAGE,
-            story_id: this.props.id,
-            page_id: this.props.id,
-            photo_name: this.props.photo_name,
-            emitOn: [{
-              store: _BookStore2.default,
-              componentIds: [(0, _Book.componentId)(this.props.bookKey)]
-            }]
-          });
-        }
+      var page_number = _PageStore2.default.getPageIndexOfStory(this.props.story_id) + 1;
+      var remove = confirm('Are you sure you want to delete page ' + page_number + '?');
+      if (remove) {
+        _PageStore2.default.setCurrentlyViewedPage(this.props.story_id, page_number - 2);
+        _dispatcher2.default.dispatch({
+          action: _constants.DELETE_PAGE,
+          story_id: this.props.id,
+          page_id: this.props.id,
+          photo_name: this.props.photo_name,
+          emitOn: [{
+            store: _BookStore2.default,
+            componentIds: [(0, _Book.componentId)(this.props.bookKey)]
+          }]
+        });
       }
     }
   }, {
@@ -79547,7 +79543,7 @@ var Page = function (_React$Component) {
               'Remove Image'
             )
           ),
-          _react2.default.createElement('img', { width: '100%', src: _router2.default.route(_constants.IMAGE_ASSET, { photo_name: photo_name }) })
+          _react2.default.createElement('img', { className: 'image', src: _router2.default.route(_constants.IMAGE_ASSET, { photo_name: photo_name }) })
         );
       } else {
         return _react2.default.createElement(
@@ -79565,6 +79561,11 @@ var Page = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var deletePageButton = this.props.page_number > 1 ? _react2.default.createElement(
+        _reactBootstrap.Button,
+        { bsStyle: 'danger', onClick: this.handleDeletePage },
+        'Delete Page'
+      ) : null;
       return _react2.default.createElement(
         'div',
         null,
@@ -79588,11 +79589,7 @@ var Page = function (_React$Component) {
             'Add Page'
           ),
           ' ',
-          _react2.default.createElement(
-            _reactBootstrap.Button,
-            { bsStyle: 'danger', onClick: this.handleDeletePage },
-            'Delete Page'
-          )
+          deletePageButton
         ),
         _react2.default.createElement(
           'div',

@@ -88,24 +88,20 @@ export default class Page extends React.Component {
   }
 
   handleDeletePage() {
-    let page_number = PageStore.getPageIndexOfStory(this.props.story_id) - 1;
-    if (page_number < 0) {
-      alert('A story must have at least one page');
-    } else {
-      let remove = confirm('Are you sure you want to delete this page?');
-      if (remove) {
-        PageStore.setCurrentlyViewedPage(this.props.story_id, page_number);
-        AppDispatcher.dispatch({
-          action: DELETE_PAGE,
-          story_id: this.props.id,
-          page_id: this.props.id,
-          photo_name: this.props.photo_name,
-          emitOn: [{
-            store: BookStore,
-            componentIds: [componentId(this.props.bookKey)]
-          }]
-        });
-      }
+    let page_number = PageStore.getPageIndexOfStory(this.props.story_id) + 1;
+    let remove = confirm(`Are you sure you want to delete page ${page_number}?`);
+    if (remove) {
+      PageStore.setCurrentlyViewedPage(this.props.story_id, page_number - 2);
+      AppDispatcher.dispatch({
+        action: DELETE_PAGE,
+        story_id: this.props.id,
+        page_id: this.props.id,
+        photo_name: this.props.photo_name,
+        emitOn: [{
+          store: BookStore,
+          componentIds: [componentId(this.props.bookKey)]
+        }]
+      });
     }
   }
 
@@ -117,7 +113,7 @@ export default class Page extends React.Component {
           <div className='upload-btn-wrapper'>
             <Button bsStyle='warning' onClick={this.removePageImage}>Remove Image</Button>
           </div>
-          <img width='100%' src={Router.route(IMAGE_ASSET, { photo_name })} />
+          <img className='image' src={Router.route(IMAGE_ASSET, { photo_name })} />
         </div>
       );
     } else {
@@ -131,13 +127,15 @@ export default class Page extends React.Component {
   }
 
   render() {
+    let deletePageButton = this.props.page_number > 1?
+      <Button bsStyle='danger' onClick={this.handleDeletePage}>Delete Page</Button> : null;
     return (
       <div>
         <div>{`Page ${this.props.page_number}`}</div>
         <div>
           <Button bsStyle='info' onClick={this.handleTriggerModal}>Edit Page Text</Button>{' '}
           <Button bsStyle='success' onClick={this.handleNewPage}>Add Page</Button>{' '}
-          <Button bsStyle='danger' onClick={this.handleDeletePage}>Delete Page</Button>
+          {deletePageButton}
         </div>
         <div className='page-image'>
           {this.renderImage()}
