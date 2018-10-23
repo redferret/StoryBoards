@@ -79529,6 +79529,8 @@ var Page = function (_React$Component) {
   }, {
     key: 'renderImage',
     value: function renderImage() {
+      var _this2 = this;
+
       var photo_name = this.props.photo_name;
       if (photo_name != null) {
         return _react2.default.createElement(
@@ -79550,11 +79552,15 @@ var Page = function (_React$Component) {
           'div',
           { className: 'upload-btn-wrapper' },
           _react2.default.createElement(
-            'button',
-            { className: 'upload-btn' },
+            _reactBootstrap.Button,
+            { bsStyle: 'info', onClick: function onClick() {
+                _this2.fileUploadRef.click();
+              } },
             'Upload a photo'
           ),
-          _react2.default.createElement('input', { type: 'file', name: 'page_photo', onChange: this.photoUploadHandler })
+          _react2.default.createElement('input', { type: 'file', onChange: this.photoUploadHandler, ref: function ref(_ref) {
+              _this2.fileUploadRef = _ref;
+            } })
         );
       }
     }

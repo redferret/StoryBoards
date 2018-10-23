@@ -119,8 +119,8 @@ export default class Page extends React.Component {
     } else {
       return (
         <div className='upload-btn-wrapper'>
-          <button className='upload-btn'>Upload a photo</button>
-          <input type='file' name='page_photo' onChange={this.photoUploadHandler} />
+          <Button bsStyle='info' onClick={()=>{this.fileUploadRef.click()}}>Upload a photo</Button>
+          <input type='file' onChange={this.photoUploadHandler} ref={(ref)=>{this.fileUploadRef = ref}}/>
         </div>
       );
     }
