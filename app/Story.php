@@ -5,7 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Story extends Model {
+
   protected $fillable = ['title'];
+
+  public function published() {
+    return $this->belongsTo(Published::class);
+  }
 
   public function user() {
     return $this->belongsTo(User::class);

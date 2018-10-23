@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Story;
+use App\Page;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,7 @@ class StoryController extends Controller {
   }
 
   public function get($id) {
-    $story = Auth::user()->stories()->find($id);
+    $story = Story::find($id);
     if ($story != null) {
       $story->pages = $story->pages()->orderBy('page_number')->get();
       return $story;
@@ -44,7 +45,14 @@ class StoryController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function store(Request $request) {
-
+    $user = Auth::user();
+    $story = Story::create($request->all());
+    $story->pages()->save(Page::create([
+      'text' => '<p>New Page</p>',
+      'page_number' => 1
+    ]));
+    $user->stories()->save($story);
+    return response()->json(['message'=>'Story Created'], 200);
   }
 
   /**
@@ -54,7 +62,10 @@ class StoryController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request) {
-
+    $story = Story::find($request->input('id'));
+    $story->fill($request->all());
+    $story->save();
+    return response()->json(['message'=>'Story Updated'], 200);
   }
 
   /**
@@ -63,7 +74,8 @@ class StoryController extends Controller {
    * @param  \App\Page  $page
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Page $page) {
-
+  public function destroy($id) {
+    Story::find($id)->delete();
+    return response()->json(['message'=>'Story Deleted'], 200);
   }
 }

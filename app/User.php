@@ -9,23 +9,25 @@ class User extends Authenticatable {
 
   use Notifiable;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array
-   */
   protected $fillable = [
-      'name', 'email', 'password',
+    'name', 'email', 'password',
   ];
 
-  /**
-   * The attributes that should be hidden for arrays.
-   *
-   * @var array
-   */
   protected $hidden = [
-      'password', 'remember_token',
+    'password', 'remember_token',
   ];
+
+  public function publishedBooks() {
+    return $this->hasOne(Publish::class);
+  }
+
+  public function watchedUsers() {
+    return $this->belongsToMany(User::class, 'watched_users', 'user_id_a', 'user_id_b');
+  }
+
+  public function watchedByUsers() {
+    return $this->belongsToMany(User::class, 'watched_users', 'user_id_b', 'user_id_a');
+  }
 
   public function stories() {
     return $this->hasMany(Story::class);
