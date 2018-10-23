@@ -41,3 +41,5 @@ export const CHANGE_IMAGE                               = 'change-image';
 
 export const GET_WATCHERS                               = 'get-watchers';
 export const GET_WATCHING                               = 'get-watching';
+export const LOAD_DATA                                  = 'load-data';
+export const GET_CUR_AUTHOR                             = 'get-current-author';

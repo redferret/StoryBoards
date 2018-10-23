@@ -84,3 +84,7 @@ Router.registerRoute(Constants.GET_WATCHERS, args => {
 Router.registerRoute(Constants.GET_WATCHING, args => {
   return `/author/${args.user_id}/watching`;
 });
+
+Router.registerRoute(Constants.GET_CUR_AUTHOR, () => {
+  return '/author';
+});
