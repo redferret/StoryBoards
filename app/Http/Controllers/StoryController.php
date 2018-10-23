@@ -51,6 +51,9 @@ class StoryController extends Controller {
    */
   public function store(Request $request) {
     $user = Auth::user();
+    if ($request->input('title') == null || $request->input('title') == '') {
+      return response()->json(['errors'=>['message'=>'Title is empty or null']], 400);
+    }
     $story = Story::create($request->all());
     $story->pages()->save(Page::create([
       'text' => '<p>New Page</p>',

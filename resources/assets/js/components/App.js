@@ -48,14 +48,20 @@ export default class App extends React.Component {
 
   addNewStory() {
     let title = prompt('Enter the title of your new Story', 'New Story');
-    AppDispatcher.dispatch({
-      action: CREATE_STORY,
-      title,
-      emitOn: [{
-        store: BookStore,
-        componentIds: [MAIN_ID]
-      }]
-    });
+    if (title != null) {
+      if (/(.|\s)*\S(.|\s)*/.test(name)) {
+        AppDispatcher.dispatch({
+          action: CREATE_STORY,
+          title,
+          emitOn: [{
+            store: BookStore,
+            componentIds: [MAIN_ID]
+          }]
+        });
+      } else {
+        alert('The title you have entered is invalid. A title must not be empty and contain at least one character.');
+      }
+    }
   }
 
   render() {
