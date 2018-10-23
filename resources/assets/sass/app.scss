@@ -50,6 +50,15 @@ textarea {
   padding-bottom: 20px;
 }
 
+.flip-page {
+  margin: auto;
+}
+
+.scrollable {
+  height: 800px;
+  overflow-y: auto;
+}
+
 .page {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -95,9 +104,4 @@ textarea {
   top: 0;
   opacity: 0;
   cursor: pointer;
-}
-
-.edit-page-text-div {
-  position: absolute;
-  bottom: 0;
 }

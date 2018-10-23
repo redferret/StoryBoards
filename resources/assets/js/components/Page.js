@@ -11,6 +11,7 @@ import { componentId } from './Book.js';
 import {uid} from 'react-uid';
 
 import {
+  CREATE_PAGE,
   DELETE_PAGE,
   IMAGE_ASSET,
   MAIN_ID,
@@ -26,17 +27,18 @@ import {
 export default class Page extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.getListenerId = this.getListenerId.bind(this);
     this.photoUploadHandler = this.photoUploadHandler.bind(this);
     this.removePageImage = this.removePageImage.bind(this);
     this.renderImage = this.renderImage.bind(this);
     this.handleTriggerModal = this.handleTriggerModal.bind(this);
     this.handleDeletePage = this.handleDeletePage.bind(this);
+    this.handleNewPage = this.handleNewPage.bind(this);
   }
 
   handleTriggerModal() {
     ModalStore.setTheCurrentPageText(this.props.text);
     ModalStore.setPageId(this.props.id);
+    ModalStore.setBookKey(this.props.bookKey);
     ModalStore.triggerModal(true);
   }
 
@@ -67,24 +69,43 @@ export default class Page extends React.Component {
     });
   }
 
+  handleNewPage() {
+    // + 2 because, +1 to correct for the index and +1 for the new page.
+    let page_number = PageStore.getPageIndexOfStory(this.props.story_id) + 2;
+    if (isNaN(page_number)) {
+      page_number = 2;
+    }
+    PageStore.setCurrentlyViewedPage(this.props.story_id, page_number - 1);
+    AppDispatcher.dispatch({
+      action: CREATE_PAGE,
+      story_id: this.props.story_id,
+      page_number,
+      emitOn: [{
+        store: BookStore,
+        componentIds: [componentId(this.props.bookKey)]
+      }]
+    });
+  }
+
   handleDeletePage() {
-    let remove = confirm('Are you sure you want to delete this page?');
-    if (remove) {
-      let page_number = PageStore.getPageIndexOfStory(this.props.story_id) - 1;
-      if (isNaN(page_number)) {
-        page_number = 1;
+    let page_number = PageStore.getPageIndexOfStory(this.props.story_id) - 1;
+    if (page_number < 0) {
+      alert('A story must have at least one page');
+    } else {
+      let remove = confirm('Are you sure you want to delete this page?');
+      if (remove) {
+        PageStore.setCurrentlyViewedPage(this.props.story_id, page_number);
+        AppDispatcher.dispatch({
+          action: DELETE_PAGE,
+          story_id: this.props.id,
+          page_id: this.props.id,
+          photo_name: this.props.photo_name,
+          emitOn: [{
+            store: BookStore,
+            componentIds: [componentId(this.props.bookKey)]
+          }]
+        });
       }
-      PageStore.setCurrentlyViewedStoryAndPage(this.props.story_id, page_number);
-      AppDispatcher.dispatch({
-        action: DELETE_PAGE,
-        story_id: this.props.id,
-        page_id: this.props.id,
-        photo_name: this.props.photo_name,
-        emitOn: [{
-          store: BookStore,
-          componentIds: [componentId(this.props.bookKey)]
-        }]
-      });
     }
   }
 
@@ -94,7 +115,7 @@ export default class Page extends React.Component {
       return (
         <div>
           <div className='upload-btn-wrapper'>
-            <a onClick={this.removePageImage}>Remove Image</a>
+            <Button bsStyle='warning' onClick={this.removePageImage}>Remove Image</Button>
           </div>
           <img width='100%' src={Router.route(IMAGE_ASSET, { photo_name })} />
         </div>
@@ -112,16 +133,17 @@ export default class Page extends React.Component {
   render() {
     return (
       <div>
-        <div>{`${this.props.page_number}`}</div>
+        <div>{`Page ${this.props.page_number}`}</div>
+        <div>
+          <Button bsStyle='info' onClick={this.handleTriggerModal}>Edit Page Text</Button>{' '}
+          <Button bsStyle='success' onClick={this.handleNewPage}>Add Page</Button>{' '}
+          <Button bsStyle='danger' onClick={this.handleDeletePage}>Delete Page</Button>
+        </div>
         <div className='page-image'>
           {this.renderImage()}
         </div>
         <div dangerouslySetInnerHTML=
           {{__html: this.props.text}}>
-        </div>
-        <div className='edit-page-text-div'>
-          <a onClick={this.handleTriggerModal}>Edit Page Text</a>{' '}
-          <a className='danger' onClick={this.handleDeletePage}>Delete Page</a>
         </div>
       </div>
     );

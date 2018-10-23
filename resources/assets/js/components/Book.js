@@ -32,7 +32,6 @@ export default class Book extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
-    this.handleNewPage = this.handleNewPage.bind(this);
 
     this.state = {
       pages: []
@@ -66,6 +65,8 @@ export default class Book extends React.Component {
       } catch (error) {
         console.error(`expected pageIndex = ${pageIndex}`, error);
       }
+    } else {
+      this.bookRef.gotoPreviousPage();
     }
   }
 
@@ -80,25 +81,7 @@ export default class Book extends React.Component {
   }
 
   updateCurrentPage(pageIndex) {
-    PageStore.setCurrentlyViewedStoryAndPage(this.props.id, pageIndex);
-  }
-
-  handleNewPage() {
-    // + 2 because, +1 to correct for the index and +1 for the new page.
-    let page_number = PageStore.getPageIndexOfStory(this.props.id) + 2;
-    if (isNaN(page_number)) {
-      page_number = 1;
-    }
-    PageStore.setCurrentlyViewedStoryAndPage(this.props.id, page_number - 1);
-    AppDispatcher.dispatch({
-      action: CREATE_PAGE,
-      story_id: this.props.id,
-      page_number,
-      emitOn: [{
-        store: BookStore,
-        componentIds: [componentId(this.props.bookKey)]
-      }]
-    });
+    PageStore.setCurrentlyViewedPage(this.props.id, pageIndex);
   }
 
   render() {
@@ -118,6 +101,7 @@ export default class Book extends React.Component {
             </div>
             <div className='page col-sm-10'>
               <FlipPage
+                className='flip-page'
                 onPageChange={this.updateCurrentPage}
                 ref={(ref) => {this.bookRef = ref}}
                 orientation='horizontal'
@@ -135,7 +119,8 @@ export default class Book extends React.Component {
             </div>
           </div>
           <br/>
-          <Button bsStyle='info' onClick={this.handleNewPage}>Add Page to Book</Button>
+          <Button bsStyle='success'>Publish Story</Button>{' '}
+          <Button bsStyle='danger'>Delete Story</Button>
         </Panel.Body>
       </Panel>
     );

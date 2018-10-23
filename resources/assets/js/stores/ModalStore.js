@@ -17,8 +17,16 @@ class ModalStore extends EventEmitter {
     this._pageId = id;
   }
 
+  setBookKey(key) {
+    this._bookKey = key;
+  }
+
   setTheCurrentPageText(text) {
     this._currentPageText = text;
+  }
+
+  getBookKey() {
+    return this._bookKey;
   }
 
   getCurrentPageText() {

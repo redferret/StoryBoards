@@ -7,7 +7,7 @@ class PageStore extends EventEmitter {
     this.storyMapPageIndexes = new Map();
   }
 
-  setCurrentlyViewedStoryAndPage(storyId, pageIndex) {
+  setCurrentlyViewedPage(storyId, pageIndex) {
     this.storyMapPageIndexes.set(storyId, pageIndex);
   }
 

@@ -4,6 +4,8 @@ import ModalStore from '../stores/ModalStore.js';
 import React from 'react';
 
 var sanitizeHtml = require('sanitize-html');
+
+import { componentId } from './Book.js';
 import { Button, Modal } from 'react-bootstrap';
 import { MAIN_ID, MODAL_ID, UPDATE_PAGE } from '../constants.js';
 
@@ -45,13 +47,14 @@ export default class EditTextModal extends React.Component {
   }
 
   handleSavePageText() {
+    ModalStore.triggerModal(false);
     AppDispatcher.dispatch({
       action: UPDATE_PAGE,
       page_id: ModalStore.getPageId(),
       text: sanitizeHtml(this.state.text),
       emitOn: [{
         store: BookStore,
-        componentIds: [MAIN_ID]
+        componentIds: [componentId(ModalStore.getBookKey())]
       }]
     });
   }
