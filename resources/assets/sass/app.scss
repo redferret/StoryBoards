@@ -35,6 +35,10 @@ textarea {
   width: 75%;
 }
 
+.shelf-container {
+  padding-top: 20px;
+}
+
 .shelf {
   border-radius: 10px;
   border: 1px solid black;
@@ -42,6 +46,15 @@ textarea {
   width: 75%;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.watching-list {
+  padding-left: 10px;
+}
+
+.watched-by-list {
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
 .story-title {

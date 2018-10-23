@@ -60,13 +60,27 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className='shelf'>
-        <EditTextModal />
-        <div className='shelf-div'>
-          <Shelf stories={this.state.stories} />
+      <div>
+        <div className='shelf-container'>
+          <div className='shelf'>
+            <EditTextModal />
+            <div className='shelf-div'>
+              <Shelf stories={this.state.stories} />
+            </div>
+            <div className='add-story-button'>
+              <Button bsStyle='info' onClick={this.addNewStory}>Add a New Story</Button>
+            </div>
+          </div>
         </div>
-        <div className='add-story-button'>
-          <Button bsStyle='info' onClick={this.addNewStory}>Add a New Story</Button>
+        <div className='shelf-container'>
+          <div className='shelf'>
+            <div className='watching-list'>
+              List of Authors I'm watching
+            </div>
+            <div className='watched-by-list'>
+              List of Authors watching me
+            </div>
+          </div>
         </div>
       </div>
     );
