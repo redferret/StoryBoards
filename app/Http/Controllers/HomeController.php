@@ -25,6 +25,10 @@ class HomeController extends Controller {
     return view('home');
   }
 
+  public function user() {
+    return Auth::user();
+  }
+
   public function getWatchers($id) {
     $user = Auth::user();
     if ($user->id == $id) {
