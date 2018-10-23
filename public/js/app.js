@@ -533,6 +533,9 @@ var IMAGE_ASSET = exports.IMAGE_ASSET = 'image-asset';
 var UPLOAD_IMAGE = exports.UPLOAD_IMAGE = 'upload-image';
 var CHANGE_IMAGE = exports.CHANGE_IMAGE = 'change-image';
 
+var GET_WATCHERS = exports.GET_WATCHERS = 'get-watchers';
+var GET_WATCHING = exports.GET_WATCHING = 'get-watching';
+
 /***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -78026,15 +78029,15 @@ __webpack_require__(226);
 __webpack_require__(227);
 __webpack_require__(228);
 
-__webpack_require__(229);
-__webpack_require__(230);
-__webpack_require__(231);
-__webpack_require__(232);
-__webpack_require__(233);
-__webpack_require__(234);
-__webpack_require__(235);
-__webpack_require__(236);
-__webpack_require__(237);
+__webpack_require__(473);
+__webpack_require__(474);
+__webpack_require__(475);
+__webpack_require__(476);
+__webpack_require__(477);
+__webpack_require__(478);
+__webpack_require__(479);
+__webpack_require__(480);
+__webpack_require__(481);
 
 /***/ }),
 /* 224 */
@@ -78233,393 +78236,15 @@ _AppActions2.default.register(_constants.SEND_PASSWORD_RESET, function (payload)
 });
 
 /***/ }),
-/* 229 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _formData = __webpack_require__(118);
-
-var _formData2 = _interopRequireDefault(_formData);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.CHANGE_IMAGE, function (payload) {
-  var formData = new _formData2.default();
-  var page_id = payload.page_id;
-
-  formData.append('page_photo', payload.page_photo);
-
-  (0, _axios2.default)(_router2.default.request('POST', _constants.CHANGE_IMAGE, {
-    data: formData,
-    args: { page_id: page_id }
-  }, {
-    'Accept': 'application/json',
-    'Content-Type': 'multipart/form-data',
-    'X-CSRF-TOKEN': (0, _router.getCSRF)()
-  })).then(_router.checkStatus).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('GET', GET_STORIES));
-  }).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 230 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.CREATE_PAGE, function (payload) {
-  var story_id = payload.story_id;
-  var page_number = payload.page_number;
-  var text = '<p>New Page</p>';
-  (0, _axios2.default)(_router2.default.request('POST', _constants.CREATE_PAGE, {
-    data: { story_id: story_id, page_number: page_number, text: text }
-  })).then(_router.checkStatus).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
-  }).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 231 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.CREATE_STORY, function (payload) {
-  var story_id = payload.story_id;
-  var page_number = payload.page_number;
-  var title = payload.title;
-  (0, _axios2.default)(_router2.default.request('POST', _constants.CREATE_STORY, {
-    data: { title: title }
-  })).then(_router.checkStatus).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
-  }).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 232 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.DELETE_PAGE, function (payload) {
-  var story_id = payload.story_id;
-  var page_id = payload.page_id;
-  var photo_name = payload.photo_name;
-  (0, _axios2.default)(_router2.default.request('DELETE', _constants.REMOVE_IMAGE, {
-    data: { photo_name: photo_name },
-    args: { page_id: page_id }
-  })).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('DELETE', _constants.DELETE_PAGE, {
-      data: { story_id: story_id },
-      args: { page_id: page_id }
-    }));
-  }).then(_router.checkStatus).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
-  }).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 233 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.GET_STORIES, function (payload) {
-  (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES)).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 234 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.GET_STORY, function (payload) {
-  var story_id = payload.story_id;
-  (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORY, {
-    args: { story_id: story_id }
-  })).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStory(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 235 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.REMOVE_IMAGE, function (payload) {
-  var page_id = payload.page_id;
-  var photo_name = payload.photo_name;
-
-  (0, _axios2.default)(_router2.default.request('DELETE', _constants.REMOVE_IMAGE, {
-    data: { photo_name: photo_name },
-    args: { page_id: page_id }
-  })).then(_router.checkStatus).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
-  }).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 236 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.UPDATE_PAGE, function (payload) {
-  var page_id = payload.page_id;
-  var text = payload.text;
-  (0, _axios2.default)(_router2.default.request('PUT', _constants.UPDATE_PAGE, {
-    data: { text: text },
-    args: { page_id: page_id }
-  })).then(_router.checkStatus).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
-  }).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
-/* 237 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _AppActions = __webpack_require__(14);
-
-var _AppActions2 = _interopRequireDefault(_AppActions);
-
-var _axios = __webpack_require__(13);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _BookStore = __webpack_require__(15);
-
-var _BookStore2 = _interopRequireDefault(_BookStore);
-
-var _formData = __webpack_require__(118);
-
-var _formData2 = _interopRequireDefault(_formData);
-
-var _router = __webpack_require__(9);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _constants = __webpack_require__(8);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_AppActions2.default.register(_constants.UPLOAD_IMAGE, function (payload) {
-  var formData = new _formData2.default();
-  var page_id = payload.page_id;
-
-  formData.append('page_photo', payload.page_photo);
-
-  (0, _axios2.default)(_router2.default.request('POST', _constants.UPLOAD_IMAGE, {
-    data: formData,
-    args: { page_id: page_id }
-  }, {
-    'Accept': 'application/json',
-    'Content-Type': 'multipart/form-data',
-    'X-CSRF-TOKEN': (0, _router.getCSRF)()
-  })).then(_router.checkStatus).then(function (response) {
-    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
-  }).then(_router.checkStatus).then(function (response) {
-    _BookStore2.default.setStories(response.data);
-    _AppActions2.default.finish(payload);
-  }).catch(_router.handleError);
-});
-
-/***/ }),
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
 /* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -78709,6 +78334,14 @@ _router2.default.registerRoute(Constants.CREATE_PAGE, function () {
 });
 _router2.default.registerRoute(Constants.UPDATE_PAGE, function (args) {
   return '/pages/' + args.page_id + '/update';
+});
+
+_router2.default.registerRoute(Constants.GET_WATCHERS, function (args) {
+  return '/author/' + args.user_id + '/watchers';
+});
+
+_router2.default.registerRoute(Constants.GET_WATCHING, function (args) {
+  return '/author/' + args.user_id + '/watching';
 });
 
 /***/ }),
@@ -78866,20 +78499,46 @@ var App = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'shelf' },
-        _react2.default.createElement(_EditTextModal2.default, null),
+        null,
         _react2.default.createElement(
           'div',
-          { className: 'shelf-div' },
-          _react2.default.createElement(_Shelf2.default, { stories: this.state.stories })
+          { className: 'shelf-container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'shelf' },
+            _react2.default.createElement(_EditTextModal2.default, null),
+            _react2.default.createElement(
+              'div',
+              { className: 'shelf-div' },
+              _react2.default.createElement(_Shelf2.default, { stories: this.state.stories })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'add-story-button' },
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { bsStyle: 'info', onClick: this.addNewStory },
+                'Add a New Story'
+              )
+            )
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'add-story-button' },
+          { className: 'shelf-container' },
           _react2.default.createElement(
-            _reactBootstrap.Button,
-            { bsStyle: 'info', onClick: this.addNewStory },
-            'Add a New Story'
+            'div',
+            { className: 'shelf' },
+            _react2.default.createElement(
+              'div',
+              { className: 'watching-list' },
+              'List of Authors I\'m watching'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'watched-by-list' },
+              'List of Authors watching me'
+            )
           )
         )
       );
@@ -104249,6 +103908,397 @@ exports.default = ResetPasswordForm;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _formData = __webpack_require__(118);
+
+var _formData2 = _interopRequireDefault(_formData);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.CHANGE_IMAGE, function (payload) {
+  var formData = new _formData2.default();
+  var page_id = payload.page_id;
+
+  formData.append('page_photo', payload.page_photo);
+
+  (0, _axios2.default)(_router2.default.request('POST', _constants.CHANGE_IMAGE, {
+    data: formData,
+    args: { page_id: page_id }
+  }, {
+    'Accept': 'application/json',
+    'Content-Type': 'multipart/form-data',
+    'X-CSRF-TOKEN': (0, _router.getCSRF)()
+  })).then(_router.checkStatus).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('GET', GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 474 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.CREATE_PAGE, function (payload) {
+  var story_id = payload.story_id;
+  var page_number = payload.page_number;
+  var text = '<p>New Page</p>';
+  (0, _axios2.default)(_router2.default.request('POST', _constants.CREATE_PAGE, {
+    data: { story_id: story_id, page_number: page_number, text: text }
+  })).then(_router.checkStatus).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 475 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.DELETE_PAGE, function (payload) {
+  var story_id = payload.story_id;
+  var page_id = payload.page_id;
+  var photo_name = payload.photo_name;
+  (0, _axios2.default)(_router2.default.request('DELETE', _constants.REMOVE_IMAGE, {
+    data: { photo_name: photo_name },
+    args: { page_id: page_id }
+  })).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('DELETE', _constants.DELETE_PAGE, {
+      data: { story_id: story_id },
+      args: { page_id: page_id }
+    }));
+  }).then(_router.checkStatus).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.REMOVE_IMAGE, function (payload) {
+  var page_id = payload.page_id;
+  var photo_name = payload.photo_name;
+
+  (0, _axios2.default)(_router2.default.request('DELETE', _constants.REMOVE_IMAGE, {
+    data: { photo_name: photo_name },
+    args: { page_id: page_id }
+  })).then(_router.checkStatus).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.UPDATE_PAGE, function (payload) {
+  var page_id = payload.page_id;
+  var text = payload.text;
+  (0, _axios2.default)(_router2.default.request('PUT', _constants.UPDATE_PAGE, {
+    data: { text: text },
+    args: { page_id: page_id }
+  })).then(_router.checkStatus).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 478 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _formData = __webpack_require__(118);
+
+var _formData2 = _interopRequireDefault(_formData);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.UPLOAD_IMAGE, function (payload) {
+  var formData = new _formData2.default();
+  var page_id = payload.page_id;
+
+  formData.append('page_photo', payload.page_photo);
+
+  (0, _axios2.default)(_router2.default.request('POST', _constants.UPLOAD_IMAGE, {
+    data: formData,
+    args: { page_id: page_id }
+  }, {
+    'Accept': 'application/json',
+    'Content-Type': 'multipart/form-data',
+    'X-CSRF-TOKEN': (0, _router.getCSRF)()
+  })).then(_router.checkStatus).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 479 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.CREATE_STORY, function (payload) {
+  var story_id = payload.story_id;
+  var page_number = payload.page_number;
+  var title = payload.title;
+  (0, _axios2.default)(_router2.default.request('POST', _constants.CREATE_STORY, {
+    data: { title: title }
+  })).then(_router.checkStatus).then(function (response) {
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 480 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.GET_STORIES, function (payload) {
+  (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES)).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(14);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(13);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.GET_STORY, function (payload) {
+  var story_id = payload.story_id;
+  (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORY, {
+    args: { story_id: story_id }
+  })).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStory(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
 
 /***/ })
 /******/ ]);
