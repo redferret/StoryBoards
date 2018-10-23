@@ -523,6 +523,7 @@ var CREATE_PAGE = exports.CREATE_PAGE = 'create-page';
 var UPDATE_PAGE = exports.UPDATE_PAGE = 'update-page';
 
 var DELETE_STORY = exports.DELETE_STORY = 'delete-story';
+var GET_STORIES_FROM = exports.GET_STORIES_FROM = 'get-stories-from';
 var GET_STORIES = exports.GET_STORIES = 'get-stories';
 var GET_STORY = exports.GET_STORY = 'get-story';
 var CREATE_STORY = exports.CREATE_STORY = 'create-story';
@@ -78312,6 +78313,9 @@ _router2.default.registerRoute(Constants.DELETE_STORY, function (args) {
 });
 _router2.default.registerRoute(Constants.GET_STORIES, function () {
   return '/stories';
+});
+_router2.default.registerRoute(Constants.GET_STORIES_FROM, function (args) {
+  return '/author/' + args.user_id + '/stories';
 });
 _router2.default.registerRoute(Constants.GET_STORY, function (args) {
   return '/stories/' + args.story_id;

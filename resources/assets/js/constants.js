@@ -28,6 +28,7 @@ export const CREATE_PAGE                                = 'create-page';
 export const UPDATE_PAGE                                = 'update-page';
 
 export const DELETE_STORY                               = 'delete-story';
+export const GET_STORIES_FROM                           = 'get-stories-from';
 export const GET_STORIES                                = 'get-stories';
 export const GET_STORY                                  = 'get-story';
 export const CREATE_STORY                               = 'create-story';

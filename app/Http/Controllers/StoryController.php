@@ -25,9 +25,13 @@ class StoryController extends Controller {
    *
    * @return \Illuminate\Http\Response
    */
-  public function getAll($id) {
-    $stories = User::find($id)->stories;
+  public function getAll() {
+    $stories = Auth::user()->stories;
     return $stories;
+  }
+
+  public function getAllFrom($id) {
+    return User::find($id)->stories;
   }
 
   public function get($id) {

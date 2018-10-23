@@ -30,7 +30,8 @@ Route::post('/pages/{id}/image/store', 'ImagesController@store');
 Route::get('/image/{name}', 'ImagesController@get');
 
 Route::delete('/stories/{id}/delete', 'StoryController@destroy');
-Route::get('/author/{id}/stories', 'StoryController@getAll');
+Route::get('/stories', 'StoryController@getAll');
+Route::get('/author/{id}/stories', 'StoryController@getAllFrom');
 Route::get('/stories/{id}', 'StoryController@get');
 Route::post('/stories/create', 'StoryController@store');
 Route::put('/stories/{id}/update', 'StoryController@update');

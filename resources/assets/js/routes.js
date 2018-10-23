@@ -49,7 +49,10 @@ Router.registerRoute(Constants.DELETE_STORY, args => {
   return `/stories/${args.story_id}/delete`;
 });
 Router.registerRoute(Constants.GET_STORIES, () => {
-  return '/stories';
+  return `/stories`;
+});
+Router.registerRoute(Constants.GET_STORIES_FROM, args => {
+  return `/author/${args.user_id}/stories`;
 });
 Router.registerRoute(Constants.GET_STORY, args => {
   return `/stories/${args.story_id}`;
