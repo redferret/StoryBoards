@@ -7,6 +7,7 @@ require('./auth/SendEmailResetLink.js');
 
 require('./ChangeImage.js');
 require('./CreatePage.js');
+require('./CreateStory.js');
 require('./DeletePage.js');
 require('./GetStories.js');
 require('./GetStory.js');

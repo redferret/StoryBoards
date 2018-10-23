@@ -7,6 +7,7 @@ import Shelf from './Shelf.js';
 import { Button, Label } from 'react-bootstrap';
 
 import {
+  CREATE_STORY,
   MAIN_ID,
   GET_STORIES,
 } from '../constants.js';
@@ -26,8 +27,7 @@ export default class App extends React.Component {
     });
   }
 
-  componentDidMount() {
-    BookStore.on(MAIN_ID, this._onChange.bind(this));
+  loadStories() {
     AppDispatcher.dispatch({
       action: GET_STORIES,
       emitOn: [{
@@ -37,8 +37,25 @@ export default class App extends React.Component {
     });
   }
 
+  componentDidMount() {
+    BookStore.on(MAIN_ID, this._onChange.bind(this));
+    this.loadStories();
+  }
+
   componentWillUnmount() {
     BookStore.removeListener(MAIN_ID, this._onChange.bind(this));
+  }
+
+  addNewStory() {
+    let title = prompt('Enter the title of your new Story', 'New Story');
+    AppDispatcher.dispatch({
+      action: CREATE_STORY,
+      title,
+      emitOn: [{
+        store: BookStore,
+        componentIds: [MAIN_ID]
+      }]
+    });
   }
 
   render() {
@@ -49,7 +66,7 @@ export default class App extends React.Component {
           <Shelf stories={this.state.stories} />
         </div>
         <div className='add-story-button'>
-          <Button bsStyle='info'>Add a New Story</Button>
+          <Button bsStyle='info' onClick={this.addNewStory}>Add a New Story</Button>
         </div>
       </div>
     );
