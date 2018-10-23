@@ -120,6 +120,7 @@ export default class Page extends React.Component {
       return (
         <div className='upload-btn-wrapper'>
           <Button bsStyle='info' onClick={()=>{this.fileUploadRef.click()}}>Upload a photo</Button>
+          <div> <i>Recommended Dimensions: Width = 1360, Height = 768</i> </div>
           <input type='file' onChange={this.photoUploadHandler} ref={(ref)=>{this.fileUploadRef = ref}}/>
         </div>
       );

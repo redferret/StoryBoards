@@ -1,5 +1,6 @@
 body {
   position: relative;
+  background-color: #4971af;
 }
 
 a:hover {
@@ -40,19 +41,21 @@ textarea {
 
 .shelf {
   border-radius: 10px;
-  border: 1px solid black;
   margin: auto;
   width: 75%;
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: #adbbd1;
 }
 
-.watching-list {
-  padding-left: 10px;
+.author-count {
+  font-weight: bold;
+  padding-bottom: 10px;
 }
 
-.watched-by-list {
+.authors-list {
   padding-top: 10px;
+  padding-right: 10px;
   padding-left: 10px;
 }
 

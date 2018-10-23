@@ -86,7 +86,7 @@ export default class Book extends React.Component {
 
   render() {
     return (
-      <Panel eventKey={this.props.bookKey}>
+      <Panel bsStyle='primary' eventKey={this.props.bookKey}>
         <Panel.Heading>
           <Panel.Title toggle>
             {this.props.title}

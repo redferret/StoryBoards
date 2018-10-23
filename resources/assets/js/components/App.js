@@ -1,16 +1,59 @@
 import AppDispatcher from '../dispatcher.js';
+import AuthorStore from '../stores/AuthorStore.js';
 import BookStore from '../stores/BookStore.js';
 import EditTextModal from './EditTextModal.js';
 import React from 'react';
 import Shelf from './Shelf.js';
 
-import { Button, Label } from 'react-bootstrap';
+import { Button, Label, Panel, } from 'react-bootstrap';
 
 import {
   CREATE_STORY,
+  LOAD_DATA,
   MAIN_ID,
-  GET_STORIES,
 } from '../constants.js';
+
+class AuthorsList extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.renderAuthorList = this.renderAuthorList.bind(this);
+  }
+
+  renderAuthorList() {
+    if (this.props.authors.length == 0) {
+      return (
+        <div>No Authors</div>
+      );
+    } else {
+      return (
+        <ul>
+          {this.props.authors.map(author =>
+            <li>
+              {author.name}
+            </li>
+          )}
+        </ul>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <Panel bsStyle='primary'>
+        <Panel.Heading>
+          <Panel.Title toggle>
+            {this.props.listTitle}
+          </Panel.Title>
+        </Panel.Heading>
+        <Panel.Collapse>
+          <Panel.Body>
+            {this.renderAuthorList()}
+          </Panel.Body>
+        </Panel.Collapse>
+      </Panel>
+    );
+  }
+}
 
 export default class App extends React.Component {
 
@@ -27,9 +70,9 @@ export default class App extends React.Component {
     });
   }
 
-  loadStories() {
+  loadData() {
     AppDispatcher.dispatch({
-      action: GET_STORIES,
+      action: LOAD_DATA,
       emitOn: [{
         store: BookStore,
         componentIds: [MAIN_ID]
@@ -39,7 +82,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     BookStore.on(MAIN_ID, this._onChange.bind(this));
-    this.loadStories();
+    this.loadData();
   }
 
   componentWillUnmount() {
@@ -65,6 +108,8 @@ export default class App extends React.Component {
   }
 
   render() {
+    let watching = AuthorStore.getWatching();
+    let watchers = AuthorStore.getWatchers();
     return (
       <div>
         <div className='shelf-container'>
@@ -74,17 +119,19 @@ export default class App extends React.Component {
               <Shelf stories={this.state.stories} />
             </div>
             <div className='add-story-button'>
-              <Button bsStyle='info' onClick={this.addNewStory}>Add a New Story</Button>
+              <Button bsStyle='success' onClick={this.addNewStory}>Add a New Story</Button>
             </div>
           </div>
         </div>
         <div className='shelf-container'>
           <div className='shelf'>
-            <div className='watching-list'>
-              List of Authors I'm watching
+            <div className='authors-list'>
+              <div className='author-count'># of Authors I'm watching: {watching.length}</div>
+              <AuthorsList listTitle='My Watch List' authors={watching} />
             </div>
-            <div className='watched-by-list'>
-              List of Authors watching me
+            <div className='authors-list'>
+              <div className='author-count'># of Authors watching me: {watchers.length}</div>
+              <AuthorsList listTitle='Authors watching me' authors={watchers} />
             </div>
           </div>
         </div>
