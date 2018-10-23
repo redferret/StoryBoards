@@ -73,3 +73,11 @@ Router.registerRoute(Constants.CREATE_PAGE, () => {
 Router.registerRoute(Constants.UPDATE_PAGE, args => {
   return `/pages/${args.page_id}/update`;
 });
+
+Router.registerRoute(Constants.GET_WATCHERS, args => {
+  return `/author/${args.user_id}/watchers`;
+});
+
+Router.registerRoute(Constants.GET_WATCHING, args => {
+  return `/author/${args.user_id}/watching`;
+});

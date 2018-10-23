@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller {
@@ -22,6 +23,24 @@ class HomeController extends Controller {
    */
   public function index() {
     return view('home');
+  }
+
+  public function getWatchers($id) {
+    $user = Auth::user();
+    if ($user->id == $id) {
+      return Auth::user()->watchedByUsers;
+    } else {
+      return response()->json(['errors'=>['message'=>'User Id mismatch, Authenticated user Id does not match']], 400);
+    }
+  }
+
+  public function getWatching($id) {
+    $user = Auth::user();
+    if ($user->id == $id) {
+      return Auth::user()->watchedUsers;
+    } else {
+      return response()->json(['errors'=>['message'=>'User Id mismatch, Authenticated user Id does not match']], 400);
+    }
   }
 
 }

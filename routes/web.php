@@ -15,6 +15,8 @@
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/author/{id}/watchers', 'HomeController@getWatchers');
+Route::get('/author/{id}/watching', 'HomeController@getWatching');
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::delete('/pages/{id}/delete', 'PageController@destroy');
@@ -28,7 +30,7 @@ Route::post('/pages/{id}/image/store', 'ImagesController@store');
 Route::get('/image/{name}', 'ImagesController@get');
 
 Route::delete('/stories/{id}/delete', 'StoryController@destroy');
-Route::get('/stories', 'StoryController@getAll');
+Route::get('/author/{id}/stories', 'StoryController@getAll');
 Route::get('/stories/{id}', 'StoryController@get');
 Route::post('/stories/create', 'StoryController@store');
 Route::put('/stories/{id}/update', 'StoryController@update');

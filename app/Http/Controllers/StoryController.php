@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Story;
 use App\Page;
+use App\User;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
@@ -24,8 +25,8 @@ class StoryController extends Controller {
    *
    * @return \Illuminate\Http\Response
    */
-  public function getAll() {
-    $stories = Auth::user()->stories;
+  public function getAll($id) {
+    $stories = User::find($id)->stories;
     return $stories;
   }
 
@@ -61,8 +62,8 @@ class StoryController extends Controller {
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request) {
-    $story = Story::find($request->input('id'));
+  public function update(Request $request, $id) {
+    $story = Story::find($id);
     $story->fill($request->all());
     $story->save();
     return response()->json(['message'=>'Story Updated'], 200);

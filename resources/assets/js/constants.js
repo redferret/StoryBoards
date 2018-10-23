@@ -37,3 +37,6 @@ export const REMOVE_IMAGE                               = 'remove-image';
 export const IMAGE_ASSET                                = 'image-asset';
 export const UPLOAD_IMAGE                               = 'upload-image';
 export const CHANGE_IMAGE                               = 'change-image';
+
+export const GET_WATCHERS                               = 'get-watchers';
+export const GET_WATCHING                               = 'get-watching';
