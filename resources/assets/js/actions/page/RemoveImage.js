@@ -1,22 +1,18 @@
-import Actions from './AppActions.js';
+import Actions from '../AppActions.js';
 import Axios from 'axios';
-import BookStore from '../stores/BookStore.js';
-import Router, { checkStatus, handleError } from '../router.js';
+import BookStore from '../../stores/BookStore.js';
+import Router, { checkStatus, handleError } from '../../router.js';
 
-import { DELETE_PAGE, GET_STORIES, REMOVE_IMAGE } from '../constants.js';
+import { REMOVE_IMAGE, GET_STORIES } from '../../constants.js';
 
-Actions.register(DELETE_PAGE, payload => {
-  let story_id = payload.story_id;
+Actions.register(REMOVE_IMAGE, payload => {
   let page_id = payload.page_id;
   let photo_name = payload.photo_name;
+
   Axios(Router.request('DELETE', REMOVE_IMAGE, {
     data: { photo_name },
     args: { page_id }
   }))
-  .then(response => Axios(Router.request('DELETE', DELETE_PAGE, {
-    data: { story_id },
-    args: { page_id }
-  })))
   .then(checkStatus)
   .then(response => Axios(Router.request('GET', GET_STORIES)))
   .then(checkStatus)

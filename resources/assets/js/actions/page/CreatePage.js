@@ -1,9 +1,9 @@
-import Actions from './AppActions.js';
+import Actions from '../AppActions.js';
 import Axios from 'axios';
-import BookStore from '../stores/BookStore.js';
-import Router, { checkStatus, handleError } from '../router.js';
+import BookStore from '../../stores/BookStore.js';
+import Router, { checkStatus, handleError } from '../../router.js';
 
-import { CREATE_PAGE, GET_STORIES } from '../constants.js';
+import { CREATE_PAGE, GET_STORIES } from '../../constants.js';
 
 Actions.register(CREATE_PAGE, payload => {
   let story_id = payload.story_id;

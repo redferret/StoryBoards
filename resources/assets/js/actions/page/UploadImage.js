@@ -1,18 +1,18 @@
-import Actions from './AppActions.js';
+import Actions from '../AppActions.js';
 import Axios from 'axios';
-import BookStore from '../stores/BookStore.js';
+import BookStore from '../../stores/BookStore.js';
 import FormData from 'form-data';
-import Router, { checkStatus, handleError, getCSRF } from '../router.js';
+import Router, { checkStatus, handleError, getCSRF } from '../../router.js';
 
-import { CHANGE_IMAGE, GET_STORY } from '../constants.js';
+import { UPLOAD_IMAGE, GET_STORIES } from '../../constants.js';
 
-Actions.register(CHANGE_IMAGE, payload => {
+Actions.register(UPLOAD_IMAGE, payload => {
   let formData = new FormData();
   let page_id = payload.page_id;
 
   formData.append('page_photo', payload.page_photo);
 
-  Axios(Router.request('POST', CHANGE_IMAGE, {
+  Axios(Router.request('POST', UPLOAD_IMAGE, {
     data: formData,
     args: { page_id }
   }, {
