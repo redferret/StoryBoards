@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\Story;
 use App\Page;
+use App\Publish;
+use App\Story;
 use App\User;
-use Intervention\Image\Facades\Image;
+use Auth;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class StoryController extends Controller {
 

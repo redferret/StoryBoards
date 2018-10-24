@@ -15,6 +15,7 @@ import {
   GET_STORY,
   IMAGE_ASSET,
   MAIN_ID,
+  PUBLISH_STORY,
   UPLOAD_IMAGE,
 } from '../constants.js';
 
@@ -32,7 +33,8 @@ export default class Book extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
-
+    this.publishStory = this.publishStory.bind(this);
+    
     this.state = {
       pages: []
     }
@@ -84,6 +86,16 @@ export default class Book extends React.Component {
     PageStore.setCurrentlyViewedPage(this.props.id, pageIndex);
   }
 
+  publishStory() {
+    if (confirm('Are you sure you want to publish this story?')) {
+      AppDispatcher.dispatch({
+        action: PUBLISH_STORY,
+        story_id: this.props.id,
+        emitOn: []
+      });
+    }
+  }
+
   render() {
     return (
       <Panel bsStyle='primary' eventKey={this.props.bookKey}>
@@ -119,7 +131,7 @@ export default class Book extends React.Component {
             </div>
           </div>
           <br/>
-          <Button bsStyle='success'>Publish Story</Button>{' '}
+          <Button bsStyle='success' onClick={this.publishStory}>Publish Story</Button>{' '}
           <Button bsStyle='danger'>Delete Story</Button>
         </Panel.Body>
       </Panel>

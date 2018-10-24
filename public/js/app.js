@@ -18119,6 +18119,7 @@ var Book = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props, context));
 
     _this.updateCurrentPage = _this.updateCurrentPage.bind(_this);
+    _this.publishStory = _this.publishStory.bind(_this);
 
     _this.state = {
       pages: []
@@ -18177,6 +18178,17 @@ var Book = function (_React$Component) {
     key: 'updateCurrentPage',
     value: function updateCurrentPage(pageIndex) {
       _PageStore2.default.setCurrentlyViewedPage(this.props.id, pageIndex);
+    }
+  }, {
+    key: 'publishStory',
+    value: function publishStory() {
+      if (confirm('Are you sure you want to publish this story?')) {
+        _dispatcher2.default.dispatch({
+          action: _constants.PUBLISH_STORY,
+          story_id: this.props.id,
+          emitOn: []
+        });
+      }
     }
   }, {
     key: 'render',
@@ -18246,7 +18258,7 @@ var Book = function (_React$Component) {
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             _reactBootstrap.Button,
-            { bsStyle: 'success' },
+            { bsStyle: 'success', onClick: this.publishStory },
             'Publish Story'
           ),
           ' ',
