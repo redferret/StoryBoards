@@ -131,7 +131,7 @@ export default class App extends React.Component {
             </div>
             <div className='authors-list'>
               <div className='author-count'># of Authors watching me: {watchers.length}</div>
-              <AuthorsList listTitle='Authors watching me' authors={watchers} />
+              <AuthorsList listTitle='Authors Watching Me' authors={watchers} />
             </div>
           </div>
         </div>
