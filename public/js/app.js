@@ -484,6 +484,7 @@ var UPDATE_PAGE = exports.UPDATE_PAGE = 'update-page';
 
 var CREATE_STORY = exports.CREATE_STORY = 'create-story';
 var DELETE_STORY = exports.DELETE_STORY = 'delete-story';
+var GET_PUBLISHED_STORIES = exports.GET_PUBLISHED_STORIES = 'get-published-stories';
 var GET_STORIES = exports.GET_STORIES = 'get-stories';
 var GET_STORIES_FROM = exports.GET_STORIES_FROM = 'get-stories-from';
 var GET_STORY = exports.GET_STORY = 'get-story';
@@ -897,9 +898,19 @@ var BookStore = function (_EventEmitter) {
       this._stories = stories;
     }
   }, {
+    key: 'setPublishedStories',
+    value: function setPublishedStories(stories) {
+      this._publishedStories = stories;
+    }
+  }, {
     key: 'getStories',
     value: function getStories() {
       return this._stories;
+    }
+  }, {
+    key: 'getPublishedStories',
+    value: function getPublishedStories() {
+      return this._publishedStories;
     }
   }, {
     key: 'getStory',
@@ -18120,7 +18131,7 @@ var Book = function (_React$Component) {
 
     _this.updateCurrentPage = _this.updateCurrentPage.bind(_this);
     _this.publishStory = _this.publishStory.bind(_this);
-
+    _this.renderPublishStoryButton = _this.renderPublishStoryButton.bind(_this);
     _this.state = {
       pages: []
     };
@@ -18186,8 +18197,24 @@ var Book = function (_React$Component) {
         _dispatcher2.default.dispatch({
           action: _constants.PUBLISH_STORY,
           story_id: this.props.id,
-          emitOn: []
+          emitOn: [{
+            store: _BookStore2.default,
+            componentIds: [_constants.MAIN_ID]
+          }]
         });
+      }
+    }
+  }, {
+    key: 'renderPublishStoryButton',
+    value: function renderPublishStoryButton() {
+      if (this.props.published) {
+        return null;
+      } else {
+        return _react2.default.createElement(
+          _reactBootstrap.Button,
+          { bsStyle: 'success', onClick: this.publishStory },
+          'Publish Story'
+        );
       }
     }
   }, {
@@ -18239,7 +18266,12 @@ var Book = function (_React$Component) {
                   width: 740, height: 800,
                   animationDuration: 300 },
                 this.state.pages.map(function (page, index) {
-                  return _react2.default.createElement(_Page2.default, _extends({ key: (0, _reactUid.uid)(page), bookRef: _this2.bookRef }, page, { index: index, bookKey: _this2.props.bookKey }));
+                  return _react2.default.createElement(_Page2.default, _extends({}, page, {
+                    key: (0, _reactUid.uid)(page),
+                    bookRef: _this2.bookRef,
+                    index: index,
+                    bookKey: _this2.props.bookKey,
+                    published: _this2.props.published }));
                 })
               )
             ),
@@ -18256,16 +18288,14 @@ var Book = function (_React$Component) {
             )
           ),
           _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            _reactBootstrap.Button,
-            { bsStyle: 'success', onClick: this.publishStory },
-            'Publish Story'
-          ),
+          this.renderPublishStoryButton(),
           ' ',
           _react2.default.createElement(
             _reactBootstrap.Button,
             { bsStyle: 'danger' },
-            'Delete Story'
+            'Delete ',
+            this.props.published ? 'Published ' : '',
+            'Story'
           )
         )
       );
@@ -78370,13 +78400,19 @@ _AppActions2.default.register(_constants.LOAD_DATA, function (payload) {
       args: { user_id: user_id }
     }));
   }).then(_router.checkStatus).then(function (response) {
-    var user_id = _AuthorStore2.default.getAuthorId();
     _AuthorStore2.default.setWatchers(response.data);
+    var user_id = _AuthorStore2.default.getAuthorId();
     return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_WATCHING, {
       args: { user_id: user_id }
     }));
   }).then(_router.checkStatus).then(function (response) {
     _AuthorStore2.default.setWatching(response.data);
+    var user_id = _AuthorStore2.default.getAuthorId();
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_PUBLISHED_STORIES, {
+      args: { user_id: user_id }
+    }));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setPublishedStories(response.data);
     _AppActions2.default.finish(payload);
   }).catch(_router.handleError);
 });
@@ -78783,6 +78819,10 @@ var _axios = __webpack_require__(11);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _BookStore = __webpack_require__(15);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
 var _router = __webpack_require__(9);
 
 var _router2 = _interopRequireDefault(_router);
@@ -78796,6 +78836,7 @@ _AppActions2.default.register(_constants.PUBLISH_STORY, function (payload) {
   (0, _axios2.default)(_router2.default.request('POST', _constants.PUBLISH_STORY, {
     args: { story_id: story_id }
   })).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setPublishedStories(response.data);
     _AppActions2.default.finish(payload);
   }).catch(_router.handleError);
 });
@@ -78865,6 +78906,9 @@ _router2.default.registerRoute(Constants.CHANGE_IMAGE, function (args) {
  */
 _router2.default.registerRoute(Constants.DELETE_STORY, function (args) {
   return '/stories/' + args.story_id + '/delete';
+});
+_router2.default.registerRoute(Constants.GET_PUBLISHED_STORIES, function (args) {
+  return '/author/' + args.user_id + '/stories/published';
 });
 _router2.default.registerRoute(Constants.GET_STORIES, function () {
   return '/stories';
@@ -79083,7 +79127,8 @@ var App = function (_React$Component2) {
     var _this2 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props, context));
 
     _this2.state = {
-      stories: []
+      stories: [],
+      publishedStories: []
     };
     return _this2;
   }
@@ -79092,7 +79137,8 @@ var App = function (_React$Component2) {
     key: '_onChange',
     value: function _onChange() {
       this.setState({
-        stories: _BookStore2.default.getStories()
+        stories: _BookStore2.default.getStories(),
+        publishedStories: _BookStore2.default.getPublishedStories()
       });
     }
   }, {
@@ -79173,12 +79219,31 @@ var App = function (_React$Component2) {
           _react2.default.createElement(
             'div',
             { className: 'shelf' },
+            _react2.default.createElement(_EditTextModal2.default, null),
+            _react2.default.createElement(
+              'div',
+              { className: 'shelf-div' },
+              _react2.default.createElement(
+                'div',
+                { className: 'shelf-title' },
+                'Published Stories'
+              ),
+              _react2.default.createElement(_Shelf2.default, { published: true, stories: this.state.publishedStories })
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'shelf-container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'shelf' },
             _react2.default.createElement(
               'div',
               { className: 'authors-list' },
               _react2.default.createElement(
                 'div',
-                { className: 'author-count' },
+                { className: 'shelf-title' },
                 '# of Authors I\'m watching: ',
                 watching.length
               ),
@@ -79189,7 +79254,7 @@ var App = function (_React$Component2) {
               { className: 'authors-list' },
               _react2.default.createElement(
                 'div',
-                { className: 'author-count' },
+                { className: 'shelf-title' },
                 '# of Authors watching me: ',
                 watchers.length
               ),
@@ -79763,6 +79828,7 @@ var Page = function (_React$Component) {
     _this.handleTriggerModal = _this.handleTriggerModal.bind(_this);
     _this.handleDeletePage = _this.handleDeletePage.bind(_this);
     _this.handleNewPage = _this.handleNewPage.bind(_this);
+    _this.renderPageButtons = _this.renderPageButtons.bind(_this);
     return _this;
   }
 
@@ -79847,66 +79913,69 @@ var Page = function (_React$Component) {
       var _this2 = this;
 
       var photo_name = this.props.photo_name;
-      if (photo_name != null) {
-        return _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
+      if (this.props.published) {
+        if (photo_name != null) {
+          return _react2.default.createElement('img', { className: 'image', src: _router2.default.route(_constants.IMAGE_ASSET, { photo_name: photo_name }) });
+        } else {
+          return null;
+        }
+      } else {
+        if (photo_name != null) {
+          return _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'div',
+              { className: 'upload-btn-wrapper' },
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { bsStyle: 'warning', onClick: this.removePageImage },
+                'Remove Image'
+              )
+            ),
+            _react2.default.createElement('img', { className: 'image', src: _router2.default.route(_constants.IMAGE_ASSET, { photo_name: photo_name }) })
+          );
+        } else {
+          return _react2.default.createElement(
             'div',
             { className: 'upload-btn-wrapper' },
             _react2.default.createElement(
               _reactBootstrap.Button,
-              { bsStyle: 'warning', onClick: this.removePageImage },
-              'Remove Image'
-            )
-          ),
-          _react2.default.createElement('img', { className: 'image', src: _router2.default.route(_constants.IMAGE_ASSET, { photo_name: photo_name }) })
-        );
-      } else {
-        return _react2.default.createElement(
-          'div',
-          { className: 'upload-btn-wrapper' },
-          _react2.default.createElement(
-            _reactBootstrap.Button,
-            { bsStyle: 'info', onClick: function onClick() {
-                _this2.fileUploadRef.click();
-              } },
-            'Upload a photo'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            ' ',
-            _react2.default.createElement(
-              'i',
-              null,
-              'Recommended Dimensions: Width = 1360, Height = 768'
+              { bsStyle: 'info', onClick: function onClick() {
+                  _this2.fileUploadRef.click();
+                } },
+              'Upload a photo'
             ),
-            ' '
-          ),
-          _react2.default.createElement('input', { type: 'file', onChange: this.photoUploadHandler, ref: function ref(_ref) {
-              _this2.fileUploadRef = _ref;
-            } })
-        );
+            _react2.default.createElement(
+              'div',
+              null,
+              ' ',
+              _react2.default.createElement(
+                'i',
+                null,
+                'Recommended Dimensions: Width = 1360, Height = 768'
+              ),
+              ' '
+            ),
+            _react2.default.createElement('input', { type: 'file', onChange: this.photoUploadHandler, ref: function ref(_ref) {
+                _this2.fileUploadRef = _ref;
+              } })
+          );
+        }
       }
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'renderPageButtons',
+    value: function renderPageButtons() {
       var deletePageButton = this.props.page_number > 1 ? _react2.default.createElement(
         _reactBootstrap.Button,
         { bsStyle: 'danger', onClick: this.handleDeletePage },
         'Delete Page'
       ) : null;
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          null,
-          'Page ' + this.props.page_number
-        ),
-        _react2.default.createElement(
+      if (this.props.published) {
+        return null;
+      } else {
+        return _react2.default.createElement(
           'div',
           null,
           _react2.default.createElement(
@@ -79922,7 +79991,21 @@ var Page = function (_React$Component) {
           ),
           ' ',
           deletePageButton
+        );
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          'Page ' + this.props.page_number
         ),
+        this.renderPageButtons(),
         _react2.default.createElement(
           'div',
           { className: 'page-image' },
@@ -103700,6 +103783,7 @@ var Shelf = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Shelf.__proto__ || Object.getPrototypeOf(Shelf)).call(this, props, context));
 
     _this.handleShelfPanelSelect = _this.handleShelfPanelSelect.bind(_this);
+    _this.renderBooks = _this.renderBooks.bind(_this);
 
     _this.state = {
       renderToggle: true,
@@ -103723,6 +103807,20 @@ var Shelf = function (_React$Component) {
       return nextState.renderToggle != this.state.renderToggle || this.state.bookActiveKey == -1;
     }
   }, {
+    key: 'renderBooks',
+    value: function renderBooks() {
+      var _this2 = this;
+
+      if (this.props.stories.length == 0) {
+        return 'No Stories on Shelf';
+      } else {
+        return this.props.stories.map(function (book) {
+          var bookKey = (0, _reactUid.uid)(book);
+          return _react2.default.createElement(_Book2.default, _extends({ key: bookKey, bookKey: bookKey }, book, { published: _this2.props.published }));
+        });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -103733,10 +103831,7 @@ var Shelf = function (_React$Component) {
           activeKey: this.state.bookActiveKey,
           onSelect: this.handleShelfPanelSelect
         },
-        this.props.stories.map(function (book) {
-          var bookKey = (0, _reactUid.uid)(book);
-          return _react2.default.createElement(_Book2.default, _extends({ key: bookKey, bookKey: bookKey }, book));
-        })
+        this.renderBooks()
       );
     }
   }]);

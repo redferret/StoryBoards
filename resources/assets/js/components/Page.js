@@ -33,6 +33,7 @@ export default class Page extends React.Component {
     this.handleTriggerModal = this.handleTriggerModal.bind(this);
     this.handleDeletePage = this.handleDeletePage.bind(this);
     this.handleNewPage = this.handleNewPage.bind(this);
+    this.renderPageButtons = this.renderPageButtons.bind(this);
   }
 
   handleTriggerModal() {
@@ -107,37 +108,55 @@ export default class Page extends React.Component {
 
   renderImage() {
     let photo_name = this.props.photo_name;
-    if( photo_name != null) {
-      return (
-        <div>
-          <div className='upload-btn-wrapper'>
-            <Button bsStyle='warning' onClick={this.removePageImage}>Remove Image</Button>
+    if (this.props.published) {
+      if (photo_name != null) {
+        return <img className='image' src={Router.route(IMAGE_ASSET, { photo_name })} />;
+      } else {
+        return null;
+      }
+    } else {
+      if( photo_name != null) {
+        return (
+          <div>
+            <div className='upload-btn-wrapper'>
+              <Button bsStyle='warning' onClick={this.removePageImage}>Remove Image</Button>
+            </div>
+            <img className='image' src={Router.route(IMAGE_ASSET, { photo_name })} />
           </div>
-          <img className='image' src={Router.route(IMAGE_ASSET, { photo_name })} />
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div className='upload-btn-wrapper'>
+            <Button bsStyle='info' onClick={()=>{this.fileUploadRef.click()}}>Upload a photo</Button>
+            <div> <i>Recommended Dimensions: Width = 1360, Height = 768</i> </div>
+            <input type='file' onChange={this.photoUploadHandler} ref={(ref)=>{this.fileUploadRef = ref}}/>
+          </div>
+        );
+      }
+    }
+  }
+
+  renderPageButtons() {
+    let deletePageButton = this.props.page_number > 1?
+      <Button bsStyle='danger' onClick={this.handleDeletePage}>Delete Page</Button> : null;
+    if (this.props.published) {
+      return null;
     } else {
       return (
-        <div className='upload-btn-wrapper'>
-          <Button bsStyle='info' onClick={()=>{this.fileUploadRef.click()}}>Upload a photo</Button>
-          <div> <i>Recommended Dimensions: Width = 1360, Height = 768</i> </div>
-          <input type='file' onChange={this.photoUploadHandler} ref={(ref)=>{this.fileUploadRef = ref}}/>
+        <div>
+          <Button bsStyle='info' onClick={this.handleTriggerModal}>Edit Page Text</Button>{' '}
+          <Button bsStyle='success' onClick={this.handleNewPage}>Add Page</Button>{' '}
+          {deletePageButton}
         </div>
       );
     }
   }
 
   render() {
-    let deletePageButton = this.props.page_number > 1?
-      <Button bsStyle='danger' onClick={this.handleDeletePage}>Delete Page</Button> : null;
     return (
       <div>
         <div>{`Page ${this.props.page_number}`}</div>
-        <div>
-          <Button bsStyle='info' onClick={this.handleTriggerModal}>Edit Page Text</Button>{' '}
-          <Button bsStyle='success' onClick={this.handleNewPage}>Add Page</Button>{' '}
-          {deletePageButton}
-        </div>
+        {this.renderPageButtons()}
         <div className='page-image'>
           {this.renderImage()}
         </div>

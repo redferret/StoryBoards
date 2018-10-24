@@ -14,6 +14,7 @@ export default class Shelf extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.handleShelfPanelSelect = this.handleShelfPanelSelect.bind(this);
+    this.renderBooks = this.renderBooks.bind(this);
 
     this.state = {
       renderToggle: true,
@@ -33,6 +34,19 @@ export default class Shelf extends React.Component {
     return (nextState.renderToggle != this.state.renderToggle) || (this.state.bookActiveKey == -1);
   }
 
+  renderBooks() {
+    if (this.props.stories.length == 0) {
+      return 'No Stories on Shelf';
+    } else {
+      return (
+        this.props.stories.map(book => {
+          let bookKey = uid(book);
+          return <Book key={bookKey} bookKey={bookKey} {...book} published={this.props.published} />
+        })
+      );
+    }
+  }
+
   render() {
     return (
       <PanelGroup
@@ -41,10 +55,7 @@ export default class Shelf extends React.Component {
         activeKey={this.state.bookActiveKey}
         onSelect={this.handleShelfPanelSelect}
       >
-      {this.props.stories.map(book => {
-        let bookKey = uid(book);
-        return <Book key={bookKey} bookKey={bookKey} {...book} />
-      })}
+      {this.renderBooks()}
       </PanelGroup>
     );
   }

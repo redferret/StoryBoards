@@ -34,7 +34,7 @@ export default class Book extends React.Component {
     super(props, context);
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
     this.publishStory = this.publishStory.bind(this);
-    
+    this.renderPublishStoryButton = this.renderPublishStoryButton.bind(this);
     this.state = {
       pages: []
     }
@@ -91,8 +91,19 @@ export default class Book extends React.Component {
       AppDispatcher.dispatch({
         action: PUBLISH_STORY,
         story_id: this.props.id,
-        emitOn: []
+        emitOn: [{
+          store: BookStore,
+          componentIds: [MAIN_ID]
+        }]
       });
+    }
+  }
+
+  renderPublishStoryButton() {
+    if (this.props.published) {
+      return null;
+    } else {
+      return <Button bsStyle='success' onClick={this.publishStory}>Publish Story</Button>;
     }
   }
 
@@ -120,7 +131,13 @@ export default class Book extends React.Component {
                 width={740} height={800}
                 animationDuration={300}>
                 {this.state.pages.map((page, index) =>
-                  <Page key={uid(page)} bookRef={this.bookRef} {...page} index={index} bookKey={this.props.bookKey}/>
+                  <Page
+                    {...page}
+                    key={uid(page)}
+                    bookRef={this.bookRef}
+                    index={index}
+                    bookKey={this.props.bookKey}
+                    published={this.props.published}/>
                 )}
               </FlipPage>
             </div>
@@ -131,8 +148,8 @@ export default class Book extends React.Component {
             </div>
           </div>
           <br/>
-          <Button bsStyle='success' onClick={this.publishStory}>Publish Story</Button>{' '}
-          <Button bsStyle='danger'>Delete Story</Button>
+          {this.renderPublishStoryButton()}{' '}
+          <Button bsStyle='danger'>Delete {this.props.published? 'Published ' : ''}Story</Button>
         </Panel.Body>
       </Panel>
     );

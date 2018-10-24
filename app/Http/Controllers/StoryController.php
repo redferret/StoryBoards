@@ -27,12 +27,12 @@ class StoryController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function getAll() {
-    $stories = Auth::user()->stories;
+    $stories = Auth::user()->stories()->whereNull('publish_id')->get();
     return $stories;
   }
 
   public function getAllFrom($id) {
-    return User::find($id)->stories;
+    return User::find($id)->stories()->whereNull('publish_id')->get();
   }
 
   public function get($id) {
@@ -52,7 +52,24 @@ class StoryController extends Controller {
       $publishment = $user->publish;
     }
     $story = Story::find($id);
-    $publishment->publishedStories()->save($story->replicate());
+    $published = $story->replicate();
+    $publishment->publishedStories()->save($published);
+    foreach ($story->pages as $page) {
+      $published->pages()->save($page->replicate());
+    }
+    $published->save();
+    $user = Auth::user();
+    $publishment = $user->publish;
+    return $publishment->publishedStories;
+  }
+
+  public function getPublishedStories($id) {
+    $publishment = User::find($id)->publish;
+    if ($publishment == null) {
+      return [];
+    } else {
+      return User::find($id)->publish->publishedStories;
+    }
   }
 
   /**

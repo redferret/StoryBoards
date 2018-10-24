@@ -60,13 +60,15 @@ export default class App extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      stories: []
+      stories: [],
+      publishedStories: []
     }
   }
 
   _onChange() {
     this.setState({
-      stories: BookStore.getStories()
+      stories: BookStore.getStories(),
+      publishedStories: BookStore.getPublishedStories()
     });
   }
 
@@ -125,12 +127,21 @@ export default class App extends React.Component {
         </div>
         <div className='shelf-container'>
           <div className='shelf'>
+            <EditTextModal />
+            <div className='shelf-div'>
+              <div className='shelf-title'>Published Stories</div>
+              <Shelf published stories={this.state.publishedStories} />
+            </div>
+          </div>
+        </div>
+        <div className='shelf-container'>
+          <div className='shelf'>
             <div className='authors-list'>
-              <div className='author-count'># of Authors I'm watching: {watching.length}</div>
+              <div className='shelf-title'># of Authors I'm watching: {watching.length}</div>
               <AuthorsList listTitle='My Watch List' authors={watching} />
             </div>
             <div className='authors-list'>
-              <div className='author-count'># of Authors watching me: {watchers.length}</div>
+              <div className='shelf-title'># of Authors watching me: {watchers.length}</div>
               <AuthorsList listTitle='Authors Watching Me' authors={watchers} />
             </div>
           </div>

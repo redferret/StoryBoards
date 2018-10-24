@@ -48,6 +48,9 @@ Router.registerRoute(Constants.CHANGE_IMAGE, args => {
 Router.registerRoute(Constants.DELETE_STORY, args => {
   return `/stories/${args.story_id}/delete`;
 });
+Router.registerRoute(Constants.GET_PUBLISHED_STORIES, args => {
+  return `/author/${args.user_id}/stories/published`;
+});
 Router.registerRoute(Constants.GET_STORIES, () => {
   return `/stories`;
 });

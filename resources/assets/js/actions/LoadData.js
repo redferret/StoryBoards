@@ -6,6 +6,7 @@ import Router, { checkStatus, handleError } from '../router.js';
 
 import {
   GET_CUR_AUTHOR,
+  GET_PUBLISHED_STORIES,
   GET_STORIES,
   GET_WATCHERS,
   GET_WATCHING,
@@ -29,8 +30,8 @@ Actions.register(LOAD_DATA, payload => {
   })
   .then(checkStatus)
   .then(response => {
-    let user_id = AuthorStore.getAuthorId();
     AuthorStore.setWatchers(response.data);
+    let user_id = AuthorStore.getAuthorId();
     return Axios(Router.request('GET', GET_WATCHING, {
       args: { user_id }
     }));
@@ -38,6 +39,14 @@ Actions.register(LOAD_DATA, payload => {
   .then(checkStatus)
   .then(response => {
     AuthorStore.setWatching(response.data);
+    let user_id = AuthorStore.getAuthorId();
+    return Axios(Router.request('GET', GET_PUBLISHED_STORIES, {
+      args: { user_id }
+    }));
+  })
+  .then(checkStatus)
+  .then(response => {
+    BookStore.setPublishedStories(response.data);
     Actions.finish(payload);
   }).catch(handleError);
 });
