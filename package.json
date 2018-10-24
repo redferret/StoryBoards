@@ -27,11 +27,13 @@
     "react-dom": "^16.5.2"
   },
   "dependencies": {
+    "cursor-position": "0.0.3",
     "flux": "^3.1.3",
     "form-data": "^2.3.2",
     "react-bootstrap": "^0.32.4",
     "react-color": "^2.14.1",
     "react-flip-page": "^1.2.0",
+    "react-image-crop-component": "^1.1.2",
     "react-uid": "^2.1.0",
     "sanitize-html": "^1.19.1"
   },
