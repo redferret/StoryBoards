@@ -43,6 +43,17 @@ class StoryController extends Controller {
     return response()->json(['errors'=>['message'=>'Story not found']], 404);
   }
 
+  public function publish($id) {
+    $user = Auth::user();
+    if ($user->publish == null) {
+      $publishment = $user->publish()->save(Publish::create());
+    } else {
+      $publishment = $user->publish;
+    }
+    $story = Story::find($id);
+    $publishment->publishedStories()->save($story->replicate());
+  }
+
   /**
    * Store a newly created resource in storage.
    *

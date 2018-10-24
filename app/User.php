@@ -17,7 +17,7 @@ class User extends Authenticatable {
     'password', 'remember_token',
   ];
 
-  public function publishedBooks() {
+  public function publish() {
     return $this->hasOne(Publish::class);
   }
 

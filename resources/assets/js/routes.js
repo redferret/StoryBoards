@@ -63,6 +63,9 @@ Router.registerRoute(Constants.CREATE_STORY, () => {
 Router.registerRoute(Constants.UPDATE_STORY, args => {
   return `/stories/${args.story_id}/update`;
 });
+Router.registerRoute(Constants.PUBLISH_STORY, args => {
+  return `/stories/${args.story_id}/publish`;
+});
 
 Router.registerRoute(Constants.DELETE_PAGE, args => {
   return `/pages/${args.page_id}/delete`;

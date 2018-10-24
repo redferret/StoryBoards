@@ -15,3 +15,4 @@ require('./page/UploadImage.js');
 require('./story/CreateStory.js');
 require('./story/GetStories.js');
 require('./story/GetStory.js');
+require('./story/PublishStory.js');
