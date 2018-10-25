@@ -35,6 +35,7 @@ export default class Book extends React.Component {
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
     this.publishStory = this.publishStory.bind(this);
     this.renderPublishStoryButton = this.renderPublishStoryButton.bind(this);
+    this.getTitle = this.getTitle.bind(this);
     this.state = {
       pages: []
     }
@@ -107,12 +108,28 @@ export default class Book extends React.Component {
     }
   }
 
+  getTitle() {
+    if (this.props.published) {
+      let edition = 'First Edition';
+      if (this.props.edition > 1) {
+        edition = `Edition ${this.props.edition}`
+      }
+      return `${this.props.title} - ${edition}`;
+    } else {
+      let draft = 'First Draft';
+      if (this.props.edition > 0) {
+        draft = `Draft ${this.props.edition}`
+      }
+      return `${this.props.title} - ${draft}`;
+    }
+  }
+
   render() {
     return (
       <Panel bsStyle='primary' eventKey={this.props.bookKey}>
         <Panel.Heading>
           <Panel.Title toggle>
-            {this.props.title}
+            {this.getTitle()}
           </Panel.Title>
         </Panel.Heading>
         <Panel.Body collapsible>
