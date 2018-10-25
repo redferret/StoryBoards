@@ -109,6 +109,24 @@ export default class App extends React.Component {
     }
   }
 
+  addToWatchList() {
+    let name = prompt('Enter the pen name of the author you wish to watch', '');
+    if (name != null) {
+      if (/(.|\s)*\S(.|\s)*/.test(name)) {
+        AppDispatcher.dispatch({
+          action: ADD_TO_WATCH_LIST,
+          name,
+          emitOn: [{
+            store: BookStore,
+            componentIds: [MAIN_ID]
+          }]
+        });
+      } else {
+        alert('The name you have entered is invalid. A name must not be empty and contain at least one character.');
+      }
+    }
+  }
+
   render() {
     let watching = AuthorStore.getWatching();
     let watchers = AuthorStore.getWatchers();
@@ -139,6 +157,7 @@ export default class App extends React.Component {
             <div className='authors-list'>
               <div className='shelf-title'># of Authors I'm watching: {watching.length}</div>
               <AuthorsList listTitle='My Watch List' authors={watching} />
+              <Button bsStyle='success' onClick={this.addToWatchList}>Add to Watch List</Button>
             </div>
             <div className='authors-list'>
               <div className='shelf-title'># of Authors watching me: {watchers.length}</div>
