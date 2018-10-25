@@ -83,27 +83,29 @@ export default class RequestResetLink extends React.Component {
     let validation = emailError? 'error' : (status? (status == 200 ? 'success' : 'error') : null);
 
     return (
-      <Form horizontal>
-        <FormGroup>
-          <Col smOffset={3} sm={6}>
-            {status? <Alert bsStyle={status == 200 ? 'success':'danger'}>{message}</Alert> : null}
-          </Col>
-        </FormGroup>
-        <Input smOffset={4} sm={4} name='email' type='email'
-          placeholder='Example@gmail.com'
-          label='Enter Your Email Address'
-          initialValue={this.state.email}
-          validationCallback={() => validation}
-          help={emailError? emailError : ''}
-          callback={this.handleInputChanged}
-          autoComplete='on'/>
+      <div className='auth-form'>
+        <Form horizontal>
+          <FormGroup>
+            <Col smOffset={2} sm={7}>
+              {status? <Alert bsStyle={status == 200 ? 'success':'danger'}>{message}</Alert> : null}
+            </Col>
+          </FormGroup>
+          <Input smOffset={3} sm={5} name='email' type='email'
+            placeholder='Example@gmail.com'
+            label='Enter Your Email Address'
+            initialValue={this.state.email}
+            validationCallback={() => validation}
+            help={emailError? emailError : ''}
+            callback={this.handleInputChanged}
+            autoComplete='on'/>
 
-        <FormGroup>
-          <Col smOffset={4} sm={10}>
-            <Button bsStyle='info' onClick={this.sendResetLink}>Send Password Reset Link</Button>
-          </Col>
-        </FormGroup>
-      </Form>
+          <FormGroup>
+            <Col smOffset={3} sm={12}>
+              <Button bsStyle='info' onClick={this.sendResetLink}>Send Password Reset Link</Button>
+            </Col>
+          </FormGroup>
+        </Form>
+      </div>
     );
   }
 }

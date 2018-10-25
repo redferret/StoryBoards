@@ -77,42 +77,44 @@ export default class RegisterForm extends React.Component {
     let emailError = errors? errors.email : null;
     let passwordError = errors? errors.password : null;
     return (
-      <Form horizontal>
-        <Input smOffset={4} sm={4} name='name' type='text'
-          placeholder='John Doe'
-          label='Name'
-          initialValue={this.state.name}
-          autoComplete='on'
-          callback={this.handleInputChanged}/>
+      <div className='auth-form'>
+        <Form horizontal>
+          <Input smOffset={3} sm={5} name='name' type='text'
+            placeholder='John Doe'
+            label='Pen Name'
+            initialValue={this.state.name}
+            autoComplete='on'
+            callback={this.handleInputChanged}/>
 
-        <Input smOffset={4} sm={4} name='email' type='email'
-          placeholder='Example@gmail.com'
-          label='Email'
-          initialValue={this.state.email}
-          validationCallback={() => emailError? 'error' : null}
-          help={emailError? emailError : ''}
-          callback={this.handleInputChanged}
-          autoComplete='on'/>
+          <Input smOffset={3} sm={5} name='email' type='email'
+            placeholder='Example@gmail.com'
+            label='Email'
+            initialValue={this.state.email}
+            validationCallback={() => emailError? 'error' : null}
+            help={emailError? emailError : ''}
+            callback={this.handleInputChanged}
+            autoComplete='on'/>
 
-        <Input smOffset={4} sm={4} name='password' type='password'
-          label='Password'
-          initialValue={this.state.password}
-          validationCallback={() => passwordError? 'error' : null}
-          help={passwordError? passwordError : ''}
-          callback={this.handleInputChanged}/>
+          <Input smOffset={3} sm={5} name='password' type='password'
+            label='Password'
+            initialValue={this.state.password}
+            validationCallback={() => passwordError? 'error' : null}
+            help={passwordError? passwordError : ''}
+            callback={this.handleInputChanged}/>
 
-        <Input smOffset={4} sm={4} name='password_confirmation'
-          type='password'
-          label='Confirm Password'
-          initialValue={this.state.password_confirmation}
-          callback={this.handleInputChanged}/>
+          <Input smOffset={3} sm={5} name='password_confirmation'
+            type='password'
+            label='Confirm Password'
+            initialValue={this.state.password_confirmation}
+            callback={this.handleInputChanged}/>
 
-        <FormGroup>
-          <Col smOffset={4} sm={10}>
-            <Button onClick={this.postRegister}>Register</Button>
-          </Col>
-        </FormGroup>
-      </Form>
+          <FormGroup>
+            <Col smOffset={3} sm={12}>
+              <Button onClick={this.postRegister}>Register</Button>
+            </Col>
+          </FormGroup>
+        </Form>
+      </div>
     );
   }
 }

@@ -78,36 +78,38 @@ export default class LoginForm extends React.Component {
     let emailError = errors? errors.email : null;
     let passwordError = errors? errors.password : null;
     return (
-      <Form horizontal>
-        <Input smOffset={4} sm={4} name='email' type='email'
-          placeholder='Example@gmail.com'
-          label='Email'
-          initialValue={this.state.email}
-          validationCallback={() => emailError? 'error' : null}
-          help={emailError? emailError : ''}
-          callback={this.handleInputChanged}
-          autoComplete='on'/>
+      <div className='auth-form'>
+        <Form horizontal>
+          <Input smOffset={3} sm={5} name='email' type='email'
+            placeholder='Example@gmail.com'
+            label='Email'
+            initialValue={this.state.email}
+            validationCallback={() => emailError? 'error' : null}
+            help={emailError? emailError : ''}
+            callback={this.handleInputChanged}
+            autoComplete='on'/>
 
-        <Input smOffset={4} sm={4} name='password' type='password'
-          label='Password'
-          initialValue={this.state.password}
-          validationCallback={() => passwordError? 'error' : null}
-          help={passwordError? passwordError : ''}
-          callback={this.handleInputChanged}/>
+          <Input smOffset={3} sm={5} name='password' type='password'
+            label='Password'
+            initialValue={this.state.password}
+            validationCallback={() => passwordError? 'error' : null}
+            help={passwordError? passwordError : ''}
+            callback={this.handleInputChanged}/>
 
-        <FormGroup>
-          <Col smOffset={4} sm={4}>
-            <Checkbox id='rememberMe'>Remember me</Checkbox>
-            <a href={Router.route(SHOW_PASSWORD_RESET)}>Forgot Password</a>
-          </Col>
-        </FormGroup>
+          <FormGroup>
+            <Col smOffset={3} sm={5}>
+              <Checkbox id='rememberMe'>Remember me</Checkbox>
+              <a className='forgot-password' href={Router.route(SHOW_PASSWORD_RESET)}>Forgot Password</a>
+            </Col>
+          </FormGroup>
 
-        <FormGroup>
-          <Col smOffset={4} sm={10}>
-            <Button onClick={this.postLogin}>Sign in</Button>
-          </Col>
-        </FormGroup>
-      </Form>
+          <FormGroup>
+            <Col smOffset={3} sm={12}>
+              <Button onClick={this.postLogin}>Sign in</Button>
+            </Col>
+          </FormGroup>
+        </Form>
+      </div>
     );
   }
 }

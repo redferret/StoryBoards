@@ -79233,6 +79233,25 @@ var App = function (_React$Component2) {
       }
     }
   }, {
+    key: 'addToWatchList',
+    value: function addToWatchList() {
+      var name = prompt('Enter the pen name of the author you wish to watch', '');
+      if (name != null) {
+        if (/(.|\s)*\S(.|\s)*/.test(name)) {
+          _dispatcher2.default.dispatch({
+            action: ADD_TO_WATCH_LIST,
+            name: name,
+            emitOn: [{
+              store: _BookStore2.default,
+              componentIds: [_constants.MAIN_ID]
+            }]
+          });
+        } else {
+          alert('The name you have entered is invalid. A name must not be empty and contain at least one character.');
+        }
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var watching = _AuthorStore2.default.getWatching();
@@ -79297,7 +79316,12 @@ var App = function (_React$Component2) {
                 '# of Authors I\'m watching: ',
                 watching.length
               ),
-              _react2.default.createElement(AuthorsList, { listTitle: 'My Watch List', authors: watching })
+              _react2.default.createElement(AuthorsList, { listTitle: 'My Watch List', authors: watching }),
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { bsStyle: 'success', onClick: this.addToWatchList },
+                'Add to Watch List'
+              )
             ),
             _react2.default.createElement(
               'div',
@@ -104146,54 +104170,58 @@ var LoginForm = function (_React$Component) {
       var emailError = errors ? errors.email : null;
       var passwordError = errors ? errors.password : null;
       return _react2.default.createElement(
-        _reactBootstrap.Form,
-        { horizontal: true },
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'email', type: 'email',
-          placeholder: 'Example@gmail.com',
-          label: 'Email',
-          initialValue: this.state.email,
-          validationCallback: function validationCallback() {
-            return emailError ? 'error' : null;
-          },
-          help: emailError ? emailError : '',
-          callback: this.handleInputChanged,
-          autoComplete: 'on' }),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'password', type: 'password',
-          label: 'Password',
-          initialValue: this.state.password,
-          validationCallback: function validationCallback() {
-            return passwordError ? 'error' : null;
-          },
-          help: passwordError ? passwordError : '',
-          callback: this.handleInputChanged }),
+        'div',
+        { className: 'auth-form' },
         _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
+          _reactBootstrap.Form,
+          { horizontal: true },
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'email', type: 'email',
+            placeholder: 'Example@gmail.com',
+            label: 'Email',
+            initialValue: this.state.email,
+            validationCallback: function validationCallback() {
+              return emailError ? 'error' : null;
+            },
+            help: emailError ? emailError : '',
+            callback: this.handleInputChanged,
+            autoComplete: 'on' }),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'password', type: 'password',
+            label: 'Password',
+            initialValue: this.state.password,
+            validationCallback: function validationCallback() {
+              return passwordError ? 'error' : null;
+            },
+            help: passwordError ? passwordError : '',
+            callback: this.handleInputChanged }),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { smOffset: 4, sm: 4 },
+            _reactBootstrap.FormGroup,
+            null,
             _react2.default.createElement(
-              _reactBootstrap.Checkbox,
-              { id: 'rememberMe' },
-              'Remember me'
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: _router2.default.route(_constants.SHOW_PASSWORD_RESET) },
-              'Forgot Password'
+              _reactBootstrap.Col,
+              { smOffset: 3, sm: 5 },
+              _react2.default.createElement(
+                _reactBootstrap.Checkbox,
+                { id: 'rememberMe' },
+                'Remember me'
+              ),
+              _react2.default.createElement(
+                'a',
+                { className: 'forgot-password', href: _router2.default.route(_constants.SHOW_PASSWORD_RESET) },
+                'Forgot Password'
+              )
             )
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
+          ),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { smOffset: 4, sm: 10 },
+            _reactBootstrap.FormGroup,
+            null,
             _react2.default.createElement(
-              _reactBootstrap.Button,
-              { onClick: this.postLogin },
-              'Sign in'
+              _reactBootstrap.Col,
+              { smOffset: 3, sm: 12 },
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { onClick: this.postLogin },
+                'Sign in'
+              )
             )
           )
         )
@@ -104325,47 +104353,51 @@ var RegisterForm = function (_React$Component) {
       var emailError = errors ? errors.email : null;
       var passwordError = errors ? errors.password : null;
       return _react2.default.createElement(
-        _reactBootstrap.Form,
-        { horizontal: true },
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'name', type: 'text',
-          placeholder: 'John Doe',
-          label: 'Name',
-          initialValue: this.state.name,
-          autoComplete: 'on',
-          callback: this.handleInputChanged }),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'email', type: 'email',
-          placeholder: 'Example@gmail.com',
-          label: 'Email',
-          initialValue: this.state.email,
-          validationCallback: function validationCallback() {
-            return emailError ? 'error' : null;
-          },
-          help: emailError ? emailError : '',
-          callback: this.handleInputChanged,
-          autoComplete: 'on' }),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'password', type: 'password',
-          label: 'Password',
-          initialValue: this.state.password,
-          validationCallback: function validationCallback() {
-            return passwordError ? 'error' : null;
-          },
-          help: passwordError ? passwordError : '',
-          callback: this.handleInputChanged }),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'password_confirmation',
-          type: 'password',
-          label: 'Confirm Password',
-          initialValue: this.state.password_confirmation,
-          callback: this.handleInputChanged }),
+        'div',
+        { className: 'auth-form' },
         _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
+          _reactBootstrap.Form,
+          { horizontal: true },
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'name', type: 'text',
+            placeholder: 'John Doe',
+            label: 'Pen Name',
+            initialValue: this.state.name,
+            autoComplete: 'on',
+            callback: this.handleInputChanged }),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'email', type: 'email',
+            placeholder: 'Example@gmail.com',
+            label: 'Email',
+            initialValue: this.state.email,
+            validationCallback: function validationCallback() {
+              return emailError ? 'error' : null;
+            },
+            help: emailError ? emailError : '',
+            callback: this.handleInputChanged,
+            autoComplete: 'on' }),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'password', type: 'password',
+            label: 'Password',
+            initialValue: this.state.password,
+            validationCallback: function validationCallback() {
+              return passwordError ? 'error' : null;
+            },
+            help: passwordError ? passwordError : '',
+            callback: this.handleInputChanged }),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'password_confirmation',
+            type: 'password',
+            label: 'Confirm Password',
+            initialValue: this.state.password_confirmation,
+            callback: this.handleInputChanged }),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { smOffset: 4, sm: 10 },
+            _reactBootstrap.FormGroup,
+            null,
             _react2.default.createElement(
-              _reactBootstrap.Button,
-              { onClick: this.postRegister },
-              'Register'
+              _reactBootstrap.Col,
+              { smOffset: 3, sm: 12 },
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { onClick: this.postRegister },
+                'Register'
+              )
             )
           )
         )
@@ -104502,41 +104534,45 @@ var RequestResetLink = function (_React$Component) {
       var validation = emailError ? 'error' : status ? status == 200 ? 'success' : 'error' : null;
 
       return _react2.default.createElement(
-        _reactBootstrap.Form,
-        { horizontal: true },
+        'div',
+        { className: 'auth-form' },
         _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
+          _reactBootstrap.Form,
+          { horizontal: true },
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { smOffset: 3, sm: 6 },
-            status ? _react2.default.createElement(
-              _reactBootstrap.Alert,
-              { bsStyle: status == 200 ? 'success' : 'danger' },
-              message
-            ) : null
-          )
-        ),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'email', type: 'email',
-          placeholder: 'Example@gmail.com',
-          label: 'Enter Your Email Address',
-          initialValue: this.state.email,
-          validationCallback: function validationCallback() {
-            return validation;
-          },
-          help: emailError ? emailError : '',
-          callback: this.handleInputChanged,
-          autoComplete: 'on' }),
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { smOffset: 4, sm: 10 },
+            _reactBootstrap.FormGroup,
+            null,
             _react2.default.createElement(
-              _reactBootstrap.Button,
-              { bsStyle: 'info', onClick: this.sendResetLink },
-              'Send Password Reset Link'
+              _reactBootstrap.Col,
+              { smOffset: 2, sm: 7 },
+              status ? _react2.default.createElement(
+                _reactBootstrap.Alert,
+                { bsStyle: status == 200 ? 'success' : 'danger' },
+                message
+              ) : null
+            )
+          ),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'email', type: 'email',
+            placeholder: 'Example@gmail.com',
+            label: 'Enter Your Email Address',
+            initialValue: this.state.email,
+            validationCallback: function validationCallback() {
+              return validation;
+            },
+            help: emailError ? emailError : '',
+            callback: this.handleInputChanged,
+            autoComplete: 'on' }),
+          _react2.default.createElement(
+            _reactBootstrap.FormGroup,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { smOffset: 3, sm: 12 },
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { bsStyle: 'info', onClick: this.sendResetLink },
+                'Send Password Reset Link'
+              )
             )
           )
         )
@@ -104680,53 +104716,57 @@ var ResetPasswordForm = function (_React$Component) {
       var message = this.state.message;
 
       return _react2.default.createElement(
-        _reactBootstrap.Form,
-        null,
+        'div',
+        { className: 'auth-form' },
         _react2.default.createElement(
-          _reactBootstrap.FormGroup,
+          _reactBootstrap.Form,
           null,
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { smOffset: 3, sm: 6 },
-            status ? _react2.default.createElement(
-              Alert,
-              { bsStyle: status == 200 ? 'success' : 'danger' },
-              message
-            ) : null
-          )
-        ),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'email', type: 'email',
-          placeholder: 'Example@gmail.com',
-          label: 'Email',
-          initialValue: this.state.email,
-          validationCallback: function validationCallback() {
-            return emailError ? 'error' : null;
-          },
-          help: emailError ? emailError : '',
-          callback: this.handleInputChanged,
-          autoComplete: 'on' }),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'password', type: 'password',
-          label: 'Password',
-          initialValue: this.state.password,
-          validationCallback: function validationCallback() {
-            return passwordError ? 'error' : null;
-          },
-          help: passwordError ? passwordError : '',
-          callback: this.handleInputChanged }),
-        _react2.default.createElement(_Input2.default, { smOffset: 4, sm: 4, name: 'password_confirmation', type: 'password',
-          label: 'Confirm Password',
-          initialValue: this.state.password_confirmation,
-          callback: this.handleInputChanged }),
-        _react2.default.createElement(
-          _reactBootstrap.FormGroup,
-          null,
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { smOffset: 4, sm: 10 },
+            _reactBootstrap.FormGroup,
+            null,
             _react2.default.createElement(
-              _reactBootstrap.Button,
-              { onClick: this.sendResetPassword },
-              'Reset Password'
+              _reactBootstrap.Col,
+              { smOffset: 2, sm: 7 },
+              status ? _react2.default.createElement(
+                Alert,
+                { bsStyle: status == 200 ? 'success' : 'danger' },
+                message
+              ) : null
+            )
+          ),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'email', type: 'email',
+            placeholder: 'Example@gmail.com',
+            label: 'Email',
+            initialValue: this.state.email,
+            validationCallback: function validationCallback() {
+              return emailError ? 'error' : null;
+            },
+            help: emailError ? emailError : '',
+            callback: this.handleInputChanged,
+            autoComplete: 'on' }),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'password', type: 'password',
+            label: 'Password',
+            initialValue: this.state.password,
+            validationCallback: function validationCallback() {
+              return passwordError ? 'error' : null;
+            },
+            help: passwordError ? passwordError : '',
+            callback: this.handleInputChanged }),
+          _react2.default.createElement(_Input2.default, { smOffset: 3, sm: 5, name: 'password_confirmation', type: 'password',
+            label: 'Confirm Password',
+            initialValue: this.state.password_confirmation,
+            callback: this.handleInputChanged }),
+          _react2.default.createElement(
+            _reactBootstrap.FormGroup,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { smOffset: 3, sm: 12 },
+              _react2.default.createElement(
+                _reactBootstrap.Button,
+                { onClick: this.sendResetPassword },
+                'Reset Password'
+              )
             )
           )
         )

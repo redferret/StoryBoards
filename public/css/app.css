@@ -16,6 +16,20 @@ textarea {
   resize: none;
 }
 
+.auth-form {
+  margin: auto;
+  width: 75%;
+  color: white;
+}
+
+.forgot-password {
+  color: white;
+}
+
+.forgot-password:hover {
+  color: black;
+}
+
 .add-story-button {
   padding-left: 10px;
 }
