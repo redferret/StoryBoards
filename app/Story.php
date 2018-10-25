@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Story extends Model {
 
-  protected $fillable = ['title'];
+  protected $fillable = ['title', 'edition'];
 
   public function published() {
     return $this->belongsTo(Published::class);

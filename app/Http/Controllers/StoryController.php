@@ -52,15 +52,15 @@ class StoryController extends Controller {
       $publishment = $user->publish;
     }
     $story = Story::find($id);
+    $story->edition++;
+    $story->save();
     $published = $story->replicate();
     $publishment->publishedStories()->save($published);
     foreach ($story->pages as $page) {
       $published->pages()->save($page->replicate());
     }
     $published->save();
-    $user = Auth::user();
-    $publishment = $user->publish;
-    return $publishment->publishedStories;
+    return Auth::user()->publish->publishedStories;
   }
 
   public function getPublishedStories($id) {

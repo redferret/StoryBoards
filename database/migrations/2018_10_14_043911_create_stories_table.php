@@ -14,6 +14,7 @@ class CreateStoriesTable extends Migration {
     Schema::create('stories', function (Blueprint $table) {
       $table->increments('id');
       $table->string('title')->default('New Story');
+      $table->integer('edition')->default(0);
       $table->integer('publish_id')->unsigned()->nullable();
       $table->integer('user_id')->unsigned()->nullable();
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
