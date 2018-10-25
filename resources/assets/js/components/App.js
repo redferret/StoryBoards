@@ -94,7 +94,7 @@ export default class App extends React.Component {
   addNewStory() {
     let title = prompt('Enter the title of your new Story', 'New Story');
     if (title != null) {
-      if (/(.|\s)*\S(.|\s)*/.test(name)) {
+      if (/(.|\s)*\S(.|\s)*/.test(title)) {
         AppDispatcher.dispatch({
           action: CREATE_STORY,
           title,
