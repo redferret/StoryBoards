@@ -113,6 +113,11 @@ class StoryController extends Controller {
    */
   public function destroy($id) {
     Story::find($id)->delete();
-    return response()->json(['message'=>'Story Deleted'], 200);
+    return Auth::user()->stories;
+  }
+
+  public function destroyPublished($id) {
+    Story::find($id)->delete();
+    return Auth::user()->publish->publishedStories;
   }
 }

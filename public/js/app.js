@@ -484,6 +484,7 @@ var UPDATE_PAGE = exports.UPDATE_PAGE = 'update-page';
 
 var CREATE_STORY = exports.CREATE_STORY = 'create-story';
 var DELETE_STORY = exports.DELETE_STORY = 'delete-story';
+var DELETE_PUBLISHED_STORY = exports.DELETE_PUBLISHED_STORY = 'delete-published-story';
 var GET_PUBLISHED_STORIES = exports.GET_PUBLISHED_STORIES = 'get-published-stories';
 var GET_STORIES = exports.GET_STORIES = 'get-stories';
 var GET_STORIES_FROM = exports.GET_STORIES_FROM = 'get-stories-from';
@@ -18133,6 +18134,8 @@ var Book = function (_React$Component) {
     _this.publishStory = _this.publishStory.bind(_this);
     _this.renderPublishStoryButton = _this.renderPublishStoryButton.bind(_this);
     _this.getTitle = _this.getTitle.bind(_this);
+    _this.deleteStory = _this.deleteStory.bind(_this);
+
     _this.state = {
       pages: []
     };
@@ -18209,6 +18212,25 @@ var Book = function (_React$Component) {
       }
     }
   }, {
+    key: 'deleteStory',
+    value: function deleteStory() {
+      if (confirm('Are you sure you want to delete ' + this.getTitle() + '?')) {
+        var action = this.props.published ? _constants.DELETE_PUBLISHED_STORY : _constants.DELETE_STORY;
+        var story_id = this.props.id;
+        _dispatcher2.default.dispatch({
+          action: action,
+          story_id: story_id,
+          emitOn: [{
+            store: _BookStore2.default,
+            componentIds: [_constants.MAIN_ID]
+          }, {
+            store: _ShelfStore2.default,
+            componentIds: [_constants.SHELF_ID]
+          }]
+        });
+      }
+    }
+  }, {
     key: 'renderPublishStoryButton',
     value: function renderPublishStoryButton() {
       if (this.props.published) {
@@ -18229,13 +18251,13 @@ var Book = function (_React$Component) {
         if (this.props.edition > 1) {
           edition = 'Edition ' + this.props.edition;
         }
-        return this.props.title + ' - ' + edition;
+        return this.props.title + ', ' + edition;
       } else {
         var draft = 'First Draft';
         if (this.props.edition > 0) {
           draft = 'Draft ' + this.props.edition;
         }
-        return this.props.title + ' - ' + draft;
+        return this.props.title + ', ' + draft;
       }
     }
   }, {
@@ -18313,7 +18335,7 @@ var Book = function (_React$Component) {
           ' ',
           _react2.default.createElement(
             _reactBootstrap.Button,
-            { bsStyle: 'danger' },
+            { bsStyle: 'danger', onClick: this.deleteStory },
             'Delete ',
             this.props.published ? 'Published ' : '',
             'Story'
@@ -78179,6 +78201,7 @@ __webpack_require__(234);
 __webpack_require__(235);
 __webpack_require__(236);
 __webpack_require__(237);
+__webpack_require__(477);
 __webpack_require__(238);
 __webpack_require__(239);
 __webpack_require__(240);
@@ -78930,6 +78953,9 @@ _router2.default.registerRoute(Constants.CHANGE_IMAGE, function (args) {
  */
 _router2.default.registerRoute(Constants.DELETE_STORY, function (args) {
   return '/stories/' + args.story_id + '/delete';
+});
+_router2.default.registerRoute(Constants.DELETE_PUBLISHED_STORY, function (args) {
+  return '/stories/published/' + args.story_id + '/delete';
 });
 _router2.default.registerRoute(Constants.GET_PUBLISHED_STORIES, function (args) {
   return '/author/' + args.user_id + '/stories/published';
@@ -104718,6 +104744,58 @@ exports.default = ResetPasswordForm;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _AppActions = __webpack_require__(12);
+
+var _AppActions2 = _interopRequireDefault(_AppActions);
+
+var _axios = __webpack_require__(11);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _BookStore = __webpack_require__(13);
+
+var _BookStore2 = _interopRequireDefault(_BookStore);
+
+var _router = __webpack_require__(9);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _constants = __webpack_require__(7);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_AppActions2.default.register(_constants.DELETE_PUBLISHED_STORY, function (payload) {
+  var story_id = payload.story_id;
+  (0, _axios2.default)(_router2.default.request('DELETE', _constants.DELETE_PUBLISHED_STORY, {
+    args: { story_id: story_id }
+  })).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setPublishedStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
+
+_AppActions2.default.register(_constants.DELETE_STORY, function (payload) {
+  var story_id = payload.story_id;
+  (0, _axios2.default)(_router2.default.request('DELETE', _constants.DELETE_STORY, {
+    args: { story_id: story_id }
+  })).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
+    _AppActions2.default.finish(payload);
+  }).catch(_router.handleError);
+});
 
 /***/ })
 /******/ ]);

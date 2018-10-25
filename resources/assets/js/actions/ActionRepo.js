@@ -13,6 +13,7 @@ require('./page/RemoveImage.js');
 require('./page/UpdatePage.js');
 require('./page/UploadImage.js');
 require('./story/CreateStory.js');
+require('./story/DeleteStory.js');
 require('./story/GetStories.js');
 require('./story/GetStory.js');
 require('./story/PublishStory.js');

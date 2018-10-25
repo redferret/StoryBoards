@@ -12,6 +12,8 @@ import {uid} from 'react-uid';
 import {
   BOOK_ID,
   CREATE_PAGE,
+  DELETE_PUBLISHED_STORY,
+  DELETE_STORY,
   GET_STORY,
   IMAGE_ASSET,
   MAIN_ID,
@@ -37,6 +39,8 @@ export default class Book extends React.Component {
     this.publishStory = this.publishStory.bind(this);
     this.renderPublishStoryButton = this.renderPublishStoryButton.bind(this);
     this.getTitle = this.getTitle.bind(this);
+    this.deleteStory = this.deleteStory.bind(this);
+
     this.state = {
       pages: []
     }
@@ -104,6 +108,24 @@ export default class Book extends React.Component {
     }
   }
 
+  deleteStory() {
+    if (confirm(`Are you sure you want to delete ${this.getTitle()}?`)) {
+      let action = this.props.published? DELETE_PUBLISHED_STORY : DELETE_STORY;
+      let story_id = this.props.id;
+      AppDispatcher.dispatch({
+        action,
+        story_id,
+        emitOn: [{
+          store: BookStore,
+          componentIds: [MAIN_ID]
+        }, {
+          store: ShelfStore,
+          componentIds: [SHELF_ID]
+        }]
+      });
+    }
+  }
+
   renderPublishStoryButton() {
     if (this.props.published) {
       return null;
@@ -118,13 +140,13 @@ export default class Book extends React.Component {
       if (this.props.edition > 1) {
         edition = `Edition ${this.props.edition}`
       }
-      return `${this.props.title} - ${edition}`;
+      return `${this.props.title}, ${edition}`;
     } else {
       let draft = 'First Draft';
       if (this.props.edition > 0) {
         draft = `Draft ${this.props.edition}`
       }
-      return `${this.props.title} - ${draft}`;
+      return `${this.props.title}, ${draft}`;
     }
   }
 
@@ -170,7 +192,9 @@ export default class Book extends React.Component {
           </div>
           <br/>
           {this.renderPublishStoryButton()}{' '}
-          <Button bsStyle='danger'>Delete {this.props.published? 'Published ' : ''}Story</Button>
+          <Button bsStyle='danger' onClick={this.deleteStory}>
+            Delete {this.props.published? 'Published ' : '' }Story
+          </Button>
         </Panel.Body>
       </Panel>
     );
