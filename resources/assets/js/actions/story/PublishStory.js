@@ -4,6 +4,7 @@ import BookStore from '../../stores/BookStore.js';
 import Router, { checkStatus, handleError } from '../../router.js';
 
 import {
+  GET_STORIES,
   PUBLISH_STORY,
 } from '../../constants.js';
 
@@ -15,6 +16,10 @@ Actions.register(PUBLISH_STORY, payload => {
   .then(checkStatus)
   .then(response => {
     BookStore.setPublishedStories(response.data);
+    return Axios(Router.request('GET', GET_STORIES));
+  }).then(checkStatus)
+  .then(response => {
+    BookStore.setStories(response.data);
     Actions.finish(payload);
   }).catch(handleError);
 });

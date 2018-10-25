@@ -18201,6 +18201,9 @@ var Book = function (_React$Component) {
           emitOn: [{
             store: _BookStore2.default,
             componentIds: [_constants.MAIN_ID]
+          }, {
+            store: _ShelfStore2.default,
+            componentIds: [_constants.SHELF_ID]
           }]
         });
       }
@@ -78855,6 +78858,9 @@ _AppActions2.default.register(_constants.PUBLISH_STORY, function (payload) {
     args: { story_id: story_id }
   })).then(_router.checkStatus).then(function (response) {
     _BookStore2.default.setPublishedStories(response.data);
+    return (0, _axios2.default)(_router2.default.request('GET', _constants.GET_STORIES));
+  }).then(_router.checkStatus).then(function (response) {
+    _BookStore2.default.setStories(response.data);
     _AppActions2.default.finish(payload);
   }).catch(_router.handleError);
 });
@@ -79186,7 +79192,7 @@ var App = function (_React$Component2) {
     value: function addNewStory() {
       var title = prompt('Enter the title of your new Story', 'New Story');
       if (title != null) {
-        if (/(.|\s)*\S(.|\s)*/.test(name)) {
+        if (/(.|\s)*\S(.|\s)*/.test(title)) {
           _dispatcher2.default.dispatch({
             action: _constants.CREATE_STORY,
             title: title,
@@ -103780,9 +103786,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _ShelfStore = __webpack_require__(398);
+
+var _ShelfStore2 = _interopRequireDefault(_ShelfStore);
+
 var _reactUid = __webpack_require__(78);
 
 var _reactBootstrap = __webpack_require__(23);
+
+var _constants = __webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -103811,6 +103823,24 @@ var Shelf = function (_React$Component) {
   }
 
   _createClass(Shelf, [{
+    key: '_forceClose',
+    value: function _forceClose() {
+      this.setState({
+        bookActiveKey: -1,
+        renderToggle: !this.state.renderToggle
+      });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      _ShelfStore2.default.on(_constants.SHELF_ID, this._forceClose.bind(this));
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _ShelfStore2.default.removeListener(_constants.SHELF_ID, this._forceClose.bind(this));
+    }
+  }, {
     key: 'handleShelfPanelSelect',
     value: function handleShelfPanelSelect(bookActiveKey) {
       this.setState({

@@ -16,6 +16,7 @@ import {
   IMAGE_ASSET,
   MAIN_ID,
   PUBLISH_STORY,
+  SHELF_ID,
   UPLOAD_IMAGE,
 } from '../constants.js';
 
@@ -95,6 +96,9 @@ export default class Book extends React.Component {
         emitOn: [{
           store: BookStore,
           componentIds: [MAIN_ID]
+        }, {
+          store: ShelfStore,
+          componentIds: [SHELF_ID]
         }]
       });
     }
