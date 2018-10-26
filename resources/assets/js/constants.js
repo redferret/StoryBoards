@@ -18,6 +18,7 @@ export const SEND_PASSWORD_RESET_FORM                   = 'send-password-reset-f
 export const BOOK_ID                                    = 'book-id';
 export const MAIN_ID                                    = 'main-id';
 export const PUBLISHED_STORIES_ID                       = 'published-stories-id';
+export const EDIT_TEXT_ID                               = 'edit-text-id';
 export const PAGE_ID                                    = 'page-id';
 export const SHELF_ID                                   = 'shelf-id';
 export const STORY_ID                                   = 'story-id';

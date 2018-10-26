@@ -7,7 +7,7 @@ var sanitizeHtml = require('sanitize-html');
 
 import { componentId } from './Book.js';
 import { Button, Modal } from 'react-bootstrap';
-import { MAIN_ID, MODAL_ID, UPDATE_PAGE } from '../constants.js';
+import { MAIN_ID, EDIT_TEXT_ID, UPDATE_PAGE } from '../constants.js';
 
 export default class EditTextModal extends React.Component {
   constructor(props, context) {
@@ -34,20 +34,20 @@ export default class EditTextModal extends React.Component {
 
   componentDidMount() {
     this._isMounted = true;
-    ModalStore.on(MODAL_ID, this._onChange.bind(this));
+    ModalStore.on(EDIT_TEXT_ID, this._onChange.bind(this));
   }
 
   componentWillUnmount() {
     this._isMounted = false;
-    ModalStore.removeListener(MODAL_ID, this._onChange.bind(this));
+    ModalStore.removeListener(EDIT_TEXT_ID, this._onChange.bind(this));
   }
 
   handleClose() {
-    ModalStore.triggerModal(false);
+    ModalStore.triggerModal(false, EDIT_TEXT_ID);
   }
 
   handleSavePageText() {
-    ModalStore.triggerModal(false);
+    ModalStore.triggerModal(false, EDIT_TEXT_ID);
     AppDispatcher.dispatch({
       action: UPDATE_PAGE,
       page_id: ModalStore.getPageId(),

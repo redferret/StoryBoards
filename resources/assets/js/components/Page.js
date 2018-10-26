@@ -13,6 +13,7 @@ import { uid } from 'react-uid';
 import {
   CREATE_PAGE,
   DELETE_PAGE,
+  EDIT_TEXT_ID,
   IMAGE_ASSET,
   MAIN_ID,
   PAGE_ID,
@@ -40,7 +41,7 @@ export default class Page extends React.Component {
     ModalStore.setTheCurrentPageText(this.props.text);
     ModalStore.setPageId(this.props.id);
     ModalStore.setBookKey(this.props.bookKey);
-    ModalStore.triggerModal(true);
+    ModalStore.triggerModal(true, EDIT_TEXT_ID);
   }
 
   removePageImage() {
