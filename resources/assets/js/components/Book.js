@@ -7,7 +7,7 @@ import React from 'react';
 import Router from '../router.js';
 import ShelfStore from '../stores/ShelfStore.js';
 
-import {uid} from 'react-uid';
+import { uid } from 'react-uid';
 
 import {
   BOOK_ID,

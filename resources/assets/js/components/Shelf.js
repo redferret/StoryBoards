@@ -5,7 +5,7 @@ import FlipPage from 'react-flip-page';
 import React from 'react';
 import ShelfStore from '../stores/ShelfStore.js';
 
-import {uid} from 'react-uid';
+import { uid } from 'react-uid';
 
 import {
   PanelGroup,

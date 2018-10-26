@@ -8,7 +8,7 @@ import Router from '../router.js';
 
 import { componentId } from './Book.js';
 
-import {uid} from 'react-uid';
+import { uid } from 'react-uid';
 
 import {
   CREATE_PAGE,
