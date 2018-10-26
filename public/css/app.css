@@ -19,15 +19,18 @@ textarea {
 .auth-form {
   margin: auto;
   width: 75%;
-  color: white;
+  background-color: #adbbd1;
+  border-radius: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .forgot-password {
-  color: white;
+  color: blue;
 }
 
 .forgot-password:hover {
-  color: black;
+  color: red;
 }
 
 .add-story-button {

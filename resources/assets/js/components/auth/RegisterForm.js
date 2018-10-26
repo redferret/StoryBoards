@@ -74,6 +74,7 @@ export default class RegisterForm extends React.Component {
 
   render() {
     let errors = this.state.errors;
+    let nameError = errors? errors.name : null;
     let emailError = errors? errors.email : null;
     let passwordError = errors? errors.password : null;
     return (
@@ -83,6 +84,8 @@ export default class RegisterForm extends React.Component {
             placeholder='John Doe'
             label='Pen Name'
             initialValue={this.state.name}
+            validationCallback={() => nameError? 'error' : null}
+            help={nameError? nameError : ''}
             autoComplete='on'
             callback={this.handleInputChanged}/>
 
