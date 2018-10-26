@@ -171,7 +171,7 @@ export default class Book extends React.Component {
                 onPageChange={this.updateCurrentPage}
                 ref={(ref) => {this.bookRef = ref}}
                 orientation='horizontal'
-                width={740} height={800}
+                width={680} height={800}
                 animationDuration={300}>
                 {this.state.pages.map((page, index) =>
                   <Page
