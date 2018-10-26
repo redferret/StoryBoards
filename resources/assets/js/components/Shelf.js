@@ -40,6 +40,10 @@ export default class Shelf extends React.Component {
     ShelfStore.removeListener(SHELF_ID, this._forceClose.bind(this));
   }
 
+  close() {
+    this._forceClose();
+  }
+
   handleShelfPanelSelect(bookActiveKey) {
     this.setState({
       bookActiveKey,
