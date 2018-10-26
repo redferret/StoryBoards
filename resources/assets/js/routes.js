@@ -97,3 +97,6 @@ Router.registerRoute(Constants.GET_WATCHING, args => {
 Router.registerRoute(Constants.GET_CUR_AUTHOR, () => {
   return '/author';
 });
+Router.registerRoute(Constants.WATCH_AUTHOR, args => {
+  return `/author/${args.name}/watch`;
+});

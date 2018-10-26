@@ -11,6 +11,7 @@ import {
   CREATE_STORY,
   LOAD_DATA,
   MAIN_ID,
+  WATCH_AUTHOR,
 } from '../constants.js';
 
 class AuthorsList extends React.Component {
@@ -61,14 +62,18 @@ export default class App extends React.Component {
     super(props, context);
     this.state = {
       stories: [],
-      publishedStories: []
+      publishedStories: [],
+      watching: [],
+      watchers: []
     }
   }
 
   _onChange() {
     this.setState({
       stories: BookStore.getStories(),
-      publishedStories: BookStore.getPublishedStories()
+      publishedStories: BookStore.getPublishedStories(),
+      watching: AuthorStore.getWatching(),
+      watchers: AuthorStore.getWatchers()
     });
   }
 
@@ -114,7 +119,7 @@ export default class App extends React.Component {
     if (name != null) {
       if (/(.|\s)*\S(.|\s)*/.test(name)) {
         AppDispatcher.dispatch({
-          action: ADD_TO_WATCH_LIST,
+          action: WATCH_AUTHOR,
           name,
           emitOn: [{
             store: BookStore,

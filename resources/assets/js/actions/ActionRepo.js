@@ -5,6 +5,7 @@ require('./auth/Register.js');
 require('./auth/ResetPassword.js');
 require('./auth/SendEmailResetLink.js');
 
+require('./author/WatchAuthor.js');
 require('./LoadData.js');
 require('./page/ChangeImage.js');
 require('./page/CreatePage.js');
