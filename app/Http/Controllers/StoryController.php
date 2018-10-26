@@ -48,6 +48,7 @@ class StoryController extends Controller {
     $user = Auth::user();
     if ($user->publish == null) {
       $publishment = $user->publish()->save(Publish::create());
+      $user->save();
     } else {
       $publishment = $user->publish;
     }
@@ -60,15 +61,20 @@ class StoryController extends Controller {
       $published->pages()->save($page->replicate());
     }
     $published->save();
-    return Auth::user()->publish->publishedStories;
+    return $publishment->publishedStories;
   }
 
   public function getPublishedStories($id) {
-    $publishment = User::find($id)->publish;
-    if ($publishment == null) {
-      return [];
+    $author = User::find($id);
+    if ($author != null) {
+      $publishment = User::find($id)->publish;
+      if ($publishment == null) {
+        return [];
+      } else {
+        return User::find($id)->publish->publishedStories;
+      }
     } else {
-      return User::find($id)->publish->publishedStories;
+      return response()->json(['errors'=>['message'=>'Author not found']], 404);
     }
   }
 
