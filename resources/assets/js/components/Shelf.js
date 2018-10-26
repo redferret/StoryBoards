@@ -18,6 +18,7 @@ export default class Shelf extends React.Component {
     super(props, context);
     this.handleShelfPanelSelect = this.handleShelfPanelSelect.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
+    this.close = this.close.bind(this);
 
     this.state = {
       renderToggle: true,
@@ -63,7 +64,11 @@ export default class Shelf extends React.Component {
       return (
         this.props.stories.map(book => {
           let bookKey = uid(book);
-          return <Book key={bookKey} bookKey={bookKey} {...book} published={this.props.published} />
+          return (
+            <Book key={bookKey} bookKey={bookKey} {...book}
+              published={this.props.published}
+              deletable={this.props.deletable}/>
+          );
         })
       );
     }

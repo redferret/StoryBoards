@@ -192,9 +192,11 @@ export default class Book extends React.Component {
           </div>
           <br/>
           {this.renderPublishStoryButton()}{' '}
-          <Button bsStyle='danger' onClick={this.deleteStory}>
-            Delete {this.props.published? 'Published ' : '' }Story
-          </Button>
+          {this.props.deletable?
+            <Button bsStyle='danger' onClick={this.deleteStory}>
+              Delete {this.props.published? 'Published ' : '' }Story
+            </Button> : null
+          }
         </Panel.Body>
       </Panel>
     );
