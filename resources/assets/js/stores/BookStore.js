@@ -7,6 +7,14 @@ class BookStore extends EventEmitter {
     this.setMaxListeners(50);
   }
 
+  setAuthorsPublishedStories(stories) {
+    this._authorsPublishedStories = stories;
+  }
+
+  getAuthorsPublishedStories() {
+    return this._authorsPublishedStories;
+  }
+
   setStory(story) {
     this._singleStory = story;
   }

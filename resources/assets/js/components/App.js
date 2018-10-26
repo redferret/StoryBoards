@@ -2,15 +2,21 @@ import AppDispatcher from '../dispatcher.js';
 import AuthorStore from '../stores/AuthorStore.js';
 import BookStore from '../stores/BookStore.js';
 import EditTextModal from './EditTextModal.js';
+import ModalStore from '../stores/ModalStore.js';
+import PublishedStoriesModal from './PublishedStoriesModal.js';
 import React from 'react';
 import Shelf from './Shelf.js';
+
+import { uid } from 'react-uid';
 
 import { Button, Label, Panel, } from 'react-bootstrap';
 
 import {
   CREATE_STORY,
+  GET_PUBLISHED_STORIES,
   LOAD_DATA,
   MAIN_ID,
+  PUBLISHED_STORIES_ID,
   WATCH_AUTHOR,
 } from '../constants.js';
 
@@ -20,21 +26,31 @@ class AuthorsList extends React.Component {
     this.renderAuthorList = this.renderAuthorList.bind(this);
   }
 
+  showPublishment(author) {
+    ModalStore.triggerModal(true);
+    AppDispatcher.dispatch({
+      action: GET_PUBLISHED_STORIES,
+      author_id: author.id,
+      emitOn: [{
+        store: ModalStore,
+        componentIds: [PUBLISHED_STORIES_ID]
+      }]
+    });
+  }
+
   renderAuthorList() {
     if (this.props.authors.length == 0) {
-      return (
-        <div>No Authors</div>
-      );
+      return <div>No Authors</div>;
     } else {
       return (
         <ul>
           {this.props.authors.map(author =>
-            <li>
-              {author.name}
+            <li key={uid(author)}>
+              <a href='#' onClick={() => {this.showPublishment(author)}}>{author.name}</a>
             </li>
           )}
         </ul>
-      )
+      );
     }
   }
 
@@ -133,15 +149,14 @@ export default class App extends React.Component {
   }
 
   render() {
-    let watching = AuthorStore.getWatching();
-    let watchers = AuthorStore.getWatchers();
     return (
       <div>
+        <EditTextModal />
+        <PublishedStoriesModal />
         <div className='shelf-container'>
           <div className='shelf'>
-            <EditTextModal />
             <div className='shelf-div'>
-              <Shelf stories={this.state.stories} />
+              <Shelf deletable stories={this.state.stories} />
             </div>
             <div className='add-story-button'>
               <Button bsStyle='success' onClick={this.addNewStory}>Add a New Story</Button>
@@ -150,23 +165,22 @@ export default class App extends React.Component {
         </div>
         <div className='shelf-container'>
           <div className='shelf'>
-            <EditTextModal />
             <div className='shelf-div'>
               <div className='shelf-title'>Published Stories</div>
-              <Shelf published stories={this.state.publishedStories} />
+              <Shelf deletable published stories={this.state.publishedStories} />
             </div>
           </div>
         </div>
         <div className='shelf-container'>
           <div className='shelf'>
             <div className='authors-list'>
-              <div className='shelf-title'># of Authors I'm watching: {watching.length}</div>
-              <AuthorsList listTitle='My Watch List' authors={watching} />
+              <div className='shelf-title'># of Authors I'm watching: {this.state.watching.length}</div>
+              <AuthorsList listTitle='My Watch List' authors={this.state.watching} />
               <Button bsStyle='success' onClick={this.addToWatchList}>Add to Watch List</Button>
             </div>
             <div className='authors-list'>
-              <div className='shelf-title'># of Authors watching me: {watchers.length}</div>
-              <AuthorsList listTitle='Authors Watching Me' authors={watchers} />
+              <div className='shelf-title'># of Authors watching me: {this.state.watchers.length}</div>
+              <AuthorsList listTitle='Authors Watching Me' authors={this.state.watchers} />
             </div>
           </div>
         </div>
