@@ -23,25 +23,25 @@ Actions.register(LOAD_DATA, payload => {
   .then(checkStatus)
   .then(response => {
     AuthorStore.setAuthorId(response.data.id);
-    let user_id = response.data.id;
+    let author_id = response.data.id;
     return Axios(Router.request('GET', GET_WATCHERS, {
-      args: { user_id }
+      args: { author_id }
     }));
   })
   .then(checkStatus)
   .then(response => {
     AuthorStore.setWatchers(response.data);
-    let user_id = AuthorStore.getAuthorId();
+    let author_id = AuthorStore.getAuthorId();
     return Axios(Router.request('GET', GET_WATCHING, {
-      args: { user_id }
+      args: { author_id }
     }));
   })
   .then(checkStatus)
   .then(response => {
     AuthorStore.setWatching(response.data);
-    let user_id = AuthorStore.getAuthorId();
+    let author_id = AuthorStore.getAuthorId();
     return Axios(Router.request('GET', GET_PUBLISHED_STORIES, {
-      args: { user_id }
+      args: { author_id }
     }));
   })
   .then(checkStatus)

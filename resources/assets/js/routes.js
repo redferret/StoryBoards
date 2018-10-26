@@ -52,13 +52,13 @@ Router.registerRoute(Constants.DELETE_PUBLISHED_STORY, args => {
   return `/stories/published/${args.story_id}/delete`;
 });
 Router.registerRoute(Constants.GET_PUBLISHED_STORIES, args => {
-  return `/author/${args.user_id}/stories/published`;
+  return `/author/${args.author_id}/stories/published`;
 });
 Router.registerRoute(Constants.GET_STORIES, () => {
   return `/stories`;
 });
 Router.registerRoute(Constants.GET_STORIES_FROM, args => {
-  return `/author/${args.user_id}/stories`;
+  return `/author/${args.author_id}/stories`;
 });
 Router.registerRoute(Constants.GET_STORY, args => {
   return `/stories/${args.story_id}`;
@@ -87,13 +87,11 @@ Router.registerRoute(Constants.UPDATE_PAGE, args => {
 });
 
 Router.registerRoute(Constants.GET_WATCHERS, args => {
-  return `/author/${args.user_id}/watchers`;
+  return `/author/${args.author_id}/watchers`;
 });
-
 Router.registerRoute(Constants.GET_WATCHING, args => {
-  return `/author/${args.user_id}/watching`;
+  return `/author/${args.author_id}/watching`;
 });
-
 Router.registerRoute(Constants.GET_CUR_AUTHOR, () => {
   return '/author';
 });
