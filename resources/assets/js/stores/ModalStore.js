@@ -1,8 +1,6 @@
 import AppDispatcher from '../dispatcher.js';
 import EventEmitter from 'events';
 
-import { MODAL_ID, TRIGGER_MODAL } from '../constants.js';
-
 class ModalStore extends EventEmitter {
   constructor() {
     super();
@@ -33,9 +31,11 @@ class ModalStore extends EventEmitter {
     return this._currentPageText;
   }
 
-  triggerModal(showModal) {
+  triggerModal(showModal, id) {
     this._showModal = showModal;
-    this.emit(MODAL_ID);
+    if (id) {
+      this.emit(id);
+    }
   }
 
   shouldShow() {
