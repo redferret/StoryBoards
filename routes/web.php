@@ -20,6 +20,7 @@ Route::get('/author/{id}/stories/published', 'StoryController@getPublishedStorie
 Route::get('/author/{id}/watchers', 'HomeController@getWatchers');
 Route::get('/author/{id}/watching', 'HomeController@getWatching');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/author/{name}/watch', 'HomeController@addToWatchList');
 
 Route::delete('/pages/{id}/delete', 'PageController@destroy');
 Route::get('/pages/{id}', 'PageController@get');
