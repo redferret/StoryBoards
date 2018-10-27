@@ -88,7 +88,7 @@ export default class ResetPasswordForm extends React.Component {
 
     return (
       <div className='auth-form'>
-        <Form>
+        <Form horizontal>
           <FormGroup>
             <Col smOffset={2} sm={7}>
               {status? <Alert bsStyle={status == 200 ? 'success':'danger'}>{message}</Alert> : null}
