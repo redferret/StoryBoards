@@ -105012,7 +105012,7 @@ var ResetPasswordForm = function (_React$Component) {
         { className: 'auth-form' },
         _react2.default.createElement(
           _reactBootstrap.Form,
-          null,
+          { horizontal: true },
           _react2.default.createElement(
             _reactBootstrap.FormGroup,
             null,
