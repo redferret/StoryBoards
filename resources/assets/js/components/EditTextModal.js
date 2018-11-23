@@ -61,7 +61,7 @@ export default class EditTextModal extends React.Component {
 
   render() {
     return (
-      <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal show={this.state.show}>
         <Modal.Header>
           <Modal.Title>Edit Page Text</Modal.Title>
         </Modal.Header>
