@@ -11,7 +11,7 @@ class Actions {
     if (action instanceof Function) {
       action(payload);
     } else if (action == undefined || action == null || !(action instanceof Function)) {
-      throw new Error(`Action '${payload.action}' is not registered`);
+      throw new Error(`Action '${payload.action}' is not registered, be sure to require the action in ActionRepo.js`);
     }
   }
 

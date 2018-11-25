@@ -18,3 +18,4 @@ require('./story/DeleteStory.js');
 require('./story/GetStories.js');
 require('./story/GetStory.js');
 require('./story/PublishStory.js');
+require('./story/UpdateStory.js');

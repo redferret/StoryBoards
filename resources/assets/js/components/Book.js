@@ -19,6 +19,7 @@ import {
   MAIN_ID,
   PUBLISH_STORY,
   SHELF_ID,
+  UPDATE_STORY,
   UPLOAD_IMAGE,
 } from '../constants.js';
 
@@ -37,9 +38,11 @@ export default class Book extends React.Component {
     super(props, context);
     this.updateCurrentPage = this.updateCurrentPage.bind(this);
     this.publishStory = this.publishStory.bind(this);
-    this.renderPublishStoryButton = this.renderPublishStoryButton.bind(this);
     this.getTitle = this.getTitle.bind(this);
     this.deleteStory = this.deleteStory.bind(this);
+    this.renderPages = this.renderPages.bind(this);
+    this.editTitle = this.editTitle.bind(this);
+    this.renderButtons = this.renderButtons.bind(this);
 
     this.state = {
       pages: []
@@ -92,6 +95,29 @@ export default class Book extends React.Component {
     PageStore.setCurrentlyViewedPage(this.props.id, pageIndex);
   }
 
+  editTitle() {
+    let title = prompt('Enter the new title');
+    if (title != null) {
+      if (/(.|\s)*\S(.|\s)*/.test(title)) {
+        let story_id = this.props.id;
+        AppDispatcher.dispatch({
+          action: UPDATE_STORY,
+          title,
+          story_id,
+          emitOn: [{
+            store: BookStore,
+            componentIds: [MAIN_ID]
+          }, {
+            store: ShelfStore,
+            componentIds: [SHELF_ID]
+          }]
+        });
+      } else {
+        alert('The title you have entered is invalid. A title must not be empty and contain at least one character.');
+      }
+    }
+  }
+
   publishStory() {
     if (confirm('Are you sure you want to publish this story?')) {
       AppDispatcher.dispatch({
@@ -126,14 +152,6 @@ export default class Book extends React.Component {
     }
   }
 
-  renderPublishStoryButton() {
-    if (this.props.published) {
-      return null;
-    } else {
-      return <Button bsStyle='success' onClick={this.publishStory}>Publish Story</Button>;
-    }
-  }
-
   getTitle() {
     if (this.props.published) {
       let edition = 'First Edition';
@@ -147,6 +165,39 @@ export default class Book extends React.Component {
         draft = `Draft ${this.props.edition}`
       }
       return `${this.props.title}, ${draft}`;
+    }
+  }
+
+  renderPages() {
+    return this.state.pages.map((page, index) =>
+      <Page
+        {...page}
+        key={uid(page)}
+        index={index}
+        bookKey={this.props.bookKey}
+        published={this.props.published}/>
+    );
+  }
+
+  renderButtons() {
+    if (!this.props.published) {
+      return (
+        <div>
+          <Button bsStyle='info' onClick={this.editTitle}>
+            Edit Title
+          </Button> {' '}
+          <Button bsStyle='success' onClick={this.publishStory}>
+            Publish Story
+          </Button> {' '}
+          {this.props.deletable?
+            <Button bsStyle='danger' onClick={this.deleteStory}>
+              Delete {this.props.published? 'Published ' : '' }Story
+            </Button> : null
+          }
+        </div>
+      );
+    } else {
+      return null;
     }
   }
 
@@ -173,15 +224,7 @@ export default class Book extends React.Component {
                 orientation='horizontal'
                 width={680} height={800}
                 animationDuration={300}>
-                {this.state.pages.map((page, index) =>
-                  <Page
-                    {...page}
-                    key={uid(page)}
-                    bookRef={this.bookRef}
-                    index={index}
-                    bookKey={this.props.bookKey}
-                    published={this.props.published}/>
-                )}
+                {this.renderPages()}
               </FlipPage>
             </div>
             <div className='page-nav col-sm-1'>
@@ -191,12 +234,7 @@ export default class Book extends React.Component {
             </div>
           </div>
           <br/>
-          {this.renderPublishStoryButton()}{' '}
-          {this.props.deletable?
-            <Button bsStyle='danger' onClick={this.deleteStory}>
-              Delete {this.props.published? 'Published ' : '' }Story
-            </Button> : null
-          }
+          {this.renderButtons()}
         </Panel.Body>
       </Panel>
     );

@@ -45,20 +45,18 @@ Router.registerRoute(Constants.CHANGE_IMAGE, args => {
 /**
  * All Application Routes
  */
+
+ /**
+  * Story Routes
+  */
 Router.registerRoute(Constants.DELETE_STORY, args => {
   return `/stories/${args.story_id}/delete`;
 });
 Router.registerRoute(Constants.DELETE_PUBLISHED_STORY, args => {
   return `/stories/published/${args.story_id}/delete`;
 });
-Router.registerRoute(Constants.GET_PUBLISHED_STORIES, args => {
-  return `/author/${args.author_id}/stories/published`;
-});
 Router.registerRoute(Constants.GET_STORIES, () => {
   return `/stories`;
-});
-Router.registerRoute(Constants.GET_STORIES_FROM, args => {
-  return `/author/${args.author_id}/stories`;
 });
 Router.registerRoute(Constants.GET_STORY, args => {
   return `/stories/${args.story_id}`;
@@ -73,6 +71,7 @@ Router.registerRoute(Constants.PUBLISH_STORY, args => {
   return `/stories/${args.story_id}/publish`;
 });
 
+// Page Routes
 Router.registerRoute(Constants.DELETE_PAGE, args => {
   return `/pages/${args.page_id}/delete`;
 });
@@ -86,6 +85,14 @@ Router.registerRoute(Constants.UPDATE_PAGE, args => {
   return `/pages/${args.page_id}/update`;
 });
 
+
+// Author Routes
+Router.registerRoute(Constants.GET_STORIES_FROM, args => {
+  return `/author/${args.author_id}/stories`;
+});
+Router.registerRoute(Constants.GET_PUBLISHED_STORIES, args => {
+  return `/author/${args.author_id}/stories/published`;
+});
 Router.registerRoute(Constants.GET_WATCHERS, args => {
   return `/author/${args.author_id}/watchers`;
 });
