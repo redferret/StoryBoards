@@ -6283,7 +6283,17 @@ var Book = function (_React$Component) {
           ) : null
         );
       } else {
-        return null;
+        if (this.props.deletable) {
+          return _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'danger', onClick: this.deleteStory },
+            'Delete ',
+            this.props.published ? 'Published ' : '',
+            'Story'
+          );
+        } else {
+          return null;
+        }
       }
     }
   }, {

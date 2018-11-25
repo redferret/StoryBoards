@@ -197,7 +197,15 @@ export default class Book extends React.Component {
         </div>
       );
     } else {
-      return null;
+      if (this.props.deletable) {
+        return (
+          <Button bsStyle='danger' onClick={this.deleteStory}>
+            Delete {this.props.published? 'Published ' : '' }Story
+          </Button>
+        );
+      } else {
+        return null;
+      }
     }
   }
 
